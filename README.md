@@ -1,10 +1,10 @@
-# opeca_app
+# Opeca App - Aplicação de Operações Cambiais
 
 A new Flutter project.
 
-## Getting Started
+## Detalhes
 
-This project is a starting point for a Flutter application.
+Este projeto é um ponto de partida para uma aplicação de gestão de operações cambiais, desenvolvida em Flutter (Dart).
 
 A few resources to get you started if this is your first Flutter project:
 
