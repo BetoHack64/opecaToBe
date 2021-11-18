@@ -29,7 +29,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Brunos family',
+                        'Bruno family',
                         style: GoogleFonts.openSans(
                           textStyle: TextStyle(
                             color: Colors.white,
