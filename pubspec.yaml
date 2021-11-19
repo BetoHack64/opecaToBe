@@ -50,6 +50,13 @@ flutter:
   assets:
     - assets/images/calendar.png
     - assets/images/notification.png
+    - assets/images/salary.png
+    - assets/images/budget.png
+    - assets/images/sync.png
+    - assets/images/basket.png
+    - assets/images/donate.png
+
+
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

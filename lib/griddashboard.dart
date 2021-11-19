@@ -3,10 +3,10 @@ import 'package:google_fonts/google_fonts.dart';
 
 class GridDashboard extends StatelessWidget {
   Items item1 = new Items(
-      title: "Calendar",
-      subtitle: "March, Wednesday",
+      title: "SOP SAL",
+      subtitle: "Salário Cobrança",
       event: "3 Events",
-      img: "assets/images/calendar.png");
+      img: "assets/images/salary.png");
 
   Items item2 = new Items(
     title: "Groceries",
@@ -42,7 +42,7 @@ class GridDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Items> myList = [item1, item2, item3, item4, item5, item6];
-    var color = 0xff453658;
+    var color = 0xffEf5350;
     return Flexible(
       child: GridView.count(
           childAspectRatio: 1.0,

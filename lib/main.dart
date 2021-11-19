@@ -13,11 +13,14 @@ class HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff392880),//
+      appBar: AppBar(
+        title: Text('Opeca App'),
+      ),
+      backgroundColor: Colors.white,//
       body: Column(
         children: <Widget>[
           SizedBox(
-            height: 60,
+            height: 10,
           ),
           Padding(
             padding: EdgeInsets.only(left: 16, right: 16),
@@ -28,10 +31,10 @@ class HomeState extends State<Home> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      "Johny s Family",
+                      "Portal de Operaç",
                       style: GoogleFonts.openSans(
                           textStyle: TextStyle(
-                              color: Colors.white,
+                              color: Colors.grey,
                               fontSize: 18,
                               fontWeight: FontWeight.bold)),
                     ),
