@@ -14,7 +14,7 @@ class GridDashboardState extends State<GridDashboard> {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) {
-          return ListaAprovacoes();
+          return ListaAprovacoes("teste");
         },
       ),
     );
@@ -98,7 +98,7 @@ class GridDashboardState extends State<GridDashboard> {
     if (currentPage == DrawerSections.dashboard) {
       container = Dashboard1();
     } else if (currentPage == DrawerSections.logout) {
-      container = ListaAprovacoes();
+      container = ListaAprovacoes("");
     }
     List<Items> myList = [
       item1,
