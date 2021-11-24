@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:opeca_app/dashboard.dart';
+//import 'package:opeca_app/listaAprovacoes.dart';
 import 'package:opeca_app/my_header_drawer.dart';
 
 void main() => runApp(
@@ -20,13 +21,13 @@ class HomeState extends State<Home> {
   Widget build(BuildContext context) {
     var container;
     if (currentPage == DrawerSections.dashboard) {
-      container = Dashboard();
-    } else if (currentPage == DrawerSections.contacts) {
-      container = Aprovacoes();
+      container = Dashboard1();
+    } else if (currentPage == DrawerSections.logout) {
+      //container = ListaAprovacoes();
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text('Opeca App'),
+        title: Text('Opeca'),
         backgroundColor: Colors.red,
         centerTitle: true,
       ),
@@ -38,7 +39,7 @@ class HomeState extends State<Home> {
             child: Column(
               children: [
                 MyHeaderDrawer(),
-                MyDrawerList(),
+                myDrawerList(),
               ],
             ),
           ),
@@ -47,7 +48,7 @@ class HomeState extends State<Home> {
     );
   }
 
-  Widget MyDrawerList() {
+  Widget myDrawerList() {
     return Container(
       padding: EdgeInsets.only(
         top: 15,
@@ -56,20 +57,8 @@ class HomeState extends State<Home> {
         children: [
           menuItem(1, "Dashboard", Icons.dashboard_outlined,
               currentPage == DrawerSections.dashboard ? true : false),
-          menuItem(2, "Contactos", Icons.people_alt_outlined,
-              currentPage == DrawerSections.contacts ? true : false),
-          menuItem(3, "Eventos", Icons.event,
-              currentPage == DrawerSections.events ? true : false),
-          menuItem(4, "Notas", Icons.notes,
-              currentPage == DrawerSections.notes ? true : false),
-          menuItem(5, "Definições", Icons.settings_outlined,
-              currentPage == DrawerSections.settings ? true : false),
-          menuItem(6, "Notificações", Icons.notifications_outlined,
-              currentPage == DrawerSections.notification ? true : false),
-          menuItem(7, "Privacy Police", Icons.privacy_tip_outlined,
-              currentPage == DrawerSections.privacy_police ? true : false),
-          menuItem(8, "Feedback", Icons.feedback_outlined,
-              currentPage == DrawerSections.send_feedback ? true : false),
+          menuItem(2, "Contactos", Icons.exit_to_app,
+              currentPage == DrawerSections.logout ? true : false),
         ],
       ),
     );
@@ -85,20 +74,8 @@ class HomeState extends State<Home> {
             if (id == 1) {
               currentPage = DrawerSections.dashboard;
             } else if (id == 2) {
-              currentPage = DrawerSections.contacts;
-            } else if (id == 3) {
-              currentPage = DrawerSections.events;
-            } else if (id == 4) {
-              currentPage = DrawerSections.notes;
-            } else if (id == 5) {
-              currentPage = DrawerSections.settings;
-            } else if (id == 6) {
-              currentPage = DrawerSections.notification;
-            } else if (id == 7) {
-              currentPage = DrawerSections.privacy_police;
-            } else if (id == 8) {
-              currentPage = DrawerSections.send_feedback;
-            }
+              currentPage = DrawerSections.logout;
+            } 
           });
 
         },
@@ -134,11 +111,5 @@ class HomeState extends State<Home> {
 
 enum DrawerSections {
   dashboard,
-  contacts,
-  events,
-  notes,
-  settings,
-  notification,
-  privacy_police,
-  send_feedback,
+  logout
 }

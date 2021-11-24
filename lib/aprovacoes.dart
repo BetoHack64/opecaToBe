@@ -19,7 +19,7 @@ class Aprovacoes extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  final String title = "";
+
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -43,21 +43,20 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-        ),
+        
         bottomNavigationBar: MotionTabBar(
-          labels: ["Account", "Home", "Dashboard"],
-          initialSelectedTab: "Home",
-          tabIconColor: Colors.green,
-          tabSelectedColor: Colors.red,
+          labels: ["Aprovar", "Rejeitar"],
+          initialSelectedTab: "Dashboard",
+          tabIconColor: Colors.red,
+          tabSelectedColor: (_tabController.index == 1) ? Colors.green : Colors.blue,
           onTabItemSelected: (int value) {
             print(value);
             setState(() {
               _tabController.index = value;
+              
             });
           },
-          icons: [Icons.account_box, Icons.home, Icons.menu],
+          icons: [Icons.account_box, Icons.home, Icons.cancel_outlined],
           textStyle: TextStyle(color: Colors.red),
         ),
         body: MotionTabBarView(

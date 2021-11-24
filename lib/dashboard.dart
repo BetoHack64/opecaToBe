@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:opeca_app/griddashboard.dart';
 
-class Dashboard extends StatelessWidget {
+class Dashboard1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(

@@ -37,7 +37,7 @@ class InitState extends State<LoginTela> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    margin: EdgeInsets.only(top: 20),
+                    margin: EdgeInsets.only(top: 40),
                     child: Image.asset(
                       "assets/images/logo.png",
                       color: Colors.white,

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:opeca_app/aprovacoes.dart';
+import 'package:opeca_app/listaAprovacoes.dart';
 
 class GridDashboard extends StatelessWidget {
-  void _selecionaSistema(BuildContext context) {
-    Navigator.of(context).push(
+  void _selecionaSistema(BuildContext context, String sistema) {
+    Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (_) {
-          return Aprovacoes();
+        builder: (context) {
+          return ListaAprovacoes(sistema);
         },
       ),
     );
@@ -113,7 +113,7 @@ class GridDashboard extends StatelessWidget {
         children: myList.map(
           (data) {
             return InkWell(
-              onTap: () => _selecionaSistema(context),
+              onTap: () => _selecionaSistema(context, data.title),
               borderRadius: BorderRadius.circular(10),
               child: Container(
                 decoration: BoxDecoration(
@@ -183,3 +183,4 @@ class Items {
       required this.event,
       required this.img});
 }
+

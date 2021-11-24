@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:opeca_app/login.dart';
 
+double tam = 0;
+
 class Splashscrem extends StatefulWidget {
   Splashscrem({Key? key}) : super(key: key);
 
@@ -12,7 +14,6 @@ class Splashscrem extends StatefulWidget {
 }
 
 class InitState extends State<Splashscrem> {
-  late final MediaQueryData mediaQueryData;
   @override
   Widget build(BuildContext context) {
     //  throw UnimplementedError();
@@ -40,6 +41,7 @@ class InitState extends State<Splashscrem> {
 
   //função init widget
   Widget initWidget() {
+    final media = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Stack(
         children: [
@@ -63,20 +65,19 @@ class InitState extends State<Splashscrem> {
             ),
           ),
           Align(
-              alignment: Alignment.bottomRight,
-              child: Padding(
-                padding:
-                    const EdgeInsets.only(bottom: 220, left: 50, right: 152),
-                child: Text(
-                  'OPECA'.toUpperCase(),
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold
-                      //Estilização do texto da tela de login "Login"
-                      ),
-                ),
-              ))
+            alignment: Alignment.bottomRight,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 115),
+              child: Center(
+                  child: Text(
+                'OPECA'.toUpperCase(),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
+              )),
+            ),
+          )
         ],
       ),
     );
