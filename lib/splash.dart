@@ -70,7 +70,7 @@ class InitState extends State<Splashscrem> {
               padding: const EdgeInsets.only(top: 115),
               child: Center(
                   child: Text(
-                'OPECA'.toUpperCase(),
+                'SOP'.toUpperCase(),
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,

@@ -32,6 +32,8 @@ dependencies:
   hotreloader: ^3.0.1
   http: ^0.13.3
   motion_tab_bar: ^0.1.5
+  fab_circular_menu: ^1.0.0
+  flutter_snake_navigationbar: ^0.2.0
 
 dev_dependencies:
   flutter_test:

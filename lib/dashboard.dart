@@ -43,19 +43,19 @@ class Dashboard1 extends StatelessWidget {
                   ],
                 ),
               ),
-              IconButton(
+              /*IconButton(
                 alignment: Alignment.topCenter,
                 icon: Image.asset(
                   "assets/images/notification.png",
                   width: 24,
                 ),
                 onPressed: () {},
-              )
+              )*/
             ],
           ),
         ),
         SizedBox(
-          height: 35,
+          height: 20,
         ),
         GridDashboard()
       ],

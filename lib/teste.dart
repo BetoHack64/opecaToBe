@@ -11,13 +11,13 @@ class GridDashboard extends StatefulWidget {
 class GridDashboardState extends State<GridDashboard> {
   var currentPage = DrawerSections.dashboard;
   void _selecionaSistema(BuildContext context) {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (context) {
-          return ListaAprovacoes("teste");
-        },
-      ),
-    );
+    /*Navigator.of(context).pushReplacement(
+     /* MaterialPageRoute(
+        /*builder: (context) {
+         // return ListaAprovacoes("teste");
+        },*/
+      ),*/
+    );*/
   }
 
   Items item1 = new Items(
@@ -98,7 +98,7 @@ class GridDashboardState extends State<GridDashboard> {
     if (currentPage == DrawerSections.dashboard) {
       container = Dashboard1();
     } else if (currentPage == DrawerSections.logout) {
-      container = ListaAprovacoes("");
+      //container = ListaAprovacoes("");
     }
     List<Items> myList = [
       item1,

@@ -3,6 +3,7 @@ import 'package:opeca_app/dashboard.dart';
 //import 'package:opeca_app/listaAprovacoes.dart';
 import 'package:opeca_app/my_header_drawer.dart';
 
+
 void main() => runApp(
       MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -27,8 +28,8 @@ class HomeState extends State<Home> {
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text('Opeca'),
-        backgroundColor: Colors.red,
+        title: Text('SOP'),
+        backgroundColor: Colors.red[900],
         centerTitle: true,
       ),
       backgroundColor: Colors.white, //
@@ -57,7 +58,7 @@ class HomeState extends State<Home> {
         children: [
           menuItem(1, "Dashboard", Icons.dashboard_outlined,
               currentPage == DrawerSections.dashboard ? true : false),
-          menuItem(2, "Contactos", Icons.exit_to_app,
+          menuItem(2, "Sair", Icons.exit_to_app,
               currentPage == DrawerSections.logout ? true : false),
         ],
       ),

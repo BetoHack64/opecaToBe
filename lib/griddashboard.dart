@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:opeca_app/listaAprovacoes.dart';
 
+String traco = ' - ';
 class GridDashboard extends StatelessWidget {
   void _selecionaSistema(BuildContext context, String sistema) {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) {
-          return ListaAprovacoes(sistema);
+          return ListaAprovacoes(sistema,traco, true);
         },
       ),
     );
@@ -106,7 +107,7 @@ class GridDashboard extends StatelessWidget {
     return Flexible(
       child: GridView.count(
         childAspectRatio: 1.0,
-        padding: EdgeInsets.only(left: 16, right: 16),
+        padding: EdgeInsets.only(left: 16, right: 16, top: 10),
         crossAxisCount: 2,
         crossAxisSpacing: 18,
         mainAxisSpacing: 18,
@@ -117,15 +118,23 @@ class GridDashboard extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color(color),
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Image.asset(
                       data.img,
-                      color: Colors.white,
+                      color: Colors.black,
                       width: 55,
                     ),
                     SizedBox(
@@ -135,7 +144,7 @@ class GridDashboard extends StatelessWidget {
                       data.title,
                       style: GoogleFonts.openSans(
                           textStyle: TextStyle(
-                              color: Colors.white,
+                              color: Colors.black,
                               fontSize: 16,
                               fontWeight: FontWeight.w600)),
                     ),
@@ -146,7 +155,7 @@ class GridDashboard extends StatelessWidget {
                       data.subtitle,
                       style: GoogleFonts.openSans(
                           textStyle: TextStyle(
-                              color: Colors.white70,
+                              color: Colors.grey,
                               fontSize: 10,
                               fontWeight: FontWeight.w600)),
                     ),
@@ -157,7 +166,7 @@ class GridDashboard extends StatelessWidget {
                       data.event,
                       style: GoogleFonts.openSans(
                           textStyle: TextStyle(
-                              color: Colors.white70,
+                              color: Colors.grey,
                               fontSize: 11,
                               fontWeight: FontWeight.w600)),
                     ),
@@ -183,4 +192,3 @@ class Items {
       required this.event,
       required this.img});
 }
-

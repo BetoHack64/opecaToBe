@@ -1,25 +1,27 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
+import 'package:opeca_app/anexos.dart';
 import 'package:opeca_app/caixaPesquisaAnimacao.dart';
 import 'package:opeca_app/dashboard.dart';
+import 'package:opeca_app/detalhes.dart';
 import 'package:opeca_app/itemsLista.dart';
-import 'package:opeca_app/main.dart';
 import 'package:opeca_app/my_header_drawer.dart';
+import 'package:opeca_app/validacao.dart';
 //import 'constant.dart';
 
 String traco = ' - ';
 String nome = '';
-String id = '0';
-bool botaoHomeAparece = true;
+String id = '';
+bool botao = false;
 void main() {
-  runApp(ListaAprovacoes(nome, traco, botaoHomeAparece));
+  runApp(AprovarRejeitar(nome, id));
 }
 
-class ListaAprovacoes extends StatelessWidget {
-  ListaAprovacoes(String sistema, String trac, bool botaoAparece) {
+class AprovarRejeitar extends StatelessWidget {
+  AprovarRejeitar(String sistema, String idOp) {
     nome = sistema;
-    traco = trac;
-    botaoHomeAparece = botaoAparece;
+    id = idOp;
   }
   @override
   Widget build(BuildContext context) {
@@ -34,15 +36,6 @@ class ListaAprovacoes extends StatelessWidget {
   }
 }
 
-class CardDetail {
-  String title;
-  String subtitle;
-  double valor;
-
-  CardDetail(
-      {required this.title, required this.subtitle, required this.valor});
-}
-
 class Dashboard extends StatefulWidget {
   @override
   _DashboardState createState() => _DashboardState();
@@ -50,78 +43,81 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   var currentPage = null;
-  final List<CardDetail> cards = [
-    CardDetail(title: 'Orc. Alteracoes', subtitle: '04-11-2021', valor: 1500000),
-    CardDetail(title: 'Encomenda', subtitle: '01-09-2021', valor: 1600000),
-    CardDetail(title: 'Encomenda', subtitle: '30-08-2021', valor: 4000000),
-    CardDetail(title: 'Pagamento', subtitle: '27-08-2021', valor: 1700000),
-    CardDetail(title: 'Pagamento', subtitle: '27-08-2021', valor: 1500000),
-    CardDetail(title: 'Encomenda', subtitle: '27-08-2021', valor: 1505000),
-  ];
-
+  bool menu = false;
+  int seleteposition = 2;
   @override
   Widget build(BuildContext context) {
-    void _selecionaSistema(BuildContext context) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) {
-            return Home();
-          },
-        ),
-      );
-    }
-
     var container;
     if (currentPage == DrawerSections.dashboard) {
-      traco = '';
       nome = '';
-      botaoHomeAparece = false;
+      traco = '';
+      menu = true;
       container = Dashboard1();
     } else if (currentPage == DrawerSections.logout) {
       //container = LoginTela();
     }
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      floatingActionButton: botaoHomeAparece
-          ? FloatingActionButton(
-              //Floating action button on Scaffold
-              onPressed: () {
-                _selecionaSistema(context);
-                //code to execute on button press
-              },
-              child: Icon(Icons.home),
-              backgroundColor: Colors.grey[800], //icon inside button
-            )
-          : null,
+      floatingActionButton: FloatingActionButton(
+        //Floating action button on Scaffold
+        onPressed: () {
+          //code to execute on button press
+        },
+        child: Icon(Icons.format_list_bulleted),
+        backgroundColor: Colors.grey[800], //icon inside button
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
-        elevation: 0.1,
+        elevation: 5.0,
         backgroundColor: Colors.red[900],
         title: Text('SOP' + traco + nome),
         centerTitle: true,
       ),
-      body: (container == null)
-          ? Column(
-              children: [
-                CaixaPesquisaAnimacao(),
-                Expanded(
-                  flex: 360,
-                  child: ListView.builder(
-                    itemCount: cards.length,
-                    itemBuilder: (context, index) => ItemsLista(
-                      title: cards[index].title,
-                      subtitle: "Fornecedor",
-                      sistema: nome,
-                      id: id,
-                      data: cards[index].subtitle,
-                      valor: cards[index].valor.toString(),
-                    ),
-                  ),
+      bottomNavigationBar: BottomAppBar(
+        //bottom navigation bar on scaffold
+        color: Colors.red[900],
+        shape: CircularNotchedRectangle(), //shape of notch
+        notchMargin:
+            5, //notche margin between floating button and bottom appbar
+        child: Row(
+          //children inside bottom appbar
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(left: 60),
+              child: IconButton(
+                icon: Icon(
+                  Icons.close,
+                  color: Colors.white,
                 ),
-              ],
-            )
-          : container,
+                onPressed: () {},
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(right: 65),
+              child: IconButton(
+                icon: Icon(
+                  Icons.check,
+                  color: Colors.white,
+                ),
+                onPressed: () {},
+              ),
+            ),
+          ],
+        ),
+      ),
+      body: FabCircularMenu(
+        child: container,
+        options: <Widget>[
+          IconButton(
+              icon: Icon(Icons.home),
+              onPressed: () {
+                print('Pressed!');
+              })
+        ],
+      ),
       drawer: Drawer(
         child: SingleChildScrollView(
           child: Container(

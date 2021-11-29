@@ -10,7 +10,7 @@ class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
   Widget build(BuildContext context) {
     
     return Container(
-      color: Colors.red,
+      color: Colors.red[900],
       width: double.infinity,
       height: 200,
       padding: EdgeInsets.only(top: 20),

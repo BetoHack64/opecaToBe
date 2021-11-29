@@ -95,7 +95,7 @@ class _CaixaPesquisaAnimacaoState extends State<CaixaPesquisaAnimacao>
                         cursorColor: Colors.black,
                         decoration: InputDecoration(
                           floatingLabelBehavior: FloatingLabelBehavior.never,
-                          labelText: 'Search...',
+                          labelText: 'Procurar...',
                           labelStyle: TextStyle(
                             color: Color(0xff5b5b5b),
                             fontSize: 17.0,

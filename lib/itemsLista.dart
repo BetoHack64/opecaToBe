@@ -1,70 +1,117 @@
 import 'package:flutter/material.dart';
+import 'package:opeca_app/AprovarRejeitar.dart';
 
 class ItemsLista extends StatelessWidget {
   final String title;
+  final String data;
+  final String valor;
   final String subtitle;
-  String sistema = '';
+  final String sistema;
+  final String id;
+  void _selecionaSistema(BuildContext context) {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) {
+          return AprovarRejeitar(this.sistema, this.id);
+        },
+      ),
+    );
+  }
 
-  ItemsLista({required this.title, required this.subtitle});
+  //oid Function() onTap;
+  //String sistema = '';
+
+  ItemsLista(
+      {required this.title,
+      required this.subtitle,
+      required this.sistema,
+      required this.id,
+      required this.data,
+      required this.valor});
 
   @override
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
-          Radius.circular(40),
+          Radius.circular(10),
         ),
       ),
-      color: Colors.red,
-      elevation: 8.0,
+      color: Colors.white,
+      elevation: 2.0,
       margin: new EdgeInsets.symmetric(
         horizontal: 10.0,
-        vertical: 10.0,
+        vertical: 4.0,
       ),
       child: ListTile(
         contentPadding: EdgeInsets.symmetric(
-          horizontal: 20.0,
-          vertical: 3.0,
+          horizontal: 12.0,
+          vertical: 2.0,
         ),
         leading: Container(
-          padding: EdgeInsets.only(right: 12.0),
+          padding: EdgeInsets.only(right: 10.0),
           decoration: BoxDecoration(
             border: Border(
               right: BorderSide(
-                width: 1.0,
-                color: Colors.white,
+                width: 0.6,
+                color: Colors.grey,
               ),
             ),
           ),
-          child: Icon(Icons.play_circle_outline, color: Colors.white),
-        ),
-        title: Text(
-          title,
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
+          child: Icon(
+            Icons.storage,
+            color: Colors.grey[600],
+
           ),
         ),
-        subtitle: Row(
+        title: Row(
           children: [
             Icon(
-              Icons.linear_scale,
-              color: Colors.yellow,
+              Icons.calendar_today,
+              color: Colors.grey,
             ),
-            SizedBox(
-              width: 10,
-            ),
+            SizedBox(width: 5),
             Text(
-              subtitle,
-              style: TextStyle(color: Colors.white),
-            )
-          ],
+              data + " | ", //+ valor,
+              style: TextStyle(
+                color: Colors.grey[800],
+                //fontWeight: FontWeight.bold,
+              ),
+          
+          ),
+           Icon(
+              Icons.settings,
+              color: Colors.grey,
+            ),
+            SizedBox(width: 5),
+            Text(
+              title, //+ valor,
+              style: TextStyle(
+                color: Colors.grey[800],
+                //fontWeight: FontWeight.bold,
+              ),
+            ),
+        ],
         ),
+        subtitle: Row(children: [
+          Icon(
+            Icons.person_outline,
+            color: Colors.grey,
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Text(
+            subtitle,
+            style: TextStyle(color: Colors.grey),
+          )
+        ]),
         trailing: Icon(
           Icons.keyboard_arrow_right,
-          color: Colors.white,
-          size: 30.0,
+          color: Colors.grey,
+          size: 20.0,
         ),
+        onTap: () => _selecionaSistema(context),
       ),
     );
   }
