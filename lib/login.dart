@@ -1,4 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:opeca_app/getToken.dart';
+import 'package:opeca_app/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+
+import 'getToken.dart';
+
+String tokenValor = '';
 
 class LoginTela extends StatefulWidget {
   @override
@@ -6,9 +16,15 @@ class LoginTela extends StatefulWidget {
 }
 
 class InitState extends State<LoginTela> {
- void logar(){
-   print(" Login efectuado ");
- }
+  TextEditingController user = TextEditingController();
+  TextEditingController pass = TextEditingController();
+
+  bool _isLoading = false;
+
+  void logar() {
+    print(" Login efectuado ");
+  }
+
   @override
   Widget build(BuildContext context) {
     return initWidget();
@@ -79,6 +95,8 @@ class InitState extends State<LoginTela> {
             alignment: Alignment.center,
             child: TextField(
               cursorColor: Color(0xFFf5851f),
+              controller: user,
+              //onChanged: (novoValor) => senha = novoValor,
               decoration: InputDecoration(
                   icon: Icon(
                     Icons.person,
@@ -105,6 +123,8 @@ class InitState extends State<LoginTela> {
             alignment: Alignment.center,
             child: TextField(
               obscureText: true,
+              controller: pass,
+              //onChanged: (novoValor) => senha = novoValor,
               cursorColor: Color(0xFFf5851f),
               decoration: InputDecoration(
                   icon: Icon(
@@ -130,7 +150,16 @@ class InitState extends State<LoginTela> {
             ),
           ), //Fim Lik Esqueci a senha
           GestureDetector(
-            onTap: () => {/*Colocar o comando onClik Aqui!*/},
+            onTap: user.text == "" || pass.text == ""
+                ? null
+                : () {
+                    /*Colocar o comando onClik Aqui!*/
+                    setState(() {
+                      _isLoading = true;
+                    });
+
+                    tokenLogin(user.text, pass.text);
+                  },
             //Botão Entrar
             child: Container(
               margin: EdgeInsets.only(left: 30, right: 30, top: 10),
@@ -165,5 +194,68 @@ class InitState extends State<LoginTela> {
         ],
       ),
     ));
+  }
+
+  tokenLogin(String usuario, String password) async {
+    var url = Uri.parse('http://83.240.225.239:130/token');
+
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    var header = {"Content-Type": "application/json"};
+
+    String body = 'Username=' +
+        usuario +
+        '&Password=' +
+        password +
+        '&grant_type=password';
+    var jsonResponse;
+    var _body = json.encode(body);
+    print("json enviado : $_body");
+
+    var response = await http.post(url, headers: header, body: body);
+    //var UsuarioNome = '';
+    //print('Response body: ${response.body}');
+
+    Map mapResponse = json.decode(response.body);
+
+    try {
+      int mensagem = mapResponse["expires_in"];
+      String token = mapResponse["access_token"];
+      sharedPreferences.setString("access_token", mapResponse["access_token"]);
+      sharedPreferences.setString("usuarioNomeLogin", usuario);
+      sharedPreferences.setString("usuarioSenhaLogin", password);
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) {
+            return Home();
+          },
+        ),
+      );
+      contaUsuario(usuario, password);
+    } catch (e) {
+      print("Usuario ou senha errado");
+      user.clear();
+      pass.clear();
+    }
+
+    //print("message $mensagem");
+    //print("token $token");
+    //print(token);
+  }
+
+  contaUsuario(String usuario, String password) async {
+    var url = Uri.parse('http://83.240.225.239:130/api/Authenticate');
+
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    var header = {"Content-Type": "application/json"};
+    Map body = {"Username": usuario, "Password": password};
+    var jsonResponse;
+    var _body = json.encode(body);
+    print("Conta Usuario obtida com sucesso : $_body");
+
+    var response = await http.post(url, body: body);
+
+    Map mapResponse = json.decode(response.body);
+    print(mapResponse['User']['Description']);
+    sharedPreferences.setString("Nome", mapResponse['User']['Description']);
   }
 }

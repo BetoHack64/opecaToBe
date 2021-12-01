@@ -1,0 +1,38 @@
+Future<bool> entrar(String Username, String Password) async {
+    Uri url = Uri.parse("http://83.240.225.239:130/api/Authenticate");
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    Map body = {"Username": Username, "Password": Password};
+    var header = {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $tokenValor"
+    };
+
+    var jsonResponse;
+    var res = await http.post(url, body: body);
+
+    if (res.statusCode == 200) {
+      jsonResponse = json.decode(res.body);
+      /*print("Estado da resposta: ${res.statusCode}");
+      print("Estado da Resposta 2: ${res.body}");*/
+      tokenValor = (sharedPreferences.getString("access_token") ?? "");
+      //print(jso);
+      /* if (jsonResponse != null) {
+        /*setState(() {
+          _isLoading = false;
+        });*/
+        
+        /*Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) {
+              return Home();
+            },
+          ),
+        );*/
+        return true;
+        
+      }*/
+    } else {
+      print("Erro");
+    }
+    return false;
+  }

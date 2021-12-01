@@ -1,3 +1,4 @@
+import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
@@ -6,6 +7,8 @@ import 'package:opeca_app/caixaPesquisaAnimacao.dart';
 import 'package:opeca_app/dashboard.dart';
 import 'package:opeca_app/detalhes.dart';
 import 'package:opeca_app/itemsLista.dart';
+import 'package:opeca_app/listaAprovacoes.dart';
+import 'package:opeca_app/main.dart';
 import 'package:opeca_app/my_header_drawer.dart';
 import 'package:opeca_app/validacao.dart';
 //import 'constant.dart';
@@ -13,15 +16,17 @@ import 'package:opeca_app/validacao.dart';
 String traco = ' - ';
 String nome = '';
 String id = '';
+bool botaoHomeAparece = true;
 bool botao = false;
 void main() {
-  runApp(AprovarRejeitar(nome, id));
+  runApp(AprovarRejeitar(nome, id, botaoHomeAparece));
 }
 
 class AprovarRejeitar extends StatelessWidget {
-  AprovarRejeitar(String sistema, String idOp) {
+  AprovarRejeitar(String sistema, String idOp, bool btnAparece) {
     nome = sistema;
     id = idOp;
+    botaoHomeAparece = btnAparece;
   }
   @override
   Widget build(BuildContext context) {
@@ -47,34 +52,55 @@ class _DashboardState extends State<Dashboard> {
   int seleteposition = 2;
   @override
   Widget build(BuildContext context) {
+    String tr = traco;
+    void _selecionaSistema(BuildContext context) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) {
+            return Home();
+          },
+        ),
+      );
+    }
+
     var container;
     if (currentPage == DrawerSections.dashboard) {
       nome = '';
       traco = '';
-      menu = true;
+      botaoHomeAparece = false;
       container = Dashboard1();
     } else if (currentPage == DrawerSections.logout) {
       //container = LoginTela();
     }
+    print(traco);
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
+      /*floatingActionButton: FloatingActionButton(
         //Floating action button on Scaffold
         onPressed: () {
           //code to execute on button press
         },
         child: Icon(Icons.format_list_bulleted),
         backgroundColor: Colors.grey[800], //icon inside button
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      ),*/
+      //floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 5.0,
         backgroundColor: Colors.red[900],
-        title: Text('SOP' + traco + nome),
+        title: Text('SOP' + " - " + nome),
         centerTitle: true,
+        actions: [
+          botaoHomeAparece
+              ? IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.attach_file),
+                )
+              : Text(""),
+        ],
       ),
-      bottomNavigationBar: BottomAppBar(
+      /*bottomNavigationBar: BottomAppBar(
         //bottom navigation bar on scaffold
         color: Colors.red[900],
         shape: CircularNotchedRectangle(), //shape of notch
@@ -107,17 +133,45 @@ class _DashboardState extends State<Dashboard> {
             ),
           ],
         ),
-      ),
-      body: FabCircularMenu(
-        child: container,
-        options: <Widget>[
-          IconButton(
-              icon: Icon(Icons.home),
-              onPressed: () {
-                print('Pressed!');
-              })
-        ],
-      ),
+      ),*/
+      body: container,
+      floatingActionButton: botaoHomeAparece
+          ? FabCircularMenu(
+              children: <Widget>[
+                IconButton(
+                  icon: Icon(
+                    Icons.home,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    _selecionaSistema(context);
+                  },
+                ),
+                IconButton(
+                    icon: Icon(
+                      Icons.list_alt_outlined,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return ListaAprovacoes(nome, " - ", true);
+                          },
+                        ),
+                      );
+                    }),
+              ],
+              fabColor: Colors.red[900],
+              ringColor: Colors.grey[800],
+              ringDiameter: 330.56,
+              fabElevation: 12.0,
+              fabOpenColor: Colors.white,
+              fabCloseColor: Colors.white,
+              fabOpenIcon: Icon(Icons.apps),
+              fabSize: 60,
+            )
+          : null,
       drawer: Drawer(
         child: SingleChildScrollView(
           child: Container(

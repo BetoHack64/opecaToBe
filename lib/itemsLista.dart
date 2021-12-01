@@ -12,7 +12,7 @@ class ItemsLista extends StatelessWidget {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) {
-          return AprovarRejeitar(this.sistema, this.id);
+          return AprovarRejeitar(this.sistema, this.id,true);
         },
       ),
     );
@@ -102,8 +102,19 @@ class ItemsLista extends StatelessWidget {
             width: 10,
           ),
           Text(
-            subtitle,
-            style: TextStyle(color: Colors.grey),
+            subtitle + "   | ", 
+            style: TextStyle(color: Colors.grey[800]),
+          ), 
+           Icon(
+            Icons.local_atm,
+            color: Colors.grey,
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Text(
+            valor + " akz",
+            style: TextStyle(color: Colors.grey[800]),
           )
         ]),
         trailing: Icon(

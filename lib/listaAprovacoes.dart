@@ -82,6 +82,7 @@ class _DashboardState extends State<Dashboard> {
     }
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      
       floatingActionButton: botaoHomeAparece
           ? FloatingActionButton(
               //Floating action button on Scaffold
@@ -89,11 +90,15 @@ class _DashboardState extends State<Dashboard> {
                 _selecionaSistema(context);
                 //code to execute on button press
               },
-              child: Icon(Icons.home),
-              backgroundColor: Colors.grey[800], //icon inside button
+              child: Icon(
+                Icons.home,
+                color: Colors.grey,
+              ),
+              backgroundColor: Colors.white, //icon inside button
+              elevation: 10.0,
             )
           : null,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0.1,
