@@ -1,22 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:opeca_app/dashboard.dart';
+import 'package:opeca_app/login.dart';
 //import 'package:opeca_app/listaAprovacoes.dart';
 import 'package:opeca_app/my_header_drawer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-
-void main() => runApp(
-      MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Home(),
-      ),
-    );
+bool estaLogado = false;
+void main() {
+  runApp(
+    MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: (estaLogado == true) ? Home() : LoginTela(),
+    ),
+  );
+}
 
 class Home extends StatefulWidget {
   @override
   HomeState createState() => new HomeState();
+
+
 }
 
 class HomeState extends State<Home> {
+  //carrega os dados do usuario
+  _carregaDados() async {
+    final result = await pegaDados().then((bool result) {
+      setState(() {
+        estaLogado = result;
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    //carrega os dados do usuario ao se abrir a view
+    _carregaDados();
+  }
+
+  //Obtem os dados partilhados do usuario
+  Future<bool> pegaDados() async {
+    var sharedPreferences = await SharedPreferences.getInstance();
+    return (sharedPreferences.getBool("isLoggedIn") ?? false);
+  }
+  partilha() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+    prefs.commit();
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => LoginTela()),
+        (Route<dynamic> route) => false);
+  }
+
   var currentPage = DrawerSections.dashboard;
   @override
   Widget build(BuildContext context) {
@@ -24,7 +60,7 @@ class HomeState extends State<Home> {
     if (currentPage == DrawerSections.dashboard) {
       container = Dashboard1();
     } else if (currentPage == DrawerSections.logout) {
-      //container = ListaAprovacoes();
+      partilha();
     }
     return Scaffold(
       appBar: AppBar(
@@ -76,9 +112,8 @@ class HomeState extends State<Home> {
               currentPage = DrawerSections.dashboard;
             } else if (id == 2) {
               currentPage = DrawerSections.logout;
-            } 
+            }
           });
-
         },
         splashColor: Colors.amber,
         child: Padding(
@@ -110,7 +145,4 @@ class HomeState extends State<Home> {
   }
 }
 
-enum DrawerSections {
-  dashboard,
-  logout
-}
+enum DrawerSections { dashboard, logout }

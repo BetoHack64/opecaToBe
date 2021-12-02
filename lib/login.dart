@@ -195,6 +195,7 @@ class InitState extends State<LoginTela> {
       ),
     ));
   }
+  
 
   tokenLogin(String usuario, String password) async {
     var url = Uri.parse('http://83.240.225.239:130/token');
@@ -221,8 +222,10 @@ class InitState extends State<LoginTela> {
       int mensagem = mapResponse["expires_in"];
       String token = mapResponse["access_token"];
       sharedPreferences.setString("access_token", mapResponse["access_token"]);
+      sharedPreferences.setBool("isLoggedIn", true);
       sharedPreferences.setString("usuarioNomeLogin", usuario);
       sharedPreferences.setString("usuarioSenhaLogin", password);
+      
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) {
@@ -258,4 +261,6 @@ class InitState extends State<LoginTela> {
     print(mapResponse['User']['Description']);
     sharedPreferences.setString("Nome", mapResponse['User']['Description']);
   }
+
+  
 }
