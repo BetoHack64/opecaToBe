@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:opeca_app/getToken.dart';
-import 'package:opeca_app/main.dart';
+import 'package:opeca_app/Authentication/getToken.dart';
+import 'package:opeca_app/Home/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 

@@ -2,10 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:opeca_app/Models/ApiJsonToObject.dart';
 import 'package:opeca_app/caixaPesquisaAnimacao.dart';
 import 'package:opeca_app/dashboard.dart';
 import 'package:opeca_app/itemsLista.dart';
-import 'package:opeca_app/main.dart';
+import 'package:opeca_app/Home/main.dart';
 import 'package:opeca_app/my_header_drawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -34,17 +35,23 @@ class ListaAprovacoes extends StatelessWidget {
     var jsonResponse;
     var response = await http.get(url, headers: header);
     Map mapResponse = json.decode(response.body);
-    Map<String, dynamic> userMap = jsonDecode(response.body);
-    //Opera
-    print(userMap['OperationList']);
-    if (mapResponse != null) {
-      //print(mapResponse['OperationList'][0]['Area']);
-      //print(sis);
-      //print(mapResponse['OperationList'].length);
-      //print(mapResponse['OperationList']);
-      /*for (int i = 0; i < mapResponse['OperationList'].length; i++) {
-        print("teste");
+    Map userMap = jsonDecode(response.body);
+
+    //print(userMap['OperationList'][0]['Area']);
+    print(sis);
+    if (userMap != null) {
+      /*for (var item in userMap['OperationList']) {
+        if (item['Area'] == sis) {
+          cardss.add(
+            CardDetail(
+                title: item['Operation'],
+                subtitle: item['Date'],
+                valor: item['ValueOperation']),
+          );
+        }
       }*/
+    } else {
+      print('Bug');
     }
   }
 
@@ -52,7 +59,7 @@ class ListaAprovacoes extends StatelessWidget {
     nome = sistema;
     traco = trac;
     botaoHomeAparece = botaoAparece;
-    buscaOperacoes(nome);
+    buscaOperacoes(sistema);
   }
   @override
   Widget build(BuildContext context) {

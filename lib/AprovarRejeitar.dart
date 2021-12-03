@@ -8,7 +8,7 @@ import 'package:opeca_app/dashboard.dart';
 import 'package:opeca_app/detalhes.dart';
 import 'package:opeca_app/itemsLista.dart';
 import 'package:opeca_app/listaAprovacoes.dart';
-import 'package:opeca_app/main.dart';
+import 'package:opeca_app/Home/main.dart';
 import 'package:opeca_app/my_header_drawer.dart';
 import 'package:opeca_app/validacao.dart';
 //import 'constant.dart';

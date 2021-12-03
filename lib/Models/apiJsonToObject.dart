@@ -1,19 +1,23 @@
-class apiJsonToObject {
-/*
+class ApiJsonToObject {
   late final List<Object> listaDeOperacoes;
-  late final String Search;
-   late final int ApplicationID;
-    ApplicationCod": null,
-    "ApplicationName": null,
-    "TipoEstado": null,
-    "Vista": null,
-    "AdditionalInfo": null,
-    "modelSearch": null,
-    "NUM_OPERATIONS_GRID_PAGE": 0,
-    "OperationIDGerado": null,
-    "HiddenBalcaoColumn": 0,
-    "NameColumnInfo1": null,
-    "NameColumnInfo2": null,
-    "NameColumnInfo3": null,
-    "NameColumnInfo4": null*/
+  late final String search;
+  late final int applicationID;
+  late final int applicationCod;
+  late final String applicationName;
+  late final String tipoEstado;
+  late final String vista;
+  late final String additionalInfo;
+  late final String modelSearch;
+  late final int num_OPERATIONS_GRID_PAGE;
+  late final int operationIDGerado;
+  late final int hiddenBalcaoColumn;
+
+  ApiJsonToObject({required this.listaDeOperacoes});
+
+  factory ApiJsonToObject.fromJson(Map<String, dynamic> json) {
+    var obj = json['OperationList'];
+    return ApiJsonToObject(
+      listaDeOperacoes: new List<Object>.from(obj),
+    );
+  }
 }
