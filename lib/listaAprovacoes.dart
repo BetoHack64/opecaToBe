@@ -15,12 +15,13 @@ String traco = ' - ';
 String nome = '';
 String id = '0';
 bool botaoHomeAparece = true;
+List<CardDetail> cardss = [];
 void main() {
   runApp(ListaAprovacoes(nome, traco, botaoHomeAparece));
 }
 
 class ListaAprovacoes extends StatelessWidget {
-  buscaOperacoes() async {
+  buscaOperacoes(String sis) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var url = Uri.parse(
         'http://83.240.225.239:130/api/Operation?ApplicationID=51000000');
@@ -33,30 +34,25 @@ class ListaAprovacoes extends StatelessWidget {
     var jsonResponse;
     var response = await http.get(url, headers: header);
     Map mapResponse = json.decode(response.body);
-
-    try {
-      print(mapResponse['OperationList']);
-      print(mapResponse['OperationList'].length);
-      mapResponse['OperationList'].forEach(
-        (element) {
-          print(element['OperationID']);
-          print(element['OperationStep']);
-        },
-      );
-    } catch (e) {
-      print("Erro na captura dos dados");
+    Map<String, dynamic> userMap = jsonDecode(response.body);
+    //Opera
+    print(userMap['OperationList']);
+    if (mapResponse != null) {
+      //print(mapResponse['OperationList'][0]['Area']);
+      //print(sis);
+      //print(mapResponse['OperationList'].length);
+      //print(mapResponse['OperationList']);
+      /*for (int i = 0; i < mapResponse['OperationList'].length; i++) {
+        print("teste");
+      }*/
     }
-
-    //print("message $mensagem");
-    //print("token $token");
-    //print(token);
   }
 
   ListaAprovacoes(String sistema, String trac, bool botaoAparece) {
     nome = sistema;
     traco = trac;
     botaoHomeAparece = botaoAparece;
-    buscaOperacoes();
+    buscaOperacoes(nome);
   }
   @override
   Widget build(BuildContext context) {
@@ -74,7 +70,7 @@ class ListaAprovacoes extends StatelessWidget {
 class CardDetail {
   String title;
   String subtitle;
-  double valor;
+  String valor;
 
   CardDetail(
       {required this.title, required this.subtitle, required this.valor});
@@ -87,15 +83,7 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   var currentPage = null;
-  final List<CardDetail> cards = [
-    CardDetail(
-        title: 'Orc. Alteracoes', subtitle: '04-11-2021', valor: 1500000),
-    CardDetail(title: 'Encomenda', subtitle: '01-09-2021', valor: 1600000),
-    CardDetail(title: 'Encomenda', subtitle: '30-08-2021', valor: 4000000),
-    CardDetail(title: 'Pagamento', subtitle: '27-08-2021', valor: 1700000),
-    CardDetail(title: 'Pagamento', subtitle: '27-08-2021', valor: 1500000),
-    CardDetail(title: 'Encomenda', subtitle: '27-08-2021', valor: 1505000),
-  ];
+  final List<CardDetail> cards = cardss;
 
   @override
   Widget build(BuildContext context) {

@@ -41,19 +41,22 @@ class ItemsLista extends StatelessWidget {
       elevation: 2.0,
       margin: new EdgeInsets.symmetric(
         horizontal: 10.0,
-        vertical: 4.0,
+        vertical: 6.0,
       ),
       child: ListTile(
+        
+        //minLeadingWidth: 40 - 20,
         contentPadding: EdgeInsets.symmetric(
-          horizontal: 12.0,
+          horizontal: 6.0,
           vertical: 2.0,
         ),
-        leading: Container(
-          padding: EdgeInsets.only(right: 10.0),
+        /*leading: Container(
+          padding: EdgeInsets.only(left: 3.0),
+          width: 28.0,
           decoration: BoxDecoration(
             border: Border(
               right: BorderSide(
-                width: 0.6,
+                width: 0.2,
                 color: Colors.grey,
               ),
             ),
@@ -63,60 +66,70 @@ class ItemsLista extends StatelessWidget {
             color: Colors.grey[600],
 
           ),
+        ),*/
+        title: Transform.translate(
+          offset: Offset(8, 0),
+          child: Container(
+            margin: EdgeInsets.only(left: 0),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.calendar_today,
+                  color: Colors.grey,
+                ),
+                SizedBox(width: 5),
+                Text(
+                  data + " | ", //+ valor,
+                  style: TextStyle(
+                    color: Colors.grey[800],
+                    //fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Icon(
+                  Icons.settings,
+                  color: Colors.grey,
+                ),
+                SizedBox(width: 5),
+                Text(
+                  title, //+ valor,
+                  style: TextStyle(
+                    color: Colors.grey[800],
+                    //fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
-        title: Row(
-          children: [
-            Icon(
-              Icons.calendar_today,
-              color: Colors.grey,
-            ),
-            SizedBox(width: 5),
-            Text(
-              data + " | ", //+ valor,
-              style: TextStyle(
-                color: Colors.grey[800],
-                //fontWeight: FontWeight.bold,
+        subtitle: Transform.translate(
+          offset: Offset(8, 4),
+          child: Row(
+            children: [
+              Icon(
+                Icons.person_outline,
+                color: Colors.grey,
               ),
-          
+              SizedBox(
+                width: 10,
+              ),
+              Text(
+                subtitle + "   | ",
+                style: TextStyle(color: Colors.grey[800]),
+              ),
+              Icon(
+                Icons.local_atm,
+                color: Colors.grey,
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Text(
+                valor + " akz",
+                style: TextStyle(color: Colors.grey[800]),
+              )
+            ],
           ),
-           Icon(
-              Icons.settings,
-              color: Colors.grey,
-            ),
-            SizedBox(width: 5),
-            Text(
-              title, //+ valor,
-              style: TextStyle(
-                color: Colors.grey[800],
-                //fontWeight: FontWeight.bold,
-              ),
-            ),
-        ],
         ),
-        subtitle: Row(children: [
-          Icon(
-            Icons.person_outline,
-            color: Colors.grey,
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          Text(
-            subtitle + "   | ", 
-            style: TextStyle(color: Colors.grey[800]),
-          ), 
-           Icon(
-            Icons.local_atm,
-            color: Colors.grey,
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          Text(
-            valor + " akz",
-            style: TextStyle(color: Colors.grey[800]),
-          )
-        ]),
         trailing: Icon(
           Icons.keyboard_arrow_right,
           color: Colors.grey,
