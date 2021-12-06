@@ -155,10 +155,11 @@ class InitState extends State<LoginTela> {
                 : () {
                     /*Colocar o comando onClik Aqui!*/
                     setState(() {
-                      _isLoading = true;
+                      tokenLogin(user.text, pass.text);
                     });
 
-                    tokenLogin(user.text, pass.text);
+                    
+                    
                   },
             //Botão Entrar
             child: Container(
@@ -195,7 +196,6 @@ class InitState extends State<LoginTela> {
       ),
     ));
   }
-  
 
   tokenLogin(String usuario, String password) async {
     var url = Uri.parse('http://83.240.225.239:130/token');
@@ -225,7 +225,7 @@ class InitState extends State<LoginTela> {
       sharedPreferences.setBool("isLoggedIn", true);
       sharedPreferences.setString("usuarioNomeLogin", usuario);
       sharedPreferences.setString("usuarioSenhaLogin", password);
-      
+
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) {
@@ -235,6 +235,19 @@ class InitState extends State<LoginTela> {
       );
       contaUsuario(usuario, password);
     } catch (e) {
+      final snackBar = SnackBar(
+            content: Text('Esse é o nosso SnackBar'),
+            action: SnackBarAction(
+              label: 'Desfazer',
+              onPressed: () {
+                // Algum código para desfazer alguma alteração
+              },
+            ),
+          );
+
+          // Aqui nós usamos a Scaffold do contexto para
+          // exibir o SnackBar corretamente como explicado antes
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
       print("Usuario ou senha errado");
       user.clear();
       pass.clear();
@@ -261,6 +274,4 @@ class InitState extends State<LoginTela> {
     print(mapResponse['User']['Description']);
     sharedPreferences.setString("Nome", mapResponse['User']['Description']);
   }
-
-  
 }

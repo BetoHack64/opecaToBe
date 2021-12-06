@@ -3,12 +3,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:opeca_app/listaAprovacoes.dart';
 
 String traco = ' - ';
+
 class GridDashboard extends StatelessWidget {
   void _selecionaSistema(BuildContext context, String sistema) {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) {
-          return ListaAprovacoes(sistema,traco, true);
+          return ListaAprovacoes(sistema, traco, true);
         },
       ),
     );
@@ -113,6 +114,7 @@ class GridDashboard extends StatelessWidget {
         mainAxisSpacing: 18,
         children: myList.map(
           (data) {
+           
             return InkWell(
               onTap: () => _selecionaSistema(context, data.title),
               borderRadius: BorderRadius.circular(10),

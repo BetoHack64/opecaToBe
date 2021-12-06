@@ -38,7 +38,7 @@ class ListaAprovacoes extends StatelessWidget {
     Map userMap = jsonDecode(response.body);
 
     //print(userMap['OperationList'][0]['Area']);
-    print(sis);
+    //print(sis);
     if (userMap != null) {
       /*for (var item in userMap['OperationList']) {
         if (item['Area'] == sis) {
@@ -119,6 +119,7 @@ class _DashboardState extends State<Dashboard> {
           ? FloatingActionButton(
               //Floating action button on Scaffold
               onPressed: () {
+                
                 _selecionaSistema(context);
                 //code to execute on button press
               },
