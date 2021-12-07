@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:opeca_app/AprovarRejeitar.dart';
+import 'package:opeca_app/Aprovacoes/AprovarRejeitar.dart';
 
 class ItemsLista extends StatelessWidget {
   final String title;

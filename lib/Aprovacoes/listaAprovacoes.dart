@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:opeca_app/Models/ApiJsonToObject.dart';
 import 'package:opeca_app/caixaPesquisaAnimacao.dart';
 import 'package:opeca_app/dashboard.dart';
-import 'package:opeca_app/itemsLista.dart';
+import 'package:opeca_app/Aprovacoes/itemsLista.dart';
 import 'package:opeca_app/Home/main.dart';
-import 'package:opeca_app/my_header_drawer.dart';
+import 'package:opeca_app/Header/my_header_drawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 //import 'constant.dart';
@@ -40,16 +40,19 @@ class ListaAprovacoes extends StatelessWidget {
     //print(userMap['OperationList'][0]['Area']);
     //print(sis);
     if (userMap != null) {
-      /*for (var item in userMap['OperationList']) {
-        if (item['Area'] == sis) {
-          cardss.add(
-            CardDetail(
-                title: item['Operation'],
-                subtitle: item['Date'],
-                valor: item['ValueOperation']),
-          );
-        }
-      }*/
+      for (var item in userMap['OperationList']) {
+        //if (item['Area'] == sis) {
+        cardss.add(
+          CardDetail(
+            title: item['Operation'],
+            subtitle: item['Date'],
+            valor: item['ValueOperation'],
+            fornecedor: item['Entity1'],
+          ),
+        );
+        //}
+
+      }
     } else {
       print('Bug');
     }
@@ -78,9 +81,13 @@ class CardDetail {
   String title;
   String subtitle;
   String valor;
+  String fornecedor;
 
   CardDetail(
-      {required this.title, required this.subtitle, required this.valor});
+      {required this.title,
+      required this.subtitle,
+      required this.valor,
+      required this.fornecedor});
 }
 
 class Dashboard extends StatefulWidget {
@@ -119,7 +126,6 @@ class _DashboardState extends State<Dashboard> {
           ? FloatingActionButton(
               //Floating action button on Scaffold
               onPressed: () {
-                
                 _selecionaSistema(context);
                 //code to execute on button press
               },
@@ -137,6 +143,14 @@ class _DashboardState extends State<Dashboard> {
         elevation: 0.1,
         backgroundColor: Colors.red[900],
         title: Text('SOP' + traco + nome),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(
+              Icons.search,
+            ),
+          ),
+        ],
         centerTitle: true,
       ),
       body: (container == null)

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 var nome = '';
+var nomeBanco = '';
 
 class MyHeaderDrawer extends StatefulWidget {
   @override
@@ -11,9 +12,10 @@ class MyHeaderDrawer extends StatefulWidget {
 class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
   //carrega os dados do usuario
   _carregaDados() async {
-    final result = await pegaDados().then((String result) {
+    final result = await pegaDados().then((List<String> lista) {
       setState(() {
-        nome = result;
+        nome = lista[0];
+        nomeBanco = lista[1];
       });
     });
   }
@@ -26,9 +28,12 @@ class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
   }
 
   //Obtem os dados partilhados do usuario
-  Future<String> pegaDados() async {
+  Future<List<String>> pegaDados() async {
     var sharedPreferences = await SharedPreferences.getInstance();
-    return nome = (sharedPreferences.getString("Nome") ?? "");
+    List<String> listaDados = [];
+    listaDados.add((sharedPreferences.getString("Nome") ?? ""));
+    listaDados.add((sharedPreferences.getString("NomeBanco") ?? ""));
+    return listaDados;
   }
 
   @override
@@ -59,7 +64,7 @@ class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
             ),
           ),
           Text(
-            "brunosanda@gmail.com",
+            nomeBanco,
             style: TextStyle(
               color: Colors.white,
               fontSize: 14,

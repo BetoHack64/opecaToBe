@@ -1,14 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:opeca_app/Authentication/getToken.dart';
 import 'package:opeca_app/Home/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
-import 'getToken.dart';
-
 String tokenValor = '';
+
 
 class LoginTela extends StatefulWidget {
   @override
@@ -16,9 +16,55 @@ class LoginTela extends StatefulWidget {
 }
 
 class InitState extends State<LoginTela> {
+  bool _validate = false;
+  //Autenticacao Biometrica
+  /*
+  final LocalAuthentication _localAuthentication = LocalAuthentication();
+  @override
+  initState() {
+    super.initState();
+    authenticate();
+  }
+
+  authenticate() async {
+    if (await _isBiometricAvailable()) {
+      await _getListOfBiometricTypes();
+      await _aunthenticateUser();
+    }
+  }
+
+  Future<bool> _isBiometricAvailable() async {
+    try {
+      bool isAvailable = await _localAuthentication.canCheckBiometrics;
+      return isAvailable;
+    } catch (ex) {
+      return false;
+    }
+  }
+
+  Future<void> _getListOfBiometricTypes() async {
+    List<BiometricType> listOfBiometrics =
+        await _localAuthentication.getAvailableBiometrics();
+  }
+
+  Future<void> _aunthenticateUser() async {
+    bool isAuthenticated =
+        await _localAuthentication.authenticateWithBiometrics(
+            localizedReason: "Por favor efetue a autenticacao",
+            useErrorDialogs: true,
+            stickyAuth: true);
+    if (isAuthenticated) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => Home(),
+        ),
+      );
+    }
+  }
+*/
   TextEditingController user = TextEditingController();
   TextEditingController pass = TextEditingController();
-
+  late String _user, _pass;
   bool _isLoading = false;
 
   void logar() {
@@ -79,6 +125,7 @@ class InitState extends State<LoginTela> {
               ),
             ),
           ),
+          SizedBox(height: 15),
           //Conteiner do usuario
           Container(
             margin: EdgeInsets.only(right: 20, left: 20, top: 50),
@@ -94,13 +141,23 @@ class InitState extends State<LoginTela> {
                 ]),
             alignment: Alignment.center,
             child: TextField(
+              onChanged: (text) {
+                setState(() {
+                  _user = text;
+                });
+              },
               cursorColor: Color(0xFFf5851f),
               controller: user,
               //onChanged: (novoValor) => senha = novoValor,
               decoration: InputDecoration(
-                  icon: Icon(
-                    Icons.person,
-                    color: (Colors.red),
+                 errorText: (_validate) ? 'Utilizador errado' : null,
+                  icon: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(
+                      Icons.person,
+                      color: (Colors.red),
+                      
+                    ),
                   ),
                   hintText: 'Utilizador',
                   enabledBorder: InputBorder.none,
@@ -122,11 +179,17 @@ class InitState extends State<LoginTela> {
                 ]),
             alignment: Alignment.center,
             child: TextField(
+              onChanged: (text) {
+                setState(() {
+                  _pass = text;
+                });
+              },
               obscureText: true,
               controller: pass,
               //onChanged: (novoValor) => senha = novoValor,
               cursorColor: Color(0xFFf5851f),
               decoration: InputDecoration(
+                  errorText: (_validate)?'Senha errada': null,
                   icon: Icon(
                     Icons.vpn_key,
                     color: (Colors.red),
@@ -136,30 +199,26 @@ class InitState extends State<LoginTela> {
                   focusedBorder: InputBorder.none),
             ),
           ), //Fim input Senha
-          Container(
-            margin: EdgeInsets.only(right: 30, top: 10),
-            alignment: Alignment.centerRight,
-            child: GestureDetector(
-              child: Text(
-                "Esqueci a senha",
-                style: TextStyle(color: Colors.red, fontSize: 14
-                    //Estilização do texto da tela de login "Login"
-                    ),
-              ),
-              onTap: () => {/*Colocar o comando onClik Aqui!*/},
-            ),
-          ), //Fim Lik Esqueci a senha
+          SizedBox(height: 10),
           GestureDetector(
-            onTap: user.text == "" || pass.text == ""
-                ? null
+            onTap: ((pass.text.isEmpty || user.text.isEmpty) == true)
+                ? () {
+                  setState(() {
+                    _validate = true; 
+                  });
+                  
+                    print("escreva algo ${_validate}" );
+                  }
                 : () {
                     /*Colocar o comando onClik Aqui!*/
+                    
+                    print(_user + ' - ' + _pass);
                     setState(() {
-                      tokenLogin(user.text, pass.text);
+                      //_user = user.text;
+                      //_pass = pass.text;
+                      _validate = false;
                     });
-
-                    
-                    
+                    token(_user, _pass);
                   },
             //Botão Entrar
             child: Container(
@@ -197,35 +256,48 @@ class InitState extends State<LoginTela> {
     ));
   }
 
-  tokenLogin(String usuario, String password) async {
+
+  /*
+    *   Funcao para obter o token
+    *   Recebe como parametro, o nome do usuario e a senha
+    *   Depois de obter o token, armazena-o em um espaço alocado
+  */
+  token(String usuario, String password) async {
+    // Url da API para obter o token
     var url = Uri.parse('http://83.240.225.239:130/token');
 
+    //SharedPreferences - Plugin para armazenar dados, onde armazenar-se-á o token
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
+    //Cabeçalho da requisiçao
     var header = {"Content-Type": "application/json"};
 
-    String body = 'Username=' +
+    //Corpo da requisiçao
+    String corpo = 'Username=' +
         usuario +
         '&Password=' +
         password +
         '&grant_type=password';
-    var jsonResponse;
-    var _body = json.encode(body);
+
+    // Converte a string "corpo" para uma string no formato JSON
+    var _body = json.encode(corpo);
+
     print("json enviado : $_body");
 
-    var response = await http.post(url, headers: header, body: body);
-    //var UsuarioNome = '';
-    //print('Response body: ${response.body}');
+    // Envia uma requisiçao POST com o seu devido cabeçalho e corpo à URL
+    var response = await http.post(url, headers: header, body: corpo);
 
+    //Analisa a string em "response.body" e retorna o objeto Json resultante
     Map mapResponse = json.decode(response.body);
 
     try {
-      int mensagem = mapResponse["expires_in"];
-      String token = mapResponse["access_token"];
+      //Armazena os dados no local partilhado da aplicacao
       sharedPreferences.setString("access_token", mapResponse["access_token"]);
       sharedPreferences.setBool("isLoggedIn", true);
       sharedPreferences.setString("usuarioNomeLogin", usuario);
       sharedPreferences.setString("usuarioSenhaLogin", password);
 
+      //Redireciona para a tela Home
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) {
@@ -233,22 +305,23 @@ class InitState extends State<LoginTela> {
           },
         ),
       );
-      contaUsuario(usuario, password);
+      
     } catch (e) {
-      final snackBar = SnackBar(
-            content: Text('Esse é o nosso SnackBar'),
-            action: SnackBarAction(
-              label: 'Desfazer',
-              onPressed: () {
-                // Algum código para desfazer alguma alteração
-              },
-            ),
-          );
+      /*final snackBar = SnackBar(
+        content: Text('Usuário ou senha errado'),
+        //backgroundColor: Colors.red,
+        action: SnackBarAction(
+          label: 'Desfazer',
+          textColor: Colors.white,
+          onPressed: () {
+            // Algum código para desfazer alguma alteração
+          },
+        ),
+      );
 
-          // Aqui nós usamos a Scaffold do contexto para
-          // exibir o SnackBar corretamente como explicado antes
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      print("Usuario ou senha errado");
+      // Aqui nós usamos a Scaffold do contexto para
+      // exibir o SnackBar corretamente como explicado antes
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);*/
       user.clear();
       pass.clear();
     }
@@ -258,7 +331,7 @@ class InitState extends State<LoginTela> {
     //print(token);
   }
 
-  contaUsuario(String usuario, String password) async {
+   contaUsuario(String usuario, String password) async {
     var url = Uri.parse('http://83.240.225.239:130/api/Authenticate');
 
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -271,7 +344,16 @@ class InitState extends State<LoginTela> {
     var response = await http.post(url, body: body);
 
     Map mapResponse = json.decode(response.body);
-    print(mapResponse['User']['Description']);
-    sharedPreferences.setString("Nome", mapResponse['User']['Description']);
+    
+    if (mapResponse['IsValid'] == true) {
+      print(mapResponse['User']['Description']);
+      sharedPreferences.setString("NomeBanco", mapResponse['User']['Description']);
+      sharedPreferences.setString(
+          "Nome", usuario);
+      token(usuario, password);
+    } else {
+      
+    }
+    
   }
 }

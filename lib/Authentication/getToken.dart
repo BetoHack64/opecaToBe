@@ -1,15 +1,15 @@
+// Importacao de bibliotecas
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'login.dart';
 
-const clientId = 'tobeadmin';
-const clientSecret = '!qaz2wsx';
-LoginTela _loginTela = new LoginTela();
-
 class Token {
+
+  /*
+    *   Funcao para obter o token
+    *   Recebe como parametro, o nome do usuario e a senha
+  */
   Future<bool> token(String user, String password) async {
     var url = Uri.parse('http://83.240.225.239:130/token');
     

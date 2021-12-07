@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'HomeTeste.dart';
-import '../lib/getToken.dart';
 import 'loginApi.dart';
 
 class LoginPage extends StatelessWidget {
