@@ -12,7 +12,7 @@ class ItemsLista extends StatelessWidget {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) {
-          return AprovarRejeitar(this.sistema, this.id,true);
+          return AprovarRejeitar(this.sistema, this.id, true);
         },
       ),
     );
@@ -44,7 +44,6 @@ class ItemsLista extends StatelessWidget {
         vertical: 6.0,
       ),
       child: ListTile(
-        
         //minLeadingWidth: 40 - 20,
         contentPadding: EdgeInsets.symmetric(
           horizontal: 6.0,
@@ -73,30 +72,35 @@ class ItemsLista extends StatelessWidget {
             margin: EdgeInsets.only(left: 0),
             child: Row(
               children: [
-                Icon(
-                  Icons.calendar_today,
-                  color: Colors.grey,
-                ),
-                SizedBox(width: 5),
-                Text(
-                  data + " | ", //+ valor,
-                  style: TextStyle(
-                    color: Colors.grey[800],
-                    //fontWeight: FontWeight.bold,
+                Container(
+                  child: Text(
+                    data + " | ", //+ valor,
+                    style: TextStyle(
+                      color: Colors.grey[800],
+                      //fontWeight: FontWeight.bold,
+                    ),
                   ),
+                  width: 93,
                 ),
-                Icon(
-                  Icons.settings,
-                  color: Colors.grey,
-                ),
-                SizedBox(width: 5),
-                Text(
-                  title, //+ valor,
-                  style: TextStyle(
-                    color: Colors.grey[800],
-                    //fontWeight: FontWeight.bold,
+                Container(
+                  child: Text(
+                    title + " | ", //+ valor,
+                    style: TextStyle(
+                      color: Colors.grey[800],
+                      //fontWeight: FontWeight.bold,
+                    ),
                   ),
+                  width: 120,
                 ),
+                Expanded(
+                  child: Container(child: 
+                  Text(
+                    valor + " akz",
+                    style: TextStyle(color: Colors.grey[800]),
+                  ),
+                  width: 240,
+                  ),
+                )
               ],
             ),
           ),
@@ -105,28 +109,13 @@ class ItemsLista extends StatelessWidget {
           offset: Offset(8, 4),
           child: Row(
             children: [
-              Icon(
-                Icons.person_outline,
-                color: Colors.grey,
-              ),
               SizedBox(
-                width: 10,
+                width: 7,
               ),
               Text(
-                subtitle + "   | ",
+                subtitle,
                 style: TextStyle(color: Colors.grey[800]),
               ),
-              Icon(
-                Icons.local_atm,
-                color: Colors.grey,
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Text(
-                valor + " akz",
-                style: TextStyle(color: Colors.grey[800]),
-              )
             ],
           ),
         ),

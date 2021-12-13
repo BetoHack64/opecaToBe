@@ -156,7 +156,7 @@ class _DashboardState extends State<Dashboard> {
                       Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
                           builder: (context) {
-                            return ListaAprovacoes(nome, " - ", true);
+                            return ListaAprovacoes(nome, " - ",[], true);
                           },
                         ),
                       );

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:opeca_app/Authentication/getToken.dart';
 import 'package:opeca_app/Home/main.dart';
+import 'package:opeca_app/Models/apiJsonToObjectSistemas.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -25,7 +26,7 @@ class InitState extends State<LoginTela> {
     super.initState();
     authenticate();
   }
-
+  
   authenticate() async {
     if (await _isBiometricAvailable()) {
       await _getListOfBiometricTypes();
@@ -66,6 +67,8 @@ class InitState extends State<LoginTela> {
   TextEditingController pass = TextEditingController();
   late String _user, _pass;
   bool _isLoading = false;
+
+  
 
   void logar() {
     print(" Login efectuado ");

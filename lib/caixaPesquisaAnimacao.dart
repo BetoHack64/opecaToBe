@@ -2,7 +2,11 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+bool estaVisivel = false;
 class CaixaPesquisaAnimacao extends StatefulWidget {
+  CaixaPesquisaAnimacao(bool isVisible){
+    estaVisivel = isVisible;
+  }
   @override
   _CaixaPesquisaAnimacaoState createState() => _CaixaPesquisaAnimacaoState();
 }
@@ -24,13 +28,13 @@ class _CaixaPesquisaAnimacaoState extends State<CaixaPesquisaAnimacao>
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color(0xfff2f3f7),
+      color: Colors.grey[50],
       child: Center(
         child: Container(
           height: 90.0,
           width: 250.0,
           alignment: Alignment(-1.0, 0.0),
-          child: AnimatedContainer(
+          child: estaVisivel? AnimatedContainer(
             duration: Duration(milliseconds: 375),
             height: 48.0,
             width: (toggle == 0) ? 48.0 : 250.0,
@@ -43,41 +47,13 @@ class _CaixaPesquisaAnimacaoState extends State<CaixaPesquisaAnimacao>
                     color: Colors.black26,
                     spreadRadius: -10.0,
                     blurRadius: 10.0,
-                    offset: Offset(0.0, 10.0),
+                    offset: Offset(-4.0, 10.0),
+                    
                   ),
                 ]),
             child: Stack(
               children: [
-                AnimatedPositioned(
-                  duration: Duration(milliseconds: 375),
-                  top: 6.0,
-                  right: 7.0,
-                  curve: Curves.easeOut,
-                  child: AnimatedOpacity(
-                    opacity: (toggle == 0) ? 0.0 : 1.0,
-                    duration: Duration(milliseconds: 200),
-                    child: Container(
-                      padding: EdgeInsets.all(8.0),
-                      decoration: BoxDecoration(
-                        color: Color(0xfff2f3f7),
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      child: AnimatedBuilder(
-                        child: Icon(
-                          Icons.list,
-                          size: 20.0,
-                        ),
-                        builder: (context, widget) {
-                          return Transform.rotate(
-                            angle: _con.value * 2.0 * pi,
-                            child: widget,
-                          );
-                        },
-                        animation: _con,
-                      ),
-                    ),
-                  ),
-                ),
+                
                 AnimatedPositioned(
                   duration: Duration(milliseconds: 375),
                   left: (toggle == 0) ? 20.0 : 40.0,
@@ -97,7 +73,7 @@ class _CaixaPesquisaAnimacaoState extends State<CaixaPesquisaAnimacao>
                           floatingLabelBehavior: FloatingLabelBehavior.never,
                           labelText: 'Procurar...',
                           labelStyle: TextStyle(
-                            color: Color(0xff5b5b5b),
+                            color: Colors.grey,
                             fontSize: 17.0,
                             fontWeight: FontWeight.w500,
                           ),
@@ -117,13 +93,13 @@ class _CaixaPesquisaAnimacaoState extends State<CaixaPesquisaAnimacao>
                   child: IconButton(
                     onPressed: () {
                       setState(() {
-                        if (toggle == 0) {
+                        /*if (toggle == 0) {
                           toggle = 1;
                           _con.forward();
                         } else {
                           toggle = 0;
                           _con.reverse();
-                        }
+                        }*/
                       });
                     },
                     icon: Image.asset(
@@ -134,6 +110,15 @@ class _CaixaPesquisaAnimacaoState extends State<CaixaPesquisaAnimacao>
                 ),
               ],
             ),
+          ): Center(
+            child: 
+              Text("LISTA DE OPERAÇÕES",
+                textScaleFactor: 1.5,
+                style: TextStyle(
+                  color: Colors.grey
+                ),
+          
+              )
           ),
         ),
       ),

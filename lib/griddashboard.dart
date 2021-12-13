@@ -1,109 +1,48 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:opeca_app/Aprovacoes/listaAprovacoes.dart';
+import 'package:opeca_app/Models/apiJsonToObjectSistemas.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 String traco = ' - ';
+List<Sistema> applicationDetailItems =[];
+List<CardDetail> cardss = [];
+class GridDashboard extends StatefulWidget {
+  //List<Sistema> applicationDetailItems =[];
+  GridDashboard({required List<Sistema> items}){
+    applicationDetailItems = items;
+  }
+  
+  @override
+  State<GridDashboard> createState() => _GridDashboardState();
+}
 
-class GridDashboard extends StatelessWidget {
+class _GridDashboardState extends State<GridDashboard> {
+  @override
+  initState() {
+    super.initState();
+    buscaOperacoes().then((value) {
+      cardss = value;
+    });
+  }
   void _selecionaSistema(BuildContext context, String sistema) {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) {
-          return ListaAprovacoes(sistema, traco, true);
+          applicationDetailItems =[];
+          return ListaAprovacoes(sistema, traco, cardss, true);
         },
       ),
     );
   }
 
-  Items item1 = new Items(
-      title: "SOP SAL",
-      subtitle: "Salário Cobrança",
-      event: "1",
-      img: "assets/images/money-transfer-100.png");
-
-  Items item2 = new Items(
-    title: "SGCD",
-    subtitle: "Gestão Créditos",
-    event: "7",
-    img: "assets/images/donate-50.png",
-  );
-  Items item3 = new Items(
-    title: "SGC",
-    subtitle: "Compras Crédito",
-    event: "1",
-    img: "assets/images/icons8-basket-50.png",
-  );
-  Items item4 = new Items(
-    title: "MD",
-    subtitle: "Mediation",
-    event: "8",
-    img: "assets/images/synchronize.png",
-  );
-  Items item5 = new Items(
-    title: "ACR",
-    subtitle: "Accrual",
-    event: "4",
-    img: "assets/images/calculator-50.png",
-  );
-  Items item6 = new Items(
-    title: "SGFM",
-    subtitle: "Compra Dinheiro",
-    event: "4",
-    img: "assets/images/money-bag-50.png",
-  );
-  Items item7 = new Items(
-    title: "ADM",
-    subtitle: "Administração",
-    event: "4",
-    img: "assets/images/group-64.png",
-  );
-  Items item8 = new Items(
-    title: "SGP",
-    subtitle: "Gestão Património",
-    event: "4",
-    img: "assets/images/swatchbook.png",
-  );
-  Items item9 = new Items(
-    title: "SOPMN",
-    subtitle: "Operações MN",
-    event: "4",
-    img: "assets/images/money-transfer.png",
-  );
-  Items item10 = new Items(
-    title: "MMF",
-    subtitle: "Meios Físicos",
-    event: "4",
-    img: "assets/images/money-transfer.png",
-  );
-  Items item11 = new Items(
-    title: "SGL",
-    subtitle: "Gestão Liquidez",
-    event: "4",
-    img: "assets/images/money-transfer.png",
-  );
-  Items item12 = new Items(
-    title: "SCT",
-    subtitle: "Contabilidade",
-    event: "4",
-    img: "assets/images/money-transfer.png",
-  );
-
   @override
   Widget build(BuildContext context) {
-    List<Items> myList = [
-      item1,
-      item2,
-      item3,
-      item4,
-      item5,
-      item6,
-      item7,
-      item8,
-      item9,
-      item10,
-      item11,
-      item12
-    ];
+  //print(applicationDetailItems);
+    List<Sistema> myList = applicationDetailItems;
     var color = 0xffEf5350;
     return Flexible(
       child: GridView.count(
@@ -114,9 +53,8 @@ class GridDashboard extends StatelessWidget {
         mainAxisSpacing: 18,
         children: myList.map(
           (data) {
-           
             return InkWell(
-              onTap: () => _selecionaSistema(context, data.title),
+              onTap: () => _selecionaSistema(context, data.applicationCod),
               borderRadius: BorderRadius.circular(10),
               child: Container(
                 decoration: BoxDecoration(
@@ -135,7 +73,7 @@ class GridDashboard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Image.asset(
-                      data.img,
+                      data.iconClass,
                       color: Colors.black,
                       width: 55,
                     ),
@@ -143,7 +81,7 @@ class GridDashboard extends StatelessWidget {
                       height: 14,
                     ),
                     Text(
-                      data.title,
+                      data.applicationCod,
                       style: GoogleFonts.openSans(
                           textStyle: TextStyle(
                               color: Colors.black,
@@ -154,7 +92,7 @@ class GridDashboard extends StatelessWidget {
                       height: 8,
                     ),
                     Text(
-                      data.subtitle,
+                      data.applicationNameShort,
                       style: GoogleFonts.openSans(
                           textStyle: TextStyle(
                               color: Colors.grey,
@@ -165,7 +103,7 @@ class GridDashboard extends StatelessWidget {
                       height: 14,
                     ),
                     Text(
-                      data.event,
+                      data.numOperations,
                       style: GoogleFonts.openSans(
                           textStyle: TextStyle(
                               color: Colors.grey,
@@ -181,16 +119,58 @@ class GridDashboard extends StatelessWidget {
       ),
     );
   }
+   Future<List<CardDetail>> buscaOperacoes() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    var url = Uri.parse(
+        'http://83.240.225.239:130/api/Operation?ApplicationID=51000000');
+    var token = (sharedPreferences.getString("access_token") ?? "");
+    var header = {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token"
+    };
+
+    var jsonResponse;
+    var response = await http.get(url, headers: header);
+    Map mapResponse = json.decode(response.body);
+    Map userMap = jsonDecode(response.body);
+    List<CardDetail> cards = [];
+    //print(userMap['OperationList'][0]['Area']);
+    //print(sis);
+    if (userMap != null) {
+      for (var item in userMap['OperationList']) {
+      if(item['Entity1'].isNotEmpty){
+        cards.add(
+          CardDetail(
+            title: item['Operation'],
+            subtitle: item['Date'],
+            valor: item['ValueOperation'],
+            fornecedor: item['Entity1'],
+          ),
+        );
+      }
+      }
+      return cards;
+    } else {
+      print('Bug');
+      return [];
+    }
+  }
 }
 
-class Items {
-  String title;
-  String subtitle;
-  String event;
-  String img;
-  Items(
-      {required this.title,
-      required this.subtitle,
-      required this.event,
-      required this.img});
+class Sistema {
+    late final int applicationID;
+    late final String applicationCod;
+    late final String applicationName;
+    late final String applicationNameShort;
+    late final String iconClass;
+    late final String numOperations;
+  Sistema(
+      {required this.applicationID,
+      required this.applicationCod,
+      required this.applicationName,
+      required this.applicationNameShort,
+      required this.iconClass,
+      required this.numOperations,
+      });
 }
+

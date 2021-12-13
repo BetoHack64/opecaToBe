@@ -2,6 +2,7 @@
     package="com.example.opeca_app">
 
    <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
+   <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="opeca_app"
         android:icon="@mipmap/ic_launcher">

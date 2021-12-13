@@ -16,12 +16,34 @@ String traco = ' - ';
 String nome = '';
 String id = '0';
 bool botaoHomeAparece = true;
+bool caixaDePesquisaEstaVisivel = false;
 List<CardDetail> cardss = [];
 void main() {
-  runApp(ListaAprovacoes(nome, traco, botaoHomeAparece));
+  runApp(ListaAprovacoes(nome, traco, cardss, botaoHomeAparece));
 }
 
-class ListaAprovacoes extends StatelessWidget {
+class ListaAprovacoes extends StatefulWidget {
+  @override
+  State<ListaAprovacoes> createState() => _ListaAprovacoesState();
+  ListaAprovacoes(String sistema, String trac,List<CardDetail> lista , bool botaoAparece) {
+    nome = sistema;
+    traco = trac;
+    botaoHomeAparece = botaoAparece;
+    cardss = lista;
+    print(cardss);
+  }
+}
+
+class _ListaAprovacoesState extends State<ListaAprovacoes> {
+   @override
+  void initState() {
+    /*_getThingsOnStartup().then((value){
+      print('Async done');
+    });*/
+    //buscaOperacoes();
+    super.initState();
+    //buscaOperacoes(nome);
+  }
   buscaOperacoes(String sis) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var url = Uri.parse(
@@ -42,14 +64,14 @@ class ListaAprovacoes extends StatelessWidget {
     if (userMap != null) {
       for (var item in userMap['OperationList']) {
         //if (item['Area'] == sis) {
-        cardss.add(
+        /*cardss.add(
           CardDetail(
             title: item['Operation'],
             subtitle: item['Date'],
             valor: item['ValueOperation'],
             fornecedor: item['Entity1'],
           ),
-        );
+        );*/
         //}
 
       }
@@ -58,12 +80,6 @@ class ListaAprovacoes extends StatelessWidget {
     }
   }
 
-  ListaAprovacoes(String sistema, String trac, bool botaoAparece) {
-    nome = sistema;
-    traco = trac;
-    botaoHomeAparece = botaoAparece;
-    buscaOperacoes(sistema);
-  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -145,7 +161,15 @@ class _DashboardState extends State<Dashboard> {
         title: Text('SOP' + traco + nome),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              setState(() {
+                if(caixaDePesquisaEstaVisivel){
+                  caixaDePesquisaEstaVisivel = false;
+                }else{
+                  caixaDePesquisaEstaVisivel = true;
+                }
+              });
+            },
             icon: Icon(
               Icons.search,
             ),
@@ -156,14 +180,14 @@ class _DashboardState extends State<Dashboard> {
       body: (container == null)
           ? Column(
               children: [
-                CaixaPesquisaAnimacao(),
+                CaixaPesquisaAnimacao(caixaDePesquisaEstaVisivel),
                 Expanded(
                   flex: 360,
                   child: ListView.builder(
                     itemCount: cards.length,
                     itemBuilder: (context, index) => ItemsLista(
                       title: cards[index].title,
-                      subtitle: "Fornecedor",
+                      subtitle: cards[index].fornecedor,
                       sistema: nome,
                       id: id,
                       data: cards[index].subtitle,
