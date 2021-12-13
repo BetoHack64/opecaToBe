@@ -44,41 +44,6 @@ class _ListaAprovacoesState extends State<ListaAprovacoes> {
     super.initState();
     //buscaOperacoes(nome);
   }
-  buscaOperacoes(String sis) async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    var url = Uri.parse(
-        'http://83.240.225.239:130/api/Operation?ApplicationID=51000000');
-    var token = (sharedPreferences.getString("access_token") ?? "");
-    var header = {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer $token"
-    };
-
-    var jsonResponse;
-    var response = await http.get(url, headers: header);
-    Map mapResponse = json.decode(response.body);
-    Map userMap = jsonDecode(response.body);
-
-    //print(userMap['OperationList'][0]['Area']);
-    //print(sis);
-    if (userMap != null) {
-      for (var item in userMap['OperationList']) {
-        //if (item['Area'] == sis) {
-        /*cardss.add(
-          CardDetail(
-            title: item['Operation'],
-            subtitle: item['Date'],
-            valor: item['ValueOperation'],
-            fornecedor: item['Entity1'],
-          ),
-        );*/
-        //}
-
-      }
-    } else {
-      print('Bug');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {

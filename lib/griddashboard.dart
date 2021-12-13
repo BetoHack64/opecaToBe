@@ -138,16 +138,16 @@ class _GridDashboardState extends State<GridDashboard> {
     //print(sis);
     if (userMap != null) {
       for (var item in userMap['OperationList']) {
-      if(item['Entity1'].isNotEmpty){
+      
         cards.add(
           CardDetail(
             title: item['Operation'],
             subtitle: item['Date'],
-            valor: item['ValueOperation'],
-            fornecedor: item['Entity1'],
+            valor: item['ValueOperation']??'23',
+            fornecedor: item['Entity1']??'Teste',
           ),
         );
-      }
+      
       }
       return cards;
     } else {
