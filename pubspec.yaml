@@ -36,6 +36,9 @@ dependencies:
   motion_tab_bar: ^0.1.5
   rxdart: ^0.27.3
   shared_preferences: ^2.0.9
+  modal_bottom_sheet: ^2.0.0
+  flutter_easyloading: ^2.0.0
+  auto_size_text: ^3.0.0
 
 dev_dependencies:
   flutter_test:

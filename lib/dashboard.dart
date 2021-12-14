@@ -99,6 +99,7 @@ class _Dashboard1State extends State<Dashboard1> {
     "assets/images/money-transfer.png",
     "assets/images/icons8-coin-in-hand-90.png",
     "assets/images/analytics.png",
+    "assets/images/icons8-calculator-64.png",
     "assets/images/icons8-calculator-64.png"
   ];
   Future<List<Sistema>> buscaOperacoes() async {
@@ -129,6 +130,7 @@ class _Dashboard1State extends State<Dashboard1> {
           numOperations: element.numOperations
         )
       );
+      
       i++;
     });
       // tagsJson = jsonDecode(response.body)['ApplicationDetail']['applicationDetailItems'] as List;

@@ -3,9 +3,11 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 bool estaVisivel = false;
+Function onChangePesquisa = (){};
 class CaixaPesquisaAnimacao extends StatefulWidget {
-  CaixaPesquisaAnimacao(bool isVisible){
+  CaixaPesquisaAnimacao(bool isVisible, pesquisar){
     estaVisivel = isVisible;
+    onChangePesquisa = pesquisar;
   }
   @override
   _CaixaPesquisaAnimacaoState createState() => _CaixaPesquisaAnimacaoState();
@@ -64,8 +66,9 @@ class _CaixaPesquisaAnimacaoState extends State<CaixaPesquisaAnimacao>
                     duration: Duration(milliseconds: 200),
                     child: Container(
                       height: 23.0,
-                      width: 180.0,
+                      width: 200.0,
                       child: TextField(
+                        onChanged: (valor) => onChangePesquisa(valor),
                         cursorRadius: Radius.circular(10.0),
                         cursorWidth: 2.0,
                         cursorColor: Colors.black,

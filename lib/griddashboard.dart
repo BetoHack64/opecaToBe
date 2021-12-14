@@ -8,14 +8,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 String traco = ' - ';
-List<Sistema> applicationDetailItems =[];
+List<Sistema> applicationDetailItems = [];
 List<CardDetail> cardss = [];
+
 class GridDashboard extends StatefulWidget {
   //List<Sistema> applicationDetailItems =[];
-  GridDashboard({required List<Sistema> items}){
+  GridDashboard({required List<Sistema> items}) {
     applicationDetailItems = items;
   }
-  
+
   @override
   State<GridDashboard> createState() => _GridDashboardState();
 }
@@ -28,11 +29,12 @@ class _GridDashboardState extends State<GridDashboard> {
       cardss = value;
     });
   }
+
   void _selecionaSistema(BuildContext context, String sistema) {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) {
-          applicationDetailItems =[];
+          applicationDetailItems = [];
           return ListaAprovacoes(sistema, traco, cardss, true);
         },
       ),
@@ -41,7 +43,7 @@ class _GridDashboardState extends State<GridDashboard> {
 
   @override
   Widget build(BuildContext context) {
-  //print(applicationDetailItems);
+    //print(applicationDetailItems);
     List<Sistema> myList = applicationDetailItems;
     var color = 0xffEf5350;
     return Flexible(
@@ -72,42 +74,61 @@ class _GridDashboardState extends State<GridDashboard> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Image.asset(
-                      data.iconClass,
-                      color: Colors.black,
-                      width: 55,
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 5,
+                            offset: Offset(0, 3), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      alignment: Alignment.center,
+                      height: 30,
+                      width: 30,
+                      child: Center(
+                        child: Text(
+                          data.numOperations,
+                          style: GoogleFonts.openSans(
+                              textStyle: TextStyle(
+                                  color: data.numOperations== "0" ? Colors.black : Colors.red[900],
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w600)),
+                        ),
+                      ),
+                      margin: EdgeInsets.only(left: 120, bottom: 0),
+                      
                     ),
-                    SizedBox(
-                      height: 14,
+                    Container(
+                      child: Image.asset(
+                        data.iconClass,
+                        color: Colors.black,
+                        width: 55,
+                      ),
+                      margin: EdgeInsets.only(bottom: 16),
                     ),
-                    Text(
-                      data.applicationCod,
-                      style: GoogleFonts.openSans(
-                          textStyle: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600)),
-                    ),
-                    SizedBox(
-                      height: 8,
+                    Container(
+                      child: Text(
+                        data.applicationCod,
+                        style: GoogleFonts.openSans(
+                            textStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600)),
+                      ),
+                       margin: EdgeInsets.only(bottom: 5),
                     ),
                     Text(
                       data.applicationNameShort,
                       style: GoogleFonts.openSans(
                           textStyle: TextStyle(
                               color: Colors.grey,
-                              fontSize: 10,
-                              fontWeight: FontWeight.w600)),
-                    ),
-                    SizedBox(
-                      height: 14,
-                    ),
-                    Text(
-                      data.numOperations,
-                      style: GoogleFonts.openSans(
-                          textStyle: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 11,
+                              fontSize: 14,
                               fontWeight: FontWeight.w600)),
                     ),
                   ],
@@ -119,7 +140,8 @@ class _GridDashboardState extends State<GridDashboard> {
       ),
     );
   }
-   Future<List<CardDetail>> buscaOperacoes() async {
+
+  Future<List<CardDetail>> buscaOperacoes() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var url = Uri.parse(
         'http://83.240.225.239:130/api/Operation?ApplicationID=51000000');
@@ -138,16 +160,16 @@ class _GridDashboardState extends State<GridDashboard> {
     //print(sis);
     if (userMap != null) {
       for (var item in userMap['OperationList']) {
-      
         cards.add(
           CardDetail(
             title: item['Operation'],
             subtitle: item['Date'],
-            valor: item['ValueOperation']??'23',
-            fornecedor: item['Entity1']??'Teste',
+            id: item['OperationID'].toString(),
+            moeda: item['Currency'],
+            valor: item['ValueOperation'] ?? '23',
+            fornecedor: item['Entity1'] ?? 'Teste',
           ),
         );
-      
       }
       return cards;
     } else {
@@ -158,19 +180,18 @@ class _GridDashboardState extends State<GridDashboard> {
 }
 
 class Sistema {
-    late final int applicationID;
-    late final String applicationCod;
-    late final String applicationName;
-    late final String applicationNameShort;
-    late final String iconClass;
-    late final String numOperations;
-  Sistema(
-      {required this.applicationID,
-      required this.applicationCod,
-      required this.applicationName,
-      required this.applicationNameShort,
-      required this.iconClass,
-      required this.numOperations,
-      });
+  late final int applicationID;
+  late final String applicationCod;
+  late final String applicationName;
+  late final String applicationNameShort;
+  late final String iconClass;
+  late final String numOperations;
+  Sistema({
+    required this.applicationID,
+    required this.applicationCod,
+    required this.applicationName,
+    required this.applicationNameShort,
+    required this.iconClass,
+    required this.numOperations,
+  });
 }
-

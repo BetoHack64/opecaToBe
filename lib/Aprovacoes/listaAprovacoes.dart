@@ -15,6 +15,8 @@ import 'package:http/http.dart' as http;
 String traco = ' - ';
 String nome = '';
 String id = '0';
+
+List<CardDetail> _foundUsers = [];
 bool botaoHomeAparece = true;
 bool caixaDePesquisaEstaVisivel = false;
 List<CardDetail> cardss = [];
@@ -25,7 +27,8 @@ void main() {
 class ListaAprovacoes extends StatefulWidget {
   @override
   State<ListaAprovacoes> createState() => _ListaAprovacoesState();
-  ListaAprovacoes(String sistema, String trac,List<CardDetail> lista , bool botaoAparece) {
+  ListaAprovacoes(
+      String sistema, String trac, List<CardDetail> lista, bool botaoAparece) {
     nome = sistema;
     traco = trac;
     botaoHomeAparece = botaoAparece;
@@ -35,10 +38,11 @@ class ListaAprovacoes extends StatefulWidget {
 }
 
 class _ListaAprovacoesState extends State<ListaAprovacoes> {
-   @override
+  @override
   void initState() {
     /*_getThingsOnStartup().then((value){
       print('Async done');
+      
     });*/
     //buscaOperacoes();
     super.initState();
@@ -63,12 +67,16 @@ class CardDetail {
   String subtitle;
   String valor;
   String fornecedor;
+  String id;
+  String moeda;
 
   CardDetail(
       {required this.title,
       required this.subtitle,
       required this.valor,
-      required this.fornecedor});
+      required this.fornecedor,
+      required this.id,
+      required this.moeda});
 }
 
 class Dashboard extends StatefulWidget {
@@ -77,8 +85,42 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  var currentPage = null;
+  bool estaVisivelCaixaPesquisa = false;
   final List<CardDetail> cards = cardss;
+// This list holds the data for the list view
+  List<CardDetail> _foundUsers = [];
+  @override
+  initState() {
+    // at the beginning, all users are shown
+    _foundUsers = cards;
+    super.initState();
+  }
+
+  var currentPage = null;
+
+  // This function is called whenever the text field changes
+  void _runFilter(String enteredKeyword) {
+    List<CardDetail> results = [];
+    if (enteredKeyword.isEmpty) {
+      // if the search field is empty or only contains white-space, we'll display all users
+      results = cards;
+    } else {
+      results = cards
+          .where((card) {
+            return card.title.toLowerCase().contains(enteredKeyword.toLowerCase()) || card.subtitle.toLowerCase().contains(enteredKeyword.toLowerCase()) || card.fornecedor.toLowerCase().contains(enteredKeyword.toLowerCase()) || card.valor.toLowerCase().contains(enteredKeyword.toLowerCase());
+          })
+          .toList();
+          //toLowerCase().contains((enteredKeyword.toLowerCase()))
+          //.toList();
+      // we use the toLowerCase() method to make it case-insensitive
+    }
+
+    // Refresh the UI
+    setState(() {
+      _foundUsers = results;
+      //print(_foundUsers);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -128,9 +170,9 @@ class _DashboardState extends State<Dashboard> {
           IconButton(
             onPressed: () {
               setState(() {
-                if(caixaDePesquisaEstaVisivel){
+                if (caixaDePesquisaEstaVisivel) {
                   caixaDePesquisaEstaVisivel = false;
-                }else{
+                } else {
                   caixaDePesquisaEstaVisivel = true;
                 }
               });
@@ -145,20 +187,119 @@ class _DashboardState extends State<Dashboard> {
       body: (container == null)
           ? Column(
               children: [
-                CaixaPesquisaAnimacao(caixaDePesquisaEstaVisivel),
-                Expanded(
-                  flex: 360,
-                  child: ListView.builder(
-                    itemCount: cards.length,
-                    itemBuilder: (context, index) => ItemsLista(
-                      title: cards[index].title,
-                      subtitle: cards[index].fornecedor,
-                      sistema: nome,
-                      id: id,
-                      data: cards[index].subtitle,
-                      valor: cards[index].valor.toString(),
+                Container(
+                  color: Colors.grey[50],
+                  child: Center(
+                    child: Container(
+                      height: 90.0,
+                      width: 250.0,
+                      alignment: Alignment(-1.0, 0.0),
+                      child: caixaDePesquisaEstaVisivel
+                          ? AnimatedContainer(
+                              duration: Duration(milliseconds: 375),
+                              height: 48.0,
+                              width: (toggle == 0) ? 48.0 : 250.0,
+                              curve: Curves.easeOut,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(30.0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black26,
+                                      spreadRadius: -10.0,
+                                      blurRadius: 10.0,
+                                      offset: Offset(-4.0, 10.0),
+                                    ),
+                                  ]),
+                              child: Stack(
+                                children: [
+                                  AnimatedPositioned(
+                                    duration: Duration(milliseconds: 375),
+                                    left: (toggle == 0) ? 20.0 : 40.0,
+                                    top: 13.0,
+                                    curve: Curves.easeOut,
+                                    child: AnimatedOpacity(
+                                      opacity: (toggle == 0) ? 0.0 : 1.0,
+                                      duration: Duration(milliseconds: 200),
+                                      child: Container(
+                                        height: 23.0,
+                                        width: 200.0,
+                                        child: TextField(
+                                          onChanged: (valor) =>
+                                              _runFilter(valor),
+                                          cursorRadius: Radius.circular(10.0),
+                                          cursorWidth: 2.0,
+                                          cursorColor: Colors.black,
+                                          decoration: InputDecoration(
+                                            floatingLabelBehavior:
+                                                FloatingLabelBehavior.never,
+                                            labelText: 'Procurar...',
+                                            labelStyle: TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 17.0,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                            alignLabelWithHint: true,
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                              borderSide: BorderSide.none,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Material(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(30.0),
+                                    child: IconButton(
+                                      onPressed: () {
+                                        setState(() {});
+                                      },
+                                      icon: Image.asset(
+                                        'assets/images/search.png',
+                                        height: 18.0,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Center(
+                              child: Text(
+                                "LISTA DE OPERAÇÕES",
+                                textScaleFactor: 1.5,
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                            ),
                     ),
                   ),
+                ),
+                Expanded(
+                  flex: 360,
+                  child: _foundUsers.isNotEmpty
+                      ? ListView.builder(
+                          itemCount: _foundUsers.length,
+                          itemBuilder: (context, index) => ItemsLista(
+                            title: _foundUsers[index].title,
+                            subtitle: _foundUsers[index].fornecedor,
+                            sistema: nome,
+                            id: _foundUsers[index].id,
+                            data: _foundUsers[index].subtitle,
+                            valor: _foundUsers[index].valor.toString(),
+                            moeda: _foundUsers[index].moeda,
+                          ),
+                        )
+                      : Container(
+                      margin: EdgeInsets.only(bottom:130),
+                        child: Center(
+                          child: const Text(
+                              'Nenhum resultado encontrado.',
+                              style: TextStyle(fontSize: 20),
+                            ),
+                        ),
+                      ),
                 ),
               ],
             )
