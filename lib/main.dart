@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:opeca_app/splash.dart';
+import 'package:SOP/splash.dart';
 
 void main() {
   runApp(MyApp());

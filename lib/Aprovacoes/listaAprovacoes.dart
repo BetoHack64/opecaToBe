@@ -1,15 +1,10 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:opeca_app/Models/ApiJsonToObject.dart';
-import 'package:opeca_app/caixaPesquisaAnimacao.dart';
-import 'package:opeca_app/dashboard.dart';
-import 'package:opeca_app/Aprovacoes/itemsLista.dart';
-import 'package:opeca_app/Home/main.dart';
-import 'package:opeca_app/Header/my_header_drawer.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
+import 'package:SOP/caixaPesquisaAnimacao.dart';
+import 'package:SOP/dashboard.dart';
+import 'package:SOP/Aprovacoes/itemsLista.dart';
+import 'package:SOP/Home/main.dart';
+import 'package:SOP/Header/my_header_drawer.dart';
 //import 'constant.dart';
 
 String traco = ' - ';
@@ -89,7 +84,6 @@ class _DashboardState extends State<Dashboard> {
   final List<CardDetail> cards = cardss;
   var currentPage = null;
   bool estaVisivelCaixaPesquisa = false;
-
 // This list holds the data for the list view
   List<CardDetail> _foundUsers = [];
 
@@ -333,12 +327,22 @@ class _DashboardState extends State<Dashboard> {
                                 ],
                               ),
                             )
-                          : Center(
-                              child: Text(
-                                "LISTA DE OPERAÇÕES",
-                                textScaleFactor: 1.5,
-                                style: TextStyle(color: Colors.grey),
-                              ),
+                          : Container(
+                              margin: EdgeInsets.only(top: 29),
+                              child: Center(
+                                  child: Column(
+                                children: [
+                                  Text(
+                                    "LISTA DE OPERAÇÕES",
+                                    textScaleFactor: 1.4,
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                  Text(
+                                    "Selecione a operação",
+                                    style: TextStyle(color: Colors.grey),
+                                  )
+                                ],
+                              )),
                             ),
                     ),
                   ),

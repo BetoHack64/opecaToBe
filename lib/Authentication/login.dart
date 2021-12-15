@@ -2,10 +2,8 @@ import 'dart:convert';
 
 import 'package:blurry/blurry.dart';
 import 'package:flutter/material.dart';
-import 'package:local_auth/local_auth.dart';
-import 'package:opeca_app/Authentication/getToken.dart';
-import 'package:opeca_app/Home/main.dart';
-import 'package:opeca_app/Models/apiJsonToObjectSistemas.dart';
+//import 'package:local_auth/local_auth.dart';
+import 'package:SOP/Home/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -147,7 +145,7 @@ class InitState extends State<LoginTela> {
               controller: user,
               //onChanged: (novoValor) => senha = novoValor,
               decoration: InputDecoration(
-                  errorText: (_validate) ? 'Utilizador errado' : null,
+                  //errorText: (_validate) ? 'Utilizador errado' : null,
                   icon: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Icon(
@@ -185,7 +183,7 @@ class InitState extends State<LoginTela> {
               //onChanged: (novoValor) => senha = novoValor,
               cursorColor: Color(0xFFf5851f),
               decoration: InputDecoration(
-                  errorText: (_validate) ? 'Senha errada' : null,
+                  //errorText: (_validate) ? 'Senha errada' : null,
                   icon: Icon(
                     Icons.vpn_key,
                     color: (Colors.red),

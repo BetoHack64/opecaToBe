@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:opeca_app/Aprovacoes/AprovarRejeitar.dart';
+import 'package:SOP/Aprovacoes/AprovarRejeitar.dart';
 
 class ItemsLista extends StatelessWidget {
   final String title;
@@ -79,34 +79,74 @@ class ItemsLista extends StatelessWidget {
                   child: Text(
                     data + " | ", //+ valor,
                     style: TextStyle(
-                      color: Colors.grey[800],
-                      //fontWeight: FontWeight.bold,
-                    ),
+                        color: Colors.grey[800],
+                        //fontWeight: FontWeight.bold,
+                        fontSize: 13),
                   ),
-                  width: 93,
+                  width: 77,
                 ),
                 Container(
                   child: AutoSizeText(title + " | ", //+ valor,
-                      style: TextStyle(
-                        color: Colors.grey[800],
-                        //fontWeight: FontWeight.bold,
-                      ),
+                      style: TextStyle(color: Colors.grey[800], fontSize: 13
+                          //fontWeight: FontWeight.bold,
+                          ),
                       minFontSize: 7,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2),
-                  width: title.length == 15 ? 120: title.length == 9 ?  95 : title.length > 17 ? 190:title.length == 16 ? 135: title.length == 7 ? 65 : 100,
+                  width: title.length == 15
+                      ? 99
+                      : title.length == 9
+                          ? 80
+                          : title.length == 22
+                              ? 150
+                              : title.length == 16
+                                  ? 114
+                                  : title.length == 7
+                                      ? 53 
+                                      : title.length == 8
+                                          ? 72
+                                          : title.length == 12
+                                              ? 72
+                                              : title.length == 17
+                                              ? 119
+                                              : title.length == 19
+                                              ? 118
+                                              : 100,
                 ),
                 Expanded(
                   child: Container(
-                    margin: title.length == 15 ? EdgeInsets.only(right: 0) : EdgeInsets.only(right: 20),
+                    margin: title.length == 15
+                        ? EdgeInsets.only(right: 0)
+                        : EdgeInsets.only(right: 20),
                     child: AutoSizeText(
                       valor + " akz",
-                      style: TextStyle(color: Colors.grey[800]),
+                      style: TextStyle(
+                        color: Colors.red[900],
+                        fontSize: valor.length == 14
+                            ? 15
+                            : valor.length == 8
+                                ? 15
+                                : valor.length > 17
+                                    ? 15
+                                    : valor.length <= 11
+                                        ? 15
+                                        : valor.length == 12
+                                            ? 15
+                                            : valor.length == 9
+                                                ? 15
+                                                : valor.length == 13
+                                                ? 15
+                                                : valor.length == 22
+                                                ? 15
+                                                : 15,
+                      ),
                       minFontSize: 7,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                     ),
-                    width: 239,
+                    width: valor.length == 22
+                                                ? 245
+                                                : 239,
                   ),
                 )
               ],

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:opeca_app/dashboard.dart';
-import 'package:opeca_app/Authentication/login.dart';
-//import 'package:opeca_app/listaAprovacoes.dart';
-import 'package:opeca_app/Header/my_header_drawer.dart';
+import 'package:SOP/dashboard.dart';
+import 'package:SOP/Authentication/login.dart';
+//import 'package:SOP/listaAprovacoes.dart';
+import 'package:SOP/Header/my_header_drawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 bool estaLogado = false;

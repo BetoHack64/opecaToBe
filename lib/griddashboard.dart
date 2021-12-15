@@ -1,11 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:opeca_app/Aprovacoes/listaAprovacoes.dart';
-import 'package:opeca_app/Models/apiJsonToObjectSistemas.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
+import 'package:SOP/Aprovacoes/listaAprovacoes.dart';
+import 'package:SOP/Models/FuncoesAPI.dart';
 
 String traco = ' - ';
 List<Sistema> applicationDetailItems = [];
@@ -25,7 +20,7 @@ class _GridDashboardState extends State<GridDashboard> {
   @override
   initState() {
     super.initState();
-    buscaOperacoes().then((value) {
+    FuncoesAPI.buscaOperacoes().then((value) {
       cardss = value;
     });
   }
@@ -64,9 +59,9 @@ class _GridDashboardState extends State<GridDashboard> {
                   borderRadius: BorderRadius.circular(10),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 5,
-                      blurRadius: 7,
+                      color: Colors.grey.withOpacity(0.3),
+                      spreadRadius: 3,
+                      blurRadius: 4,
                       offset: Offset(0, 3), // changes position of shadow
                     ),
                   ],
@@ -78,13 +73,12 @@ class _GridDashboardState extends State<GridDashboard> {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(10),
-                        
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
+                            color: Colors.grey.withOpacity(0.4),
                             spreadRadius: 1,
-                            blurRadius: 5,
-                            offset: Offset(0, 3), // changes position of shadow
+                            blurRadius: 0.2,
+                            offset: Offset(0, 1), // changes position of shadow
                           ),
                         ],
                       ),
@@ -94,15 +88,16 @@ class _GridDashboardState extends State<GridDashboard> {
                       child: Center(
                         child: Text(
                           data.numOperations,
-                          style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
-                                  color: data.numOperations== "0" ? Colors.black : Colors.red[900],
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w600)),
+                          style: TextStyle(
+                              color: data.numOperations == "0"
+                                  ? Colors.black
+                                  : Colors.red[900],
+                              fontSize: 11,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: "Open Sans"),
                         ),
                       ),
                       margin: EdgeInsets.only(left: 120, bottom: 0),
-                      
                     ),
                     Container(
                       child: Image.asset(
@@ -115,21 +110,21 @@ class _GridDashboardState extends State<GridDashboard> {
                     Container(
                       child: Text(
                         data.applicationCod,
-                        style: GoogleFonts.openSans(
-                            textStyle: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600)),
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: "Open Sans"),
                       ),
-                       margin: EdgeInsets.only(bottom: 5),
+                      margin: EdgeInsets.only(bottom: 5),
                     ),
                     Text(
                       data.applicationNameShort,
-                      style: GoogleFonts.openSans(
-                          textStyle: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600)),
+                      style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: "Open Sans"),
                     ),
                   ],
                 ),
@@ -139,43 +134,6 @@ class _GridDashboardState extends State<GridDashboard> {
         ).toList(),
       ),
     );
-  }
-
-  Future<List<CardDetail>> buscaOperacoes() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    var url = Uri.parse(
-        'http://83.240.225.239:130/api/Operation?ApplicationID=51000000');
-    var token = (sharedPreferences.getString("access_token") ?? "");
-    var header = {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer $token"
-    };
-
-    var jsonResponse;
-    var response = await http.get(url, headers: header);
-    Map mapResponse = json.decode(response.body);
-    Map userMap = jsonDecode(response.body);
-    List<CardDetail> cards = [];
-    //print(userMap['OperationList'][0]['Area']);
-    //print(sis);
-    if (userMap != null) {
-      for (var item in userMap['OperationList']) {
-        cards.add(
-          CardDetail(
-            title: item['Operation'],
-            subtitle: item['Date'],
-            id: item['OperationID'].toString(),
-            moeda: item['Currency'],
-            valor: item['ValueOperation'] ?? '23',
-            fornecedor: item['Entity1'] ?? 'Teste',
-          ),
-        );
-      }
-      return cards;
-    } else {
-      print('Bug');
-      return [];
-    }
   }
 }
 
