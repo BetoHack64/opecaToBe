@@ -1,15 +1,16 @@
 import 'dart:convert';
 
+import 'package:blurry/blurry.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:opeca_app/Authentication/getToken.dart';
+import 'package:opeca_app/Authentication/modalErro.dart';
 import 'package:opeca_app/Home/main.dart';
 import 'package:opeca_app/Models/apiJsonToObjectSistemas.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 String tokenValor = '';
-
 
 class LoginTela extends StatefulWidget {
   @override
@@ -67,8 +68,6 @@ class InitState extends State<LoginTela> {
   TextEditingController pass = TextEditingController();
   late String _user, _pass;
   bool _isLoading = false;
-
-  
 
   void logar() {
     print(" Login efectuado ");
@@ -153,13 +152,12 @@ class InitState extends State<LoginTela> {
               controller: user,
               //onChanged: (novoValor) => senha = novoValor,
               decoration: InputDecoration(
-                 errorText: (_validate) ? 'Utilizador errado' : null,
+                  errorText: (_validate) ? 'Utilizador errado' : null,
                   icon: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Icon(
                       Icons.person,
                       color: (Colors.red),
-                      
                     ),
                   ),
                   hintText: 'Utilizador',
@@ -192,7 +190,7 @@ class InitState extends State<LoginTela> {
               //onChanged: (novoValor) => senha = novoValor,
               cursorColor: Color(0xFFf5851f),
               decoration: InputDecoration(
-                  errorText: (_validate)?'Senha errada': null,
+                  errorText: (_validate) ? 'Senha errada' : null,
                   icon: Icon(
                     Icons.vpn_key,
                     color: (Colors.red),
@@ -206,15 +204,15 @@ class InitState extends State<LoginTela> {
           GestureDetector(
             onTap: ((pass.text.isEmpty || user.text.isEmpty) == true)
                 ? () {
-                  setState(() {
-                    _validate = true; 
-                  });
-                  
-                    print("escreva algo ${_validate}" );
+                    setState(() {
+                      _validate = true;
+                    });
+
+                    print("escreva algo ${_validate}");
                   }
                 : () {
                     /*Colocar o comando onClik Aqui!*/
-                    
+
                     print(_user + ' - ' + _pass);
                     setState(() {
                       //_user = user.text;
@@ -258,7 +256,6 @@ class InitState extends State<LoginTela> {
       ),
     ));
   }
-
 
   /*
     *   Funcao para obter o token
@@ -308,33 +305,22 @@ class InitState extends State<LoginTela> {
           },
         ),
       );
-      
     } catch (e) {
-      /*final snackBar = SnackBar(
-        content: Text('Usuário ou senha errado'),
-        //backgroundColor: Colors.red,
-        action: SnackBarAction(
-          label: 'Desfazer',
-          textColor: Colors.white,
-          onPressed: () {
-            // Algum código para desfazer alguma alteração
-          },
-        ),
-      );
-
-      // Aqui nós usamos a Scaffold do contexto para
-      // exibir o SnackBar corretamente como explicado antes
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);*/
+      Blurry.error(
+        title: 'Autenticação',
+        description: 'Usuário ou senha inválidos',
+        confirmButtonText: 'Ok',
+        onConfirmButtonPressed: () {
+          Navigator.pop(context);
+        },
+        displayCancelButton: false,
+      ).show(context);
       user.clear();
       pass.clear();
     }
-
-    //print("message $mensagem");
-    //print("token $token");
-    //print(token);
   }
 
-   contaUsuario(String usuario, String password) async {
+  contaUsuario(String usuario, String password) async {
     var url = Uri.parse('http://83.240.225.239:130/api/Authenticate');
 
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -347,16 +333,13 @@ class InitState extends State<LoginTela> {
     var response = await http.post(url, body: body);
 
     Map mapResponse = json.decode(response.body);
-    
+
     if (mapResponse['IsValid'] == true) {
       print(mapResponse['User']['Description']);
-      sharedPreferences.setString("NomeBanco", mapResponse['User']['Description']);
       sharedPreferences.setString(
-          "Nome", usuario);
+          "NomeBanco", mapResponse['User']['Description']);
+      sharedPreferences.setString("Nome", usuario);
       token(usuario, password);
-    } else {
-      
-    }
-    
+    } else {}
   }
 }

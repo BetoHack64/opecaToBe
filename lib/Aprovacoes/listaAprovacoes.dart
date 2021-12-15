@@ -25,16 +25,17 @@ void main() {
 }
 
 class ListaAprovacoes extends StatefulWidget {
-  @override
-  State<ListaAprovacoes> createState() => _ListaAprovacoesState();
   ListaAprovacoes(
       String sistema, String trac, List<CardDetail> lista, bool botaoAparece) {
     nome = sistema;
     traco = trac;
     botaoHomeAparece = botaoAparece;
     cardss = lista;
-    print(cardss);
+    //print(cardss);
   }
+
+  @override
+  State<ListaAprovacoes> createState() => _ListaAprovacoesState();
 }
 
 class _ListaAprovacoesState extends State<ListaAprovacoes> {
@@ -63,13 +64,6 @@ class _ListaAprovacoesState extends State<ListaAprovacoes> {
 }
 
 class CardDetail {
-  String title;
-  String subtitle;
-  String valor;
-  String fornecedor;
-  String id;
-  String moeda;
-
   CardDetail(
       {required this.title,
       required this.subtitle,
@@ -77,6 +71,13 @@ class CardDetail {
       required this.fornecedor,
       required this.id,
       required this.moeda});
+
+  String fornecedor;
+  String id;
+  String moeda;
+  String subtitle;
+  String title;
+  String valor;
 }
 
 class Dashboard extends StatefulWidget {
@@ -85,10 +86,13 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  bool estaVisivelCaixaPesquisa = false;
   final List<CardDetail> cards = cardss;
+  var currentPage = null;
+  bool estaVisivelCaixaPesquisa = false;
+
 // This list holds the data for the list view
   List<CardDetail> _foundUsers = [];
+
   @override
   initState() {
     // at the beginning, all users are shown
@@ -96,7 +100,64 @@ class _DashboardState extends State<Dashboard> {
     super.initState();
   }
 
-  var currentPage = null;
+  Widget myDrawerList() {
+    return Container(
+      padding: EdgeInsets.only(
+        top: 15,
+      ),
+      child: Column(
+        children: [
+          menuItem(1, "Dashboard", Icons.dashboard_outlined,
+              currentPage == DrawerSections.dashboard ? true : false),
+          menuItem(2, "Sair", Icons.exit_to_app,
+              currentPage == DrawerSections.logout ? true : false),
+        ],
+      ),
+    );
+  }
+
+  Widget menuItem(int id, String titulo, IconData icon, bool selected) {
+    return Material(
+      color: selected ? Colors.grey[300] : Colors.transparent,
+      child: InkWell(
+        onTap: () {
+          Navigator.pop(context);
+          setState(() {
+            if (id == 1) {
+              currentPage = DrawerSections.dashboard;
+            } else if (id == 2) {
+              currentPage = DrawerSections.logout;
+            }
+          });
+        },
+        splashColor: Colors.black,
+        child: Padding(
+          padding: EdgeInsets.all(15.0),
+          child: Row(
+            children: [
+              Expanded(
+                child: Icon(
+                  icon,
+                  size: 20,
+                  color: Colors.black,
+                ),
+              ),
+              Expanded(
+                flex: 3,
+                child: Text(
+                  titulo,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
   // This function is called whenever the text field changes
   void _runFilter(String enteredKeyword) {
@@ -105,20 +166,26 @@ class _DashboardState extends State<Dashboard> {
       // if the search field is empty or only contains white-space, we'll display all users
       results = cards;
     } else {
-      results = cards
-          .where((card) {
-            return card.title.toLowerCase().contains(enteredKeyword.toLowerCase()) || card.subtitle.toLowerCase().contains(enteredKeyword.toLowerCase()) || card.fornecedor.toLowerCase().contains(enteredKeyword.toLowerCase()) || card.valor.toLowerCase().contains(enteredKeyword.toLowerCase());
-          })
-          .toList();
-          //toLowerCase().contains((enteredKeyword.toLowerCase()))
-          //.toList();
+      results = cards.where((card) {
+        return card.title
+                .toLowerCase()
+                .contains(enteredKeyword.toLowerCase()) ||
+            card.subtitle
+                .toLowerCase()
+                .contains(enteredKeyword.toLowerCase()) ||
+            card.fornecedor
+                .toLowerCase()
+                .contains(enteredKeyword.toLowerCase()) ||
+            card.valor.toLowerCase().contains(enteredKeyword.toLowerCase());
+      }).toList();
+      //toLowerCase().contains((enteredKeyword.toLowerCase()))
+      //.toList();
       // we use the toLowerCase() method to make it case-insensitive
     }
 
     // Refresh the UI
     setState(() {
       _foundUsers = results;
-      //print(_foundUsers);
     });
   }
 
@@ -292,14 +359,14 @@ class _DashboardState extends State<Dashboard> {
                           ),
                         )
                       : Container(
-                      margin: EdgeInsets.only(bottom:130),
-                        child: Center(
-                          child: const Text(
+                          margin: EdgeInsets.only(bottom: 130),
+                          child: Center(
+                            child: const Text(
                               'Nenhum resultado encontrado.',
                               style: TextStyle(fontSize: 20),
                             ),
+                          ),
                         ),
-                      ),
                 ),
               ],
             )
@@ -313,65 +380,6 @@ class _DashboardState extends State<Dashboard> {
                 myDrawerList(),
               ],
             ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget myDrawerList() {
-    return Container(
-      padding: EdgeInsets.only(
-        top: 15,
-      ),
-      child: Column(
-        children: [
-          menuItem(1, "Dashboard", Icons.dashboard_outlined,
-              currentPage == DrawerSections.dashboard ? true : false),
-          menuItem(2, "Sair", Icons.exit_to_app,
-              currentPage == DrawerSections.logout ? true : false),
-        ],
-      ),
-    );
-  }
-
-  Widget menuItem(int id, String titulo, IconData icon, bool selected) {
-    return Material(
-      color: selected ? Colors.grey[300] : Colors.transparent,
-      child: InkWell(
-        onTap: () {
-          Navigator.pop(context);
-          setState(() {
-            if (id == 1) {
-              currentPage = DrawerSections.dashboard;
-            } else if (id == 2) {
-              currentPage = DrawerSections.logout;
-            }
-          });
-        },
-        splashColor: Colors.black,
-        child: Padding(
-          padding: EdgeInsets.all(15.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: Icon(
-                  icon,
-                  size: 20,
-                  color: Colors.black,
-                ),
-              ),
-              Expanded(
-                flex: 3,
-                child: Text(
-                  titulo,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-            ],
           ),
         ),
       ),

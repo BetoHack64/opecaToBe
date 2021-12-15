@@ -190,6 +190,21 @@ class _DashboardState extends State<Dashboard> {
 //texto ID Fim
 
 
+
+    Padding(
+            padding: EdgeInsets.only(top: 2,bottom: 10,left: 10),
+            child: Text("Ordenante".toUpperCase(),
+                style: GoogleFonts.openSans(
+                        textStyle: TextStyle(
+                            color: Colors.red[900],
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                      ),
+            ),
+            
+          ),
+
+
           Card(
             // Inicia Aqui o 1º card com a  informação referente ao numero da conta
             elevation: 3.0,
@@ -250,6 +265,21 @@ class _DashboardState extends State<Dashboard> {
           ),
 
 
+//Texto divisão Operaçã
+Padding(
+            padding: EdgeInsets.only(top: 7,bottom: 10,left: 10),
+            child: Text("Dados da Operação".toUpperCase(),
+                style: GoogleFonts.openSans(
+                        textStyle: TextStyle(
+                            color: Colors.red[900],
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                      ),
+            ),
+            
+          ),
+
+          //Fim divisão Operação
    Card(
             // Inicia Aqui o 1º card com a  informação referente ao numero da conta
             elevation: 3.0,
