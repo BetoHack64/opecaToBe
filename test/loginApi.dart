@@ -23,15 +23,15 @@ class LoginApi {
     var _body = json.encode(params);
     var _body2 = json.encode(para);
     //print("json enviado : $_body");
-    print("json enviado : $_body2");
+    //print("json enviado : $_body2");
 
     var response = await http.post(url, headers: header, body: _body);
     var response2 = await http.post(tokenUrl, body: _body2);
 
     
-    print('Response status: ${response.statusCode}');
+    //print('Response status: ${response.statusCode}');
     //print('Response body: ${response.body}');
-    print('Response body: ${response2.body}');
+    //print('Response body: ${response2.body}');
 
     Map mapResponse = json.decode(response.body);
     Map mapResponse2 = json.decode(response2.body);
@@ -47,8 +47,8 @@ class LoginApi {
 
     //print("message $mensagem");
     //print("token $token");
-    print("message $mensagem2");
-    print("token $token2");
+    //print("message $mensagem2");
+    //print("token $token2");
     return true;
   }
 }

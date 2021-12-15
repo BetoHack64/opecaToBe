@@ -23,21 +23,21 @@ class Token {
     //var _body = json.encode(params);
     var _body = json.encode(para);
     //print(" ******** aqui - " + _body);
-    print("json enviado : $_body");
+    //print("json enviado : $_body");
     //print("json enviado : $_body2");
 
     var response = await http.post(url, headers: header, body: para);
     //var response2 = await http.post(tokenUrl, body: _body2);
 
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
+    //print('Response status: ${response.statusCode}');
+    //print('Response body: ${response.body}');
 
     Map mapResponse = json.decode(response.body);
     int mensagem = mapResponse["expires_in"];
     String token = mapResponse["access_token"];
 
-    print("message $mensagem");
-    print("token $token");
+    //print("message $mensagem");
+    //print("token $token");
     if (response.body.contains("invalid")) {
       print("falhou token");
       return false;

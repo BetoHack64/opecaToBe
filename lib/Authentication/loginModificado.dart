@@ -15,10 +15,7 @@ class InitState extends State<LoginTela2> {
   final _tSenha = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  void logar() {
-    print(" Login efectuado ");
-  }
-
+ 
   @override
   Widget build(BuildContext context) {
     return initWidget();
@@ -273,7 +270,7 @@ class InitState extends State<LoginTela2> {
       // Aqui nós usamos a Scaffold do contexto para
       // exibir o SnackBar corretamente como explicado antes
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      print("Usuario ou senha errado");
+      //print("Usuario ou senha errado");
       _tUser.clear();
       _tSenha.clear();
     }
@@ -291,12 +288,12 @@ class InitState extends State<LoginTela2> {
     Map body = {"Username": usuario, "Password": password};
     var jsonResponse;
     var _body = json.encode(body);
-    print("Conta Usuario obtida com sucesso : $_body");
+    //print("Conta Usuario obtida com sucesso : $_body");
 
     var response = await http.post(url, body: body);
 
     Map mapResponse = json.decode(response.body);
-    print(mapResponse['User']['Description']);
+    //print(mapResponse['User']['Description']);
     sharedPreferences.setString("Nome", mapResponse['User']['Description']);
   }
 }

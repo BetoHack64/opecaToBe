@@ -4,7 +4,6 @@ import 'package:blurry/blurry.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:opeca_app/Authentication/getToken.dart';
-import 'package:opeca_app/Authentication/modalErro.dart';
 import 'package:opeca_app/Home/main.dart';
 import 'package:opeca_app/Models/apiJsonToObjectSistemas.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -68,10 +67,6 @@ class InitState extends State<LoginTela> {
   TextEditingController pass = TextEditingController();
   late String _user, _pass;
   bool _isLoading = false;
-
-  void logar() {
-    print(" Login efectuado ");
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -208,12 +203,12 @@ class InitState extends State<LoginTela> {
                       _validate = true;
                     });
 
-                    print("escreva algo ${_validate}");
+                    //print("escreva algo ${_validate}");
                   }
                 : () {
                     /*Colocar o comando onClik Aqui!*/
 
-                    print(_user + ' - ' + _pass);
+                    //print(_user + ' - ' + _pass);
                     setState(() {
                       //_user = user.text;
                       //_pass = pass.text;
@@ -282,7 +277,7 @@ class InitState extends State<LoginTela> {
     // Converte a string "corpo" para uma string no formato JSON
     var _body = json.encode(corpo);
 
-    print("json enviado : $_body");
+    //print("json enviado : $_body");
 
     // Envia uma requisiçao POST com o seu devido cabeçalho e corpo à URL
     var response = await http.post(url, headers: header, body: corpo);
@@ -328,14 +323,14 @@ class InitState extends State<LoginTela> {
     Map body = {"Username": usuario, "Password": password};
     var jsonResponse;
     var _body = json.encode(body);
-    print("Conta Usuario obtida com sucesso : $_body");
+    //print("Conta Usuario obtida com sucesso : $_body");
 
     var response = await http.post(url, body: body);
 
     Map mapResponse = json.decode(response.body);
 
     if (mapResponse['IsValid'] == true) {
-      print(mapResponse['User']['Description']);
+      //print(mapResponse['User']['Description']);
       sharedPreferences.setString(
           "NomeBanco", mapResponse['User']['Description']);
       sharedPreferences.setString("Nome", usuario);

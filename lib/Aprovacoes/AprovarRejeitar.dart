@@ -56,7 +56,7 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     String tr = traco;
-    print(valor);
+    //print(valor);
     void _selecionaSistema(BuildContext context) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
@@ -76,7 +76,7 @@ class _DashboardState extends State<Dashboard> {
     } else if (currentPage == DrawerSections.logout) {
       //container = LoginTela();
     }
-    print(traco);
+    //print(traco);
     return Scaffold(
 
       resizeToAvoidBottomInset: false,
