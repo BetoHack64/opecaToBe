@@ -212,7 +212,8 @@ class InitState extends State<LoginTela> {
                       //_pass = pass.text;
                       _validate = false;
                     });
-                    token(_user, _pass);
+                    contaUsuario(_user, _pass);
+                    //token(_user, _pass);
                   },
             //Botão Entrar
             child: Container(
@@ -289,7 +290,7 @@ class InitState extends State<LoginTela> {
       sharedPreferences.setBool("isLoggedIn", true);
       sharedPreferences.setString("usuarioNomeLogin", usuario);
       sharedPreferences.setString("usuarioSenhaLogin", password);
-
+      
       //Redireciona para a tela Home
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
@@ -299,6 +300,7 @@ class InitState extends State<LoginTela> {
         ),
       );
     } catch (e) {
+      
       Blurry.error(
         title: 'Autenticação',
         description: 'Usuário ou senha inválidos',
@@ -329,9 +331,10 @@ class InitState extends State<LoginTela> {
 
     if (mapResponse['IsValid'] == true) {
       //print(mapResponse['User']['Description']);
-      sharedPreferences.setString(
-          "NomeBanco", mapResponse['User']['Description']);
-      sharedPreferences.setString("Nome", usuario);
+      sharedPreferences.setString("NomeBanco", mapResponse['User']['Description']);
+      sharedPreferences.setString("IdAccount", mapResponse['User']['IdAccount'].toString());
+     //print((sharedPreferences.getString("IdAccount") ?? ""));
+      //sharedPreferences.setString("Nome", usuario);
       token(usuario, password);
     } else {}
   }

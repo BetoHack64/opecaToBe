@@ -64,7 +64,7 @@ class HomeState extends State<Home> {
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text('SOP'),
+        title: Text('Portal de Operações'),
         backgroundColor: Colors.red[900],
         centerTitle: true,
       ),

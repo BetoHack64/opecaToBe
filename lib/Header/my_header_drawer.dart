@@ -49,11 +49,18 @@ class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
           Container(
             margin: EdgeInsets.only(bottom: 10),
             height: 70,
-            decoration: BoxDecoration(
+            /*decoration: BoxDecoration(
               shape: BoxShape.circle,
               image: DecorationImage(
-                image: AssetImage('assets/images/pexels-pixabay.png'),
+                image: AssetImage('assets/images/user.png'),
+                
               ),
+              color: Colors.white
+            ),*/
+            child: Image.asset(
+              'assets/images/user.png',
+              color: Colors.white,
+              width: 55,
             ),
           ),
           Text(

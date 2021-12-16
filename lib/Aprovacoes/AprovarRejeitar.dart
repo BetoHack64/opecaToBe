@@ -104,9 +104,10 @@ class _DashboardState extends State<Dashboard> {
       appBar: AppBar(
         elevation: 5.0,
         backgroundColor: Colors.red[900],
-        title: Text('SOP' + " - " + nome),
+        title: Text('Portal de Operações' + " - " + nome),
         centerTitle: true,
         actions: [
+        //Center(child: Text('Anexos')),
           botaoHomeAparece
               ? IconButton(
                   onPressed: () {
@@ -116,6 +117,7 @@ class _DashboardState extends State<Dashboard> {
                     );
                   },
                   icon: Icon(Icons.attach_file),
+                  
                 )
               : Text(""),
         ],

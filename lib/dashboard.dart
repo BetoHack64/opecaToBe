@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 
 List<Sistema> listaSiste = [];
 List<Sistema> applicationDetailItems = [];
+String idAccount = '';
 
 class Dashboard1 extends StatefulWidget {
   @override
@@ -18,11 +19,22 @@ class _Dashboard1State extends State<Dashboard1> {
   @override
   initState() {
     super.initState();
-    buscaOperacoes().then((value) {
+    pegaDados().then((value) {
       setState(() {
-        listaSiste = value;
+        idAccount = value;
+        buscaOperacoes(idAccount).then((value) {
+          setState(() {
+            listaSiste = value;
+          });
+        });
       });
+      print(idAccount + " teste");
     });
+  }
+
+  Future<String> pegaDados() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    return (sharedPreferences.getString("IdAccount") ?? "");
   }
 
   @override
@@ -100,10 +112,12 @@ class _Dashboard1State extends State<Dashboard1> {
     "assets/images/icons8-calculator-64.png",
     "assets/images/icons8-calculator-64.png"
   ];
-  Future<List<Sistema>> buscaOperacoes() async {
+  Future<List<Sistema>> buscaOperacoes(String accountID) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-
-    var url = Uri.parse('http://83.240.225.239:130/api/Systems?AccountID=1001');
+    //idAccount = (sharedPreferences.getString("IdAccount") ?? "");
+    var url = Uri.parse(
+        'http://83.240.225.239:130/api/Systems?AccountID=' + accountID);
+    print(url);
     var token = (sharedPreferences.getString("access_token") ?? "");
     var header = {
       "Content-Type": "application/json",

@@ -226,7 +226,7 @@ class _DashboardState extends State<Dashboard> {
       appBar: AppBar(
         elevation: 0.1,
         backgroundColor: Colors.red[900],
-        title: Text('SOP' + traco + nome),
+        title: Text('Portal de Operações' + traco + nome),
         actions: [
           IconButton(
             onPressed: () {
