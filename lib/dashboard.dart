@@ -25,6 +25,7 @@ class _Dashboard1State extends State<Dashboard1> {
         buscaOperacoes(idAccount).then((value) {
           setState(() {
             listaSiste = value;
+            //print(idAccount + " testes");
           });
         });
       });

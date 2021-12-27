@@ -1,3 +1,4 @@
+import 'package:SOP/Authentication/logar.dart';
 import 'package:flutter/material.dart';
 import 'package:SOP/dashboard.dart';
 import 'package:SOP/Authentication/login.dart';
@@ -10,7 +11,7 @@ void main() {
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: (estaLogado == true) ? Home() : LoginTela(),
+      home: (estaLogado == true) ? Home() : LoginScreem(),
     ),
   );
 }
@@ -18,8 +19,6 @@ void main() {
 class Home extends StatefulWidget {
   @override
   HomeState createState() => new HomeState();
-
-
 }
 
 class HomeState extends State<Home> {
@@ -44,12 +43,13 @@ class HomeState extends State<Home> {
     var sharedPreferences = await SharedPreferences.getInstance();
     return (sharedPreferences.getBool("isLoggedIn") ?? false);
   }
+
   partilha() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.clear();
     prefs.commit();
     Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => LoginTela()),
+        MaterialPageRoute(builder: (context) => LoginScreem()),
         (Route<dynamic> route) => false);
   }
 
@@ -92,7 +92,7 @@ class HomeState extends State<Home> {
       ),
       child: Column(
         children: [
-          menuItem(1, "Dashboard", Icons.dashboard_outlined,
+          menuItem(1, "Home", Icons.dashboard_outlined,
               currentPage == DrawerSections.dashboard ? true : false),
           menuItem(2, "Sair", Icons.exit_to_app,
               currentPage == DrawerSections.logout ? true : false),

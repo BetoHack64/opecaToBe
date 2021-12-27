@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:SOP/Authentication/logar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:SOP/Authentication/login.dart';
@@ -35,7 +36,7 @@ class InitState extends State<Splashscrem> {
   loginRoute() {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => LoginTela()),
+      MaterialPageRoute(builder: (context) => LoginScreem()),
     );
   }
 
@@ -47,7 +48,7 @@ class InitState extends State<Splashscrem> {
         children: [
           Container(
             decoration: BoxDecoration(
-              color: Colors.red,
+              color: Colors.white,
               /* gradient: LinearGradient(
                 colors: [(Colors.red), (Color(0xFFEF5350))],
                 begin: Alignment.topCenter,
@@ -58,9 +59,8 @@ class InitState extends State<Splashscrem> {
           Center(
             child: Container(
               child: Image.asset(
-                "assets/images/logo.png",
-                color: Colors.white,
-                scale: 0.6,
+                "assets/images/sop.png",
+                scale: 0.9,
               ),
             ),
           ),
@@ -69,15 +69,16 @@ class InitState extends State<Splashscrem> {
             child: Padding(
               padding: const EdgeInsets.only(top: 115),
               child: Center(
-                  child: Text(
-                'SOP'.toUpperCase(),
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold),
-              )),
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation(Colors.red[900]),
+                ),
+              ),
             ),
-          )
+          ),
+
+          /////////////////////////
+
+          /////////////////////////
         ],
       ),
     );

@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:SOP/caixaPesquisaAnimacao.dart';
 import 'package:SOP/dashboard.dart';
 import 'package:SOP/Aprovacoes/itemsLista.dart';
 import 'package:SOP/Home/main.dart';
@@ -10,7 +9,7 @@ import 'package:SOP/Header/my_header_drawer.dart';
 String traco = ' - ';
 String nome = '';
 String id = '0';
-
+int toggle = 1;
 List<CardDetail> _foundUsers = [];
 bool botaoHomeAparece = true;
 bool caixaDePesquisaEstaVisivel = false;
@@ -26,6 +25,7 @@ class ListaAprovacoes extends StatefulWidget {
     traco = trac;
     botaoHomeAparece = botaoAparece;
     cardss = lista;
+    caixaDePesquisaEstaVisivel = false;
     //print(cardss);
   }
 
@@ -101,7 +101,7 @@ class _DashboardState extends State<Dashboard> {
       ),
       child: Column(
         children: [
-          menuItem(1, "Dashboard", Icons.dashboard_outlined,
+          menuItem(1, "Home", Icons.dashboard_outlined,
               currentPage == DrawerSections.dashboard ? true : false),
           menuItem(2, "Sair", Icons.exit_to_app,
               currentPage == DrawerSections.logout ? true : false),
@@ -200,13 +200,14 @@ class _DashboardState extends State<Dashboard> {
       traco = '';
       nome = '';
       botaoHomeAparece = false;
+      
       container = Dashboard1();
     } else if (currentPage == DrawerSections.logout) {
       //container = LoginTela();
     }
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      floatingActionButton: botaoHomeAparece
+      /*floatingActionButton: botaoHomeAparece
           ? FloatingActionButton(
               //Floating action button on Scaffold
               onPressed: () {
@@ -220,28 +221,54 @@ class _DashboardState extends State<Dashboard> {
               backgroundColor: Colors.white, //icon inside button
               elevation: 10.0,
             )
-          : null,
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+          : null,*/
+      //floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0.1,
         backgroundColor: Colors.red[900],
-        title: Text('Portal de Operações' + traco + nome),
+        title: (botaoHomeAparece == false)
+            ? Text("Portal de Operações")
+            : Text(
+                'Portal de Operações' + traco + nome,
+                style:
+                    TextStyle(fontSize: (botaoHomeAparece == true) ? 20 : 20),
+              ),
         actions: [
-          IconButton(
-            onPressed: () {
-              setState(() {
-                if (caixaDePesquisaEstaVisivel) {
-                  caixaDePesquisaEstaVisivel = false;
-                } else {
-                  caixaDePesquisaEstaVisivel = true;
-                }
-              });
-            },
-            icon: Icon(
-              Icons.search,
-            ),
-          ),
+          (botaoHomeAparece == false)
+              ? Text("")
+              : Row(
+                  children: [
+                    /*Padding(
+                      padding: const EdgeInsets.only(right: 0.0),
+                      child: IconButton(
+                        onPressed: () {
+                          _selecionaSistema(context);
+                        },
+                        icon: Icon(
+                          Icons.home,
+                        ),
+                      ),
+                    ),*/
+                    Padding(
+                      padding: const EdgeInsets.only(right: 0.0),
+                      child: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            if (caixaDePesquisaEstaVisivel) {
+                              caixaDePesquisaEstaVisivel = false;
+                            } else {
+                              caixaDePesquisaEstaVisivel = true;
+                            }
+                          });
+                        },
+                        icon: Icon(
+                          Icons.search,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
         ],
         centerTitle: true,
       ),
@@ -252,7 +279,7 @@ class _DashboardState extends State<Dashboard> {
                   color: Colors.grey[50],
                   child: Center(
                     child: Container(
-                      height: 90.0,
+                      height: 60.0,
                       width: 250.0,
                       alignment: Alignment(-1.0, 0.0),
                       child: caixaDePesquisaEstaVisivel
@@ -267,7 +294,7 @@ class _DashboardState extends State<Dashboard> {
                                   boxShadow: [
                                     BoxShadow(
                                       color: Colors.black26,
-                                      spreadRadius: -10.0,
+                                      spreadRadius: -14.0,
                                       blurRadius: 10.0,
                                       offset: Offset(-4.0, 10.0),
                                     ),
@@ -315,6 +342,8 @@ class _DashboardState extends State<Dashboard> {
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(30.0),
                                     child: IconButton(
+                                    splashRadius: 20.0,
+                                    splashColor: Colors.grey,
                                       onPressed: () {
                                         setState(() {});
                                       },
@@ -328,7 +357,7 @@ class _DashboardState extends State<Dashboard> {
                               ),
                             )
                           : Container(
-                              margin: EdgeInsets.only(top: 29),
+                              margin: EdgeInsets.only(top: 12),
                               child: Center(
                                   child: Column(
                                 children: [
@@ -360,6 +389,7 @@ class _DashboardState extends State<Dashboard> {
                             data: _foundUsers[index].subtitle,
                             valor: _foundUsers[index].valor.toString(),
                             moeda: _foundUsers[index].moeda,
+                            index: index,
                           ),
                         )
                       : Container(

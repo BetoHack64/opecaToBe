@@ -5,10 +5,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class FuncoesAPI {
- static Future<List<CardDetail>> buscaOperacoes() async {
+ static Future<List<CardDetail>> buscaOperacoes(int appID) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var url = Uri.parse(
-        'http://83.240.225.239:130/api/Operation?ApplicationID=51000000');
+        'http://83.240.225.239:130/api/Operation?ApplicationID=' + appID.toString());
+        print(url);
     var token = (sharedPreferences.getString("access_token") ?? "");
     var header = {
       "Content-Type": "application/json",

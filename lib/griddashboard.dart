@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:SOP/Aprovacoes/listaAprovacoes.dart';
 import 'package:SOP/Models/FuncoesAPI.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 String traco = ' - ';
 List<Sistema> applicationDetailItems = [];
 List<CardDetail> cardss = [];
+int id = 0;
 
 class GridDashboard extends StatefulWidget {
   //List<Sistema> applicationDetailItems =[];
@@ -20,12 +22,18 @@ class _GridDashboardState extends State<GridDashboard> {
   @override
   initState() {
     super.initState();
-    FuncoesAPI.buscaOperacoes().then((value) {
+    /*FuncoesAPI.buscaOperacoes().then((value) {
+      cardss = value;
+    });*/
+    FuncoesAPI.buscaOperacoes(51000000).then((value) {
       cardss = value;
     });
   }
 
-  void _selecionaSistema(BuildContext context, String sistema) {
+  Future<void> _selecionaSistema(
+      BuildContext context, String sistema, int appID) async {
+    /*SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setInt("ApplicationID", appID);*/
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) {
@@ -51,7 +59,8 @@ class _GridDashboardState extends State<GridDashboard> {
         children: myList.map(
           (data) {
             return InkWell(
-              onTap: () => _selecionaSistema(context, data.applicationCod),
+              onTap: () => _selecionaSistema(
+                  context, data.applicationCod, data.applicationID),
               borderRadius: BorderRadius.circular(10),
               child: Container(
                 decoration: BoxDecoration(

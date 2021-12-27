@@ -58,7 +58,7 @@ class _DashboardState extends State<Dashboard> {
   @override
   initState() {
     super.initState();
-    FuncoesAPI.buscaOperacoes().then((value) {
+    FuncoesAPI.buscaOperacoes(0).then((value) {
       listaDeOperacoes = value;
     });
   }
@@ -104,10 +104,12 @@ class _DashboardState extends State<Dashboard> {
       appBar: AppBar(
         elevation: 5.0,
         backgroundColor: Colors.red[900],
-        title: Text('Portal de Operações' + " - " + nome),
+        title: botaoHomeAparece == false
+            ? Text("Portal de Operações")
+            : Text('Portal de Operações' + " - " + nome),
         centerTitle: true,
         actions: [
-        //Center(child: Text('Anexos')),
+          //Center(child: Text('Anexos')),
           botaoHomeAparece
               ? IconButton(
                   onPressed: () {
@@ -117,7 +119,6 @@ class _DashboardState extends State<Dashboard> {
                     );
                   },
                   icon: Icon(Icons.attach_file),
-                  
                 )
               : Text(""),
         ],
@@ -138,11 +139,10 @@ class _DashboardState extends State<Dashboard> {
                     child: Text(
                       "DETALHES DA OPERAÇÃO".toUpperCase(),
                       style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "Open Sans"
-                      ),
+                          color: Colors.grey,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "Open Sans"),
                     ),
                   )),
 //Fim da Informação de Cabeçalho
@@ -154,11 +154,10 @@ class _DashboardState extends State<Dashboard> {
                     child: Text(
                       "${tit}".toUpperCase(), //Nome Ope
                       style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "Open Sans"
-                      ),
+                          color: Colors.grey,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "Open Sans"),
                     ),
                   )),
 //Fim informação de Operação
@@ -169,11 +168,10 @@ class _DashboardState extends State<Dashboard> {
                     child: Text(
                       "VAL. ${valor}  ${cash}".toUpperCase(),
                       style: TextStyle(
-                            color: Colors.red[900],
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "Open Sans"
-                      ),
+                          color: Colors.red[900],
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "Open Sans"),
                     ),
                   )),
 //Fim informação de Operação
@@ -195,15 +193,17 @@ class _DashboardState extends State<Dashboard> {
 //texto ID Fim
 //Texto IconData
                   Padding(
-                    padding: EdgeInsets.only(top: 2, bottom: 10, left: MediaQuery.of(context).size.width-160),
+                    padding: EdgeInsets.only(
+                        top: 2,
+                        bottom: 10,
+                        left: MediaQuery.of(context).size.width - 160),
                     child: Text(
                       "ID: ${id}",
                       style: TextStyle(
-                            color: Colors.red[900],
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "Open Sans"
-                      ),
+                          color: Colors.red[900],
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "Open Sans"),
                     ),
                   ),
 
@@ -213,12 +213,11 @@ class _DashboardState extends State<Dashboard> {
                     padding: EdgeInsets.only(top: 2, bottom: 10, left: 10),
                     child: Text(
                       "Ordenante".toUpperCase(),
-                      style:TextStyle(
-                            color: Colors.red[900],
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "Open Sans"
-                      ),
+                      style: TextStyle(
+                          color: Colors.red[900],
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "Open Sans"),
                     ),
                   ),
 
@@ -286,11 +285,10 @@ class _DashboardState extends State<Dashboard> {
                     child: Text(
                       "Dados da Operação".toUpperCase(),
                       style: TextStyle(
-                            color: Colors.red[900],
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "Open Sans"
-                      ),
+                          color: Colors.red[900],
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "Open Sans"),
                     ),
                   ),
 
@@ -306,7 +304,7 @@ class _DashboardState extends State<Dashboard> {
                       child: ListTile(
                         contentPadding: EdgeInsets.symmetric(
                             horizontal: 20.0, vertical: 10.0),
-                      /*  leading: Container(
+                        /*  leading: Container(
                           padding: EdgeInsets.only(right: 12.0),
                           decoration: new BoxDecoration(
                               border: new Border(
@@ -336,7 +334,7 @@ class _DashboardState extends State<Dashboard> {
                       child: ListTile(
                         contentPadding: EdgeInsets.symmetric(
                             horizontal: 20.0, vertical: 10.0),
-                       /* leading: Container(
+                        /* leading: Container(
                           padding: EdgeInsets.only(right: 12.0),
                           decoration: new BoxDecoration(
                               border: new Border(
@@ -369,7 +367,7 @@ class _DashboardState extends State<Dashboard> {
                       child: ListTile(
                         contentPadding: EdgeInsets.symmetric(
                             horizontal: 20.0, vertical: 10.0),
-                       /* leading: Container(
+                        /* leading: Container(
                           padding: EdgeInsets.only(right: 12.0),
                           decoration: new BoxDecoration(
                               border: new Border(
@@ -413,7 +411,7 @@ class _DashboardState extends State<Dashboard> {
                       child: ListTile(
                         contentPadding: EdgeInsets.symmetric(
                             horizontal: 20.0, vertical: 10.0),
-                      /*  leading: Container(
+                        /*  leading: Container(
                           padding: EdgeInsets.only(right: 12.0),
                           decoration: new BoxDecoration(
                               border: new Border(
@@ -528,7 +526,7 @@ class _DashboardState extends State<Dashboard> {
       ),
       child: Column(
         children: [
-          menuItem(1, "Dashboard", Icons.dashboard_outlined,
+          menuItem(1, "Home", Icons.dashboard_outlined,
               currentPage == DrawerSections.dashboard ? true : false),
           menuItem(2, "Sair", Icons.exit_to_app,
               currentPage == DrawerSections.logout ? true : false),
