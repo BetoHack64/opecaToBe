@@ -1,15 +1,12 @@
 import 'dart:async';
 
 import 'package:SOP/Authentication/logar.dart';
+import 'package:SOP/src/business_logic/blocs/splash/splashBloc.dart';
+import 'package:SOP/src/views/ui/Splash/juncaoDosWidgetsSplashUI.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:SOP/Authentication/login.dart';
-
-double tam = 0;
 
 class Splashscrem extends StatefulWidget {
-  Splashscrem({Key? key}) : super(key: key);
-
   @override
   State<StatefulWidget> createState() => InitState();
 }
@@ -24,20 +21,7 @@ class InitState extends State<Splashscrem> {
   @override
   void initState() {
     super.initState();
-    InicioTempo();
-  }
-
-  //Função do tempo
-  InicioTempo() async {
-    var duracao = Duration(seconds: 3);
-    return new Timer(duracao, loginRoute);
-  }
-
-  loginRoute() {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => LoginScreem()),
-    );
+    SplashBloc().inicioTempo(context);
   }
 
   //função init widget
@@ -75,10 +59,6 @@ class InitState extends State<Splashscrem> {
               ),
             ),
           ),
-
-          /////////////////////////
-
-          /////////////////////////
         ],
       ),
     );
