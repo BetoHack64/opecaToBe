@@ -6,6 +6,7 @@ import 'dart:ui';
 import 'package:blurry/blurry.dart';
 import 'package:flutter/material.dart';
 import 'package:SOP/Home/main.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -443,7 +444,7 @@ class _LoginScreemState extends State<LoginScreem> {
       sharedPreferences.setString("Nome", usuario);
       sharedPreferences.setString(
           "IdAccount", mapResponse['User']['IdAccount'].toString());
-          
+
       token(usuario, password);
     } else {
       Blurry.error(

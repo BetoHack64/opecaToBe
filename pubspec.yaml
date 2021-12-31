@@ -41,6 +41,7 @@ dependencies:
   blurry: ^1.0.0
   equatable: ^2.0.3
   flutter_bloc: ^7.0.0
+  data_connection_checker: ^0.3.4
 
 dev_dependencies:
   flutter_test:
@@ -58,23 +59,11 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/calendar.png
-    - assets/images/notification.png
-    - assets/images/salary.png
-    - assets/images/budget.png
     - assets/images/synchronize.png
     - assets/images/icons8-basket-50.png
-    - assets/images/donate.png
-    - assets/images/priest.png
-    - assets/images/donate-50.png
-    - assets/images/icons8-credit-card-60.png
-    - assets/images/money-transfer-100.png
     - assets/images/money-transfer.png
-    - assets/images/pexels-pixabay.png
     - assets/images/calculator-50.png
     - assets/images/group-64.png
-    - assets/images/money-bag-50.png
-    - assets/images/swatchbook.png
     - assets/images/logo.png
     - assets/images/search.png
     - assets/images/icons8-coin-in-hand-90.png
