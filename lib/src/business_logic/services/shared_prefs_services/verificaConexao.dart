@@ -1,19 +1,13 @@
 import 'dart:io';
 
 class VerificaConexao {
-  
-  
-  teste() async{
-    bool verifica = await conectar();
-    return verifica;
-  }
-  Future<bool>  conectar()async {
+  Future<List> buscaConexao() async {
     List resultado = [];
     try {
       resultado = await InternetAddress.lookup('google.com');
-      print(resultado);
-      return resultado.isNotEmpty;
+      //print(resultado);
+      return resultado;
     } catch (e) {}
-    return resultado.isNotEmpty;
+    return resultado;
   }
 }

@@ -1,4 +1,4 @@
-import 'package:SOP/Authentication/logar.dart';
+import 'package:SOP/src/views/ui/login/logar.dart';
 import 'package:flutter/material.dart';
 import 'package:SOP/dashboard.dart';
 import 'package:SOP/Authentication/login.dart';

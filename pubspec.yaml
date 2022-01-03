@@ -61,7 +61,9 @@ flutter:
   assets:
     - assets/images/synchronize.png
     - assets/images/icons8-basket-50.png
+    - assets/images/donate-50.png
     - assets/images/money-transfer.png
+    - assets/images/money-transfer-100.png
     - assets/images/calculator-50.png
     - assets/images/group-64.png
     - assets/images/logo.png

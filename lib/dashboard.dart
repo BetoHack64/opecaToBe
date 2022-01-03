@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:SOP/Models/apiJsonToObjectSistemas.dart';
+import 'package:SOP/src/business_logic/models/apiJsonToObjectSistemas.dart';
 import 'package:SOP/griddashboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;

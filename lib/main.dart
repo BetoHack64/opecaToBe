@@ -7,7 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:SOP/src/views/ui/Splash/splash.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+List listaConexao = [];
 void main() {
+//bool t = false;
+//VerificaConexao().conectar().then((value) => t=value);
+//print(t);
   runApp(MyApp());
 }
 
@@ -18,11 +22,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool test = false;
   @override
   void initState() {
     super.initState();
-    
   }
 
   @override
@@ -30,9 +32,10 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: BlocProvider<SplashBloc>(
-        create: (_) =>
-            SplashBloc(SplashRunningState(), VerificaConexao().teste())..add(SplashGetConnection()),
-        child:Splashscrem(),
+        create: (_) {
+          return SplashBloc(SplashRunningState())..add(SplashGetConnection());
+        },
+        child: Splashscrem(),
       ),
     );
   }
