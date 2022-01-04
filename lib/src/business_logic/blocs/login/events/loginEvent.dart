@@ -10,3 +10,5 @@ class LoginGetConnection extends LoginEvent {}
 class LoginExecutedError extends LoginEvent {}
 
 class LoginExecutedSuccess extends LoginEvent {}
+
+class LoginProcessing extends LoginEvent {}

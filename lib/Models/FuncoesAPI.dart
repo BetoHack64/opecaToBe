@@ -2,15 +2,14 @@ import 'dart:convert';
 
 import 'package:SOP/Aprovacoes/listaAprovacoes.dart';
 import 'package:SOP/Home/main.dart';
-import 'package:blurry/blurry.dart';
+import 'package:SOP/src/business_logic/blocs/login/events/loginEvent.dart';
+import 'package:SOP/src/business_logic/blocs/login/loginBloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class FuncoesAPI {
-  TextEditingController user = TextEditingController();
-  TextEditingController pass = TextEditingController();
-  late String _user, _pass;
 /*
     *   Funcao para obter o token
     *   Recebe como parametro, o nome do usuario e a senha
@@ -35,8 +34,6 @@ class FuncoesAPI {
 
     // Converte a string "corpo" para uma string no formato JSON
     var _body = json.encode(corpo);
-
-    //print("json enviado : $_body");
 
     // Envia uma requisiçao POST com o seu devido cabeçalho e corpo à URL
     var response = await http.post(url, headers: header, body: corpo);
@@ -81,17 +78,7 @@ class FuncoesAPI {
 
       token(usuario, password, context);
     } else {
-      Blurry.error(
-        title: 'Autenticação',
-        description: 'Usuário ou senha inválidos',
-        confirmButtonText: 'Ok',
-        onConfirmButtonPressed: () {
-          Navigator.pop(context);
-        },
-        displayCancelButton: false,
-      ).show(context);
-      user.clear();
-      pass.clear();
+      BlocProvider.of<LoginBloc>(context).add(LoginExecutedError());
     }
   }
 
@@ -111,8 +98,6 @@ class FuncoesAPI {
     var response = await http.get(url, headers: header);
     Map userMap = jsonDecode(response.body);
     List<CardDetail> cards = [];
-    //print(userMap['OperationList'][0]['Area']);
-    //print(sis);
     if (userMap.isNotEmpty) {
       for (var item in userMap['OperationList']) {
         cards.add(
@@ -128,7 +113,6 @@ class FuncoesAPI {
       }
       return cards;
     } else {
-      print('Bug');
       return [];
     }
   }
