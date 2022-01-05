@@ -12,3 +12,4 @@ class LoginExecutedError extends LoginEvent {}
 class LoginExecutedSuccess extends LoginEvent {}
 
 class LoginProcessing extends LoginEvent {}
+class LoginProcessing1 extends LoginEvent {}

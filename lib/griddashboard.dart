@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:SOP/Aprovacoes/listaAprovacoes.dart';
 import 'package:SOP/Models/FuncoesAPI.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 String traco = ' - ';
 List<Sistema> applicationDetailItems = [];
 List<CardDetail> cardss = [];
 int id = 0;
 
 class GridDashboard extends StatefulWidget {
-  //List<Sistema> applicationDetailItems =[];
   GridDashboard({required List<Sistema> items}) {
     applicationDetailItems = items;
   }
@@ -22,9 +19,6 @@ class _GridDashboardState extends State<GridDashboard> {
   @override
   initState() {
     super.initState();
-    /*FuncoesAPI.buscaOperacoes().then((value) {
-      cardss = value;
-    });*/
     FuncoesAPI.buscaOperacoes(51000000).then((value) {
       cardss = value;
     });
@@ -46,9 +40,7 @@ class _GridDashboardState extends State<GridDashboard> {
 
   @override
   Widget build(BuildContext context) {
-    //print(applicationDetailItems);
     List<Sistema> myList = applicationDetailItems;
-    var color = 0xffEf5350;
     return Flexible(
       child: GridView.count(
         childAspectRatio: 1.0,

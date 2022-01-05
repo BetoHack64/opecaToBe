@@ -4,6 +4,7 @@ import 'package:SOP/Aprovacoes/listaAprovacoes.dart';
 import 'package:SOP/Home/main.dart';
 import 'package:SOP/src/business_logic/blocs/login/events/loginEvent.dart';
 import 'package:SOP/src/business_logic/blocs/login/loginBloc.dart';
+import 'package:SOP/src/views/ui/login/mensagem.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -61,7 +62,8 @@ class FuncoesAPI {
 
   //---------------------------
   //Pega os dados do user
-  contaUsuario(String usuario, String password, BuildContext context) async {
+  contaUsuario(String usuario, String password, TextEditingController user,
+      TextEditingController pass, BuildContext context) async {
     var url = Uri.parse('http://83.240.225.239:130/api/Authenticate');
 
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -78,7 +80,14 @@ class FuncoesAPI {
 
       token(usuario, password, context);
     } else {
-      BlocProvider.of<LoginBloc>(context).add(LoginExecutedError());
+      //Future.delayed(Duration.zero, () => MensagemLogin.erroLogin(context));
+      // pass.clear();
+      //user.clear();
+      Future.delayed(Duration.zero, () => MensagemLogin.erroLogin(context));
+      user.clear();
+      pass.clear();
+      BlocProvider.of<LoginBloc>(context).add(LoginProcessing1());
+      //BlocProvider.of<LoginBloc>(context).add(LoginExecutedError());
     }
   }
 

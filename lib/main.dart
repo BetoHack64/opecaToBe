@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:SOP/src/views/ui/Splash/splash.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-List listaConexao = [];
 void main() {
   runApp(MyApp());
 }

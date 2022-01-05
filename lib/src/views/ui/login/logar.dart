@@ -32,11 +32,10 @@ class _LoginScreemState extends State<LoginScreem> {
           if (state is LoginErrorState) {
             Future.delayed(
                 Duration.zero, () => MensagemLogin.erroLogin(context));
-            user.clear();
-            pass.clear();
+            print("teste");
           }
           if (state is LoginSucessedState) {
-            FuncoesAPI().contaUsuario(_user, _pass, context);
+            FuncoesAPI().contaUsuario(_user, _pass, user, pass, context);
           }
 
           return Stack(

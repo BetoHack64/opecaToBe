@@ -10,6 +10,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<LoginGetConnection>((event, emit) => emit(verificarConexao(verifica)));
     on<LoginProcessing>((event, emit) => emit(verificarCredenciais()));
     on<LoginExecutedError>((event, emit) => emit(erroCredenciais()));
+    on<LoginProcessing1>((event, emit) => emit(normal()));
   }
 
   LoginState verificarConexao(bool v) {
@@ -35,5 +36,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   LoginState erroCredenciais() {
     return LoginErrorState(message: "Usuário ou senha inválidos!");
+  }
+  LoginState normal() {
+    return ButtonLoginState();
   }
 }

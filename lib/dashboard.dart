@@ -111,6 +111,7 @@ class _Dashboard1State extends State<Dashboard1> {
     "assets/images/icons8-coin-in-hand-90.png",
     "assets/images/analytics.png",
     "assets/images/icons8-calculator-64.png",
+    "assets/images/icons8-calculator-64.png",
     "assets/images/icons8-calculator-64.png"
   ];
   Future<List<Sistema>> buscaOperacoes(String accountID) async {
