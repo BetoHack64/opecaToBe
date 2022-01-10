@@ -42,6 +42,9 @@ dependencies:
   equatable: ^2.0.3
   flutter_bloc: ^7.0.0
   data_connection_checker: ^0.3.4
+  flutter_full_pdf_viewer: any
+  path_provider: ^2.0.0
+  advance_pdf_viewer: any
 
 dev_dependencies:
   flutter_test:
@@ -76,6 +79,7 @@ flutter:
     - assets/images/swatchbook.png
     - assets/images/sop.png
     - assets/images/keve_exe.jpg
+    - assets/PDFs/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

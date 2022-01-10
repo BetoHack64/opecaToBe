@@ -1,10 +1,9 @@
 // ignore_for_file: prefer_const_constructors, use_full_hex_values_for_flutter_colors, prefer_const_literals_to_create_immutables
-import 'package:SOP/Models/FuncoesAPI.dart';
+import 'package:SOP/src/business_logic/services/api_services/FuncoesAPI.dart';
 import 'package:SOP/src/business_logic/blocs/login/events/loginEvent.dart';
 import 'package:SOP/src/business_logic/blocs/login/loginBloc.dart';
 import 'package:SOP/src/business_logic/blocs/login/states/loginState.dart';
 import 'package:SOP/src/views/ui/login/mensagem.dart';
-import 'package:blurry/blurry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,11 +27,11 @@ class _LoginScreemState extends State<LoginScreem> {
           if (state is LoginErrorConectionState) {
             Future.delayed(
                 Duration.zero, () => MensagemLogin.erroConexao(context));
+                BlocProvider.of<LoginBloc>(context).add(LoginProcessing1());
           }
           if (state is LoginErrorState) {
             Future.delayed(
                 Duration.zero, () => MensagemLogin.erroLogin(context));
-            print("teste");
           }
           if (state is LoginSucessedState) {
             FuncoesAPI().contaUsuario(_user, _pass, user, pass, context);
