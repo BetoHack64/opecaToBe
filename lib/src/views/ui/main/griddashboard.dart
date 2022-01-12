@@ -1,6 +1,9 @@
+
 import 'package:SOP/src/views/ui/Lista_Aprovacoes/listaAprovacoes.dart';
+import 'package:SOP/src/views/ui/main/iconSistema.dart';
 import 'package:flutter/material.dart';
 import 'package:SOP/src/business_logic/services/api_services/FuncoesAPI.dart';
+
 String traco = ' - ';
 List<Sistema> applicationDetailItems = [];
 List<CardDetail> cardss = [];
@@ -101,11 +104,9 @@ class _GridDashboardState extends State<GridDashboard> {
                       margin: EdgeInsets.only(left: 120, bottom: 0),
                     ),
                     Container(
-                      child: Image.asset(
-                        data.iconClass,
-                        color: Colors.black,
-                        width: 55,
-                      ),
+                      child: IconSistema(
+                          imageAnalysed: data.iconBase64,
+                          nome: data.applicationCod),
                       margin: EdgeInsets.only(bottom: 16),
                     ),
                     Container(
@@ -143,14 +144,14 @@ class Sistema {
   late final String applicationCod;
   late final String applicationName;
   late final String applicationNameShort;
-  late final String iconClass;
+  late final String iconBase64;
   late final String numOperations;
   Sistema({
     required this.applicationID,
     required this.applicationCod,
     required this.applicationName,
     required this.applicationNameShort,
-    required this.iconClass,
+    required this.iconBase64,
     required this.numOperations,
   });
 }

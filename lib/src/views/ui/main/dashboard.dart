@@ -85,7 +85,7 @@ class _Dashboard1State extends State<Dashboard1> {
               applicationCod: element.applicationCod,
               applicationName: element.applicationName,
               applicationNameShort: element.applicationNameShort,
-              iconClass: iconesLista[i],
+              iconBase64: element.iconBase64,
               numOperations: element.numOperations),
         );
 

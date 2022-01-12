@@ -46,7 +46,7 @@ class ApplicationDetailItems {
   late String applicationCod;
   late String applicationName;
   late String applicationNameShort;
-  late String iconClass;
+  late String iconBase64;
   late String numOperations;
 
   ApplicationDetailItems(
@@ -54,7 +54,7 @@ class ApplicationDetailItems {
       required this.applicationCod,
       required this.applicationName,
       required this.applicationNameShort,
-      required this.iconClass,
+      required this.iconBase64,
       required this.numOperations});
 
   ApplicationDetailItems.fromJson(Map<String, dynamic> json) {
@@ -62,7 +62,7 @@ class ApplicationDetailItems {
     applicationCod = json['ApplicationCod'];
     applicationName = json['ApplicationName'];
     applicationNameShort = json['ApplicationNameShort'];
-    iconClass = json['IconClass'];
+    iconBase64 = json['IconBase64'];
     numOperations = json['NumOperations'];
   }
 
@@ -72,7 +72,7 @@ class ApplicationDetailItems {
     data['ApplicationCod'] = this.applicationCod;
     data['ApplicationName'] = this.applicationName;
     data['ApplicationNameShort'] = this.applicationNameShort;
-    data['IconClass'] = this.iconClass;
+    data['IconBase64'] = this.iconBase64;
     data['NumOperations'] = this.numOperations;
     return data;
   }
