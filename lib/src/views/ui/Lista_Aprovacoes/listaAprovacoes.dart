@@ -1,9 +1,12 @@
+import 'package:SOP/src/business_logic/blocs/listaOperacoes/listaOperacoesBloc.dart';
+import 'package:SOP/src/business_logic/blocs/listaOperacoes/states/listaOperacoesState.dart';
 import 'package:SOP/src/views/ui/Lista_Aprovacoes/itemsLista.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:SOP/src/views/ui/main/dashboard.dart';
 import 'package:SOP/src/views/ui/main/main.dart';
 import 'package:SOP/src/views/ui/Header/my_header_drawer.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 //import 'constant.dart';
 
 String traco = ' - ';
@@ -26,7 +29,6 @@ class ListaAprovacoes extends StatefulWidget {
     botaoHomeAparece = botaoAparece;
     cardss = lista;
     caixaDePesquisaEstaVisivel = false;
-    //print(cardss);
   }
 
   @override
@@ -36,23 +38,12 @@ class ListaAprovacoes extends StatefulWidget {
 class _ListaAprovacoesState extends State<ListaAprovacoes> {
   @override
   void initState() {
-    /*_getThingsOnStartup().then((value){
-      print('Async done');
-      
-    });*/
-    //buscaOperacoes();
     super.initState();
-    //buscaOperacoes(nome);
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      /*title: 'OpecaA',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),*/
       home: Dashboard(),
     );
   }
@@ -174,9 +165,6 @@ class _DashboardState extends State<Dashboard> {
                 .contains(enteredKeyword.toLowerCase()) ||
             card.valor.toLowerCase().contains(enteredKeyword.toLowerCase());
       }).toList();
-      //toLowerCase().contains((enteredKeyword.toLowerCase()))
-      //.toList();
-      // we use the toLowerCase() method to make it case-insensitive
     }
 
     // Refresh the UI
@@ -259,137 +247,156 @@ class _DashboardState extends State<Dashboard> {
         centerTitle: true,
       ),
       body: (container == null)
-          ? Column(
-              children: [
-                Container(
-                  color: Colors.grey[50],
-                  child: Center(
-                    child: Container(
-                      height: 60.0,
-                      width: 250.0,
-                      alignment: Alignment(-1.0, 0.0),
-                      child: caixaDePesquisaEstaVisivel
-                          ? AnimatedContainer(
-                              duration: Duration(milliseconds: 375),
-                              height: 48.0,
-                              width: (toggle == 0) ? 48.0 : 250.0,
-                              curve: Curves.easeOut,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(30.0),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black26,
-                                      spreadRadius: -14.0,
-                                      blurRadius: 10.0,
-                                      offset: Offset(-4.0, 10.0),
-                                    ),
-                                  ]),
-                              child: Stack(
-                                children: [
-                                  AnimatedPositioned(
+          ? BlocBuilder<ListaOperacoesBloc, ListaOperacoesState>(
+              bloc: BlocProvider.of<ListaOperacoesBloc>(context),
+              builder: (context, state) {
+              
+                if(state is ListaOperacoesLoadingState){
+                
+                }
+                if (state is ListaOperacoesLoadedSucessState) {
+                  return Column(
+                    children: [
+                      Container(
+                        color: Colors.grey[50],
+                        child: Center(
+                          child: Container(
+                            height: 60.0,
+                            width: 250.0,
+                            alignment: Alignment(-1.0, 0.0),
+                            child: caixaDePesquisaEstaVisivel
+                                ? AnimatedContainer(
                                     duration: Duration(milliseconds: 375),
-                                    left: (toggle == 0) ? 20.0 : 40.0,
-                                    top: 13.0,
+                                    height: 48.0,
+                                    width: (toggle == 0) ? 48.0 : 250.0,
                                     curve: Curves.easeOut,
-                                    child: AnimatedOpacity(
-                                      opacity: (toggle == 0) ? 0.0 : 1.0,
-                                      duration: Duration(milliseconds: 200),
-                                      child: Container(
-                                        height: 23.0,
-                                        width: 200.0,
-                                        child: TextField(
-                                          onChanged: (valor) =>
-                                              _runFilter(valor),
-                                          cursorRadius: Radius.circular(10.0),
-                                          cursorWidth: 2.0,
-                                          cursorColor: Colors.black,
-                                          decoration: InputDecoration(
-                                            floatingLabelBehavior:
-                                                FloatingLabelBehavior.never,
-                                            labelText: 'Procurar...',
-                                            labelStyle: TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 17.0,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                            alignLabelWithHint: true,
-                                            border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20.0),
-                                              borderSide: BorderSide.none,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(30.0),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            spreadRadius: -14.0,
+                                            blurRadius: 10.0,
+                                            offset: Offset(-4.0, 10.0),
+                                          ),
+                                        ]),
+                                    child: Stack(
+                                      children: [
+                                        AnimatedPositioned(
+                                          duration: Duration(milliseconds: 375),
+                                          left: (toggle == 0) ? 20.0 : 40.0,
+                                          top: 13.0,
+                                          curve: Curves.easeOut,
+                                          child: AnimatedOpacity(
+                                            opacity: (toggle == 0) ? 0.0 : 1.0,
+                                            duration:
+                                                Duration(milliseconds: 200),
+                                            child: Container(
+                                              height: 23.0,
+                                              width: 200.0,
+                                              child: TextField(
+                                                onChanged: (valor) =>
+                                                    _runFilter(valor),
+                                                cursorRadius:
+                                                    Radius.circular(10.0),
+                                                cursorWidth: 2.0,
+                                                cursorColor: Colors.black,
+                                                decoration: InputDecoration(
+                                                  floatingLabelBehavior:
+                                                      FloatingLabelBehavior
+                                                          .never,
+                                                  labelText: 'Procurar...',
+                                                  labelStyle: TextStyle(
+                                                    color: Colors.grey,
+                                                    fontSize: 17.0,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                  alignLabelWithHint: true,
+                                                  border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20.0),
+                                                    borderSide: BorderSide.none,
+                                                  ),
+                                                ),
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
+                                        Material(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(30.0),
+                                          child: IconButton(
+                                            splashRadius: 20.0,
+                                            splashColor: Colors.grey,
+                                            onPressed: () {
+                                              setState(() {});
+                                            },
+                                            icon: Image.asset(
+                                              'assets/images/search.png',
+                                              height: 18.0,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                  Material(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(30.0),
-                                    child: IconButton(
-                                      splashRadius: 20.0,
-                                      splashColor: Colors.grey,
-                                      onPressed: () {
-                                        setState(() {});
-                                      },
-                                      icon: Image.asset(
-                                        'assets/images/search.png',
-                                        height: 18.0,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          : Container(
-                              margin: EdgeInsets.only(top: 12),
-                              child: Center(
-                                  child: Column(
-                                children: [
-                                  Text(
-                                    "LISTA DE OPERAÇÕES",
-                                    textScaleFactor: 1.4,
-                                    style: TextStyle(color: Colors.grey),
-                                  ),
-                                  Text(
-                                    "Selecione a operação",
-                                    style: TextStyle(color: Colors.grey),
                                   )
-                                ],
-                              )),
-                            ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 360,
-                  child: _foundUsers.isNotEmpty
-                      ? ListView.builder(
-                          itemCount: _foundUsers.length,
-                          itemBuilder: (context, index) => ItemsLista(
-                            unidadeOrcamental: _foundUsers[index].unidadeOrcamental,
-                            title: _foundUsers[index].title,
-                            subtitle: _foundUsers[index].fornecedor,
-                            sistema: nome,
-                            id: _foundUsers[index].id,
-                            data: _foundUsers[index].subtitle,
-                            valor: _foundUsers[index].valor.toString(),
-                            moeda: _foundUsers[index].moeda,
-                            index: index,
-                          ),
-                        )
-                      : Container(
-                          margin: EdgeInsets.only(bottom: 130),
-                          child: Center(
-                            child: const Text(
-                              'Nenhum resultado encontrado.',
-                              style: TextStyle(fontSize: 20),
-                            ),
+                                : Container(
+                                    margin: EdgeInsets.only(top: 12),
+                                    child: Center(
+                                        child: Column(
+                                      children: [
+                                        Text(
+                                          "LISTA DE OPERAÇÕES",
+                                          textScaleFactor: 1.4,
+                                          style: TextStyle(color: Colors.grey),
+                                        ),
+                                        Text(
+                                          "Selecione a operação",
+                                          style: TextStyle(color: Colors.grey),
+                                        )
+                                      ],
+                                    )),
+                                  ),
                           ),
                         ),
-                ),
-              ],
+                      ),
+                      Expanded(
+                        flex: 360,
+                        child: _foundUsers.isNotEmpty
+                            ? ListView.builder(
+                                itemCount: _foundUsers.length,
+                                itemBuilder: (context, index) => ItemsLista(
+                                  unidadeOrcamental:
+                                      _foundUsers[index].unidadeOrcamental,
+                                  title: _foundUsers[index].title,
+                                  subtitle: _foundUsers[index].fornecedor,
+                                  sistema: nome,
+                                  id: _foundUsers[index].id,
+                                  data: _foundUsers[index].subtitle,
+                                  valor: _foundUsers[index].valor.toString(),
+                                  moeda: _foundUsers[index].moeda,
+                                  index: index,
+                                ),
+                              )
+                            : Container(
+                                margin: EdgeInsets.only(bottom: 130),
+                                child: Center(
+                                  child: const Text(
+                                    'Nenhum resultado encontrado.',
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                ),
+                              ),
+                      ),
+                    ],
+                  );
+                }
+                return Center(child: Text('Erro'));
+              },
             )
           : container,
       drawer: Drawer(

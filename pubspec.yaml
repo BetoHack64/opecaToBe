@@ -45,6 +45,9 @@ dependencies:
   flutter_full_pdf_viewer: any
   path_provider: ^2.0.0
   advance_pdf_viewer: any
+  connectivity: 3.0.6
+  internet_connection_checker: ^0.0.1+3
+  overlay_support: ^1.2.1
 
 dev_dependencies:
   flutter_test:

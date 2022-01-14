@@ -1,13 +1,20 @@
+import 'package:SOP/src/business_logic/blocs/listaOperacoes/events/listaOperacoesEvent.dart';
+import 'package:SOP/src/business_logic/blocs/listaOperacoes/listaOperacoesBloc.dart';
+import 'package:SOP/src/business_logic/blocs/listaOperacoes/states/listaOperacoesState.dart';
+import 'package:SOP/src/business_logic/services/shared_prefs_services/verificaConexao.dart';
 import 'package:SOP/src/views/ui/Lista_Aprovacoes/listaAprovacoes.dart';
 import 'package:SOP/src/views/ui/main/iconSistema.dart';
 import 'package:flutter/material.dart';
 import 'package:SOP/src/business_logic/services/api_services/FuncoesAPI.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 String traco = ' - ';
 List<Sistema> applicationDetailItems = [];
 List<CardDetail> cardss = [];
 int id = 0;
+List lista = [];
+bool temOuNao = false;
 
 class GridDashboard extends StatefulWidget {
   GridDashboard({required List<Sistema> items}) {
@@ -22,9 +29,10 @@ class _GridDashboardState extends State<GridDashboard> {
   @override
   initState() {
     super.initState();
-    FuncoesAPI.buscaOperacoes(51000000,1001).then((value) {
+    FuncoesAPI.buscaOperacoes(51000000, 1001).then((value) {
       cardss = value;
     });
+    ListaOperacoesBloc.temNet().then((value) => temOuNao = value);
   }
 
   Future<String> pegaDados() async {
@@ -40,7 +48,13 @@ class _GridDashboardState extends State<GridDashboard> {
       MaterialPageRoute(
         builder: (context) {
           applicationDetailItems = [];
-          return ListaAprovacoes(sistema, traco, cardss, true);
+          return BlocProvider<ListaOperacoesBloc>(
+            create: (_) {
+              return ListaOperacoesBloc(ListaOperacoesLoadingState(), temOuNao)
+                ..add(ListaOperacoesGetConnection());
+            },
+            child: ListaAprovacoes(sistema, traco, cardss, true),
+          );
         },
       ),
     );
