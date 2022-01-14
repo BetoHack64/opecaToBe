@@ -1,8 +1,8 @@
-
 import 'package:SOP/src/views/ui/Lista_Aprovacoes/listaAprovacoes.dart';
 import 'package:SOP/src/views/ui/main/iconSistema.dart';
 import 'package:flutter/material.dart';
 import 'package:SOP/src/business_logic/services/api_services/FuncoesAPI.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 String traco = ' - ';
 List<Sistema> applicationDetailItems = [];
@@ -22,9 +22,14 @@ class _GridDashboardState extends State<GridDashboard> {
   @override
   initState() {
     super.initState();
-    FuncoesAPI.buscaOperacoes(51000000).then((value) {
+    FuncoesAPI.buscaOperacoes(51000000,1001).then((value) {
       cardss = value;
     });
+  }
+
+  Future<String> pegaDados() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    return (sharedPreferences.getString("IdAccount") ?? "");
   }
 
   Future<void> _selecionaSistema(

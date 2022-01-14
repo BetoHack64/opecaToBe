@@ -4,6 +4,7 @@ import 'package:SOP/src/business_logic/blocs/main/events/mainEvent.dart';
 import 'package:SOP/src/business_logic/blocs/main/mainBloc.dart';
 import 'package:SOP/src/business_logic/blocs/main/states/mainState.dart';
 import 'package:SOP/src/views/ui/login/logar.dart';
+import 'package:SOP/src/views/ui/main/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:SOP/src/views/ui/main/dashboard.dart';
 //import 'package:SOP/listaAprovacoes.dart';
@@ -69,12 +70,12 @@ class HomeState extends State<Home> {
   var currentPage = DrawerSections.dashboard;
   @override
   Widget build(BuildContext context) {
-    var container;
+    /*var container;
     if (currentPage == DrawerSections.dashboard) {
       container = Dashboard1();
     } else if (currentPage == DrawerSections.logout) {
-      partilha();
-    }
+      //partilha();
+    }*/
     return Scaffold(
       appBar: AppBar(
         title: Text('Portal de Operações'),
@@ -101,12 +102,12 @@ class HomeState extends State<Home> {
             return Center(child: Text(state.message));
           }
           if (state is MainProcessedState) {
-            return container;
+            return Dashboard1();
           }
           return Text("");
         },
       ),
-      drawer: Drawer(
+      drawer: DrawerMenu(),/* Drawer(
         child: SingleChildScrollView(
           child: Container(
             child: Column(
@@ -117,7 +118,7 @@ class HomeState extends State<Home> {
             ),
           ),
         ),
-      ),
+      ),*/
     );
   }
 

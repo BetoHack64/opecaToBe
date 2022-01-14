@@ -44,22 +44,7 @@ class _Dashboard1State extends State<Dashboard1> {
     return Cabecalho(lista: listaSiste);
   }
 
-  List<String> iconesLista = [
-    "assets/images/money-transfer-100.png",
-    "assets/images/donate-50.png",
-    "assets/images/icons8-basket-50.png",
-    "assets/images/synchronize.png",
-    "assets/images/calculator-50.png",
-    "assets/images/money-bag-50.png",
-    "assets/images/group-64.png",
-    "assets/images/swatchbook.png",
-    "assets/images/money-transfer.png",
-    "assets/images/icons8-coin-in-hand-90.png",
-    "assets/images/analytics.png",
-    "assets/images/icons8-calculator-64.png",
-    "assets/images/icons8-calculator-64.png",
-    "assets/images/icons8-calculator-64.png"
-  ];
+  
   Future<List<Sistema>> buscaOperacoes(String accountID) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     //idAccount = (sharedPreferences.getString("IdAccount") ?? "");

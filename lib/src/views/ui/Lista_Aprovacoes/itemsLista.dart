@@ -11,6 +11,7 @@ class ItemsLista extends StatelessWidget {
   final String id;
   final String moeda;
   final int index;
+  final String unidadeOrcamental;
   void _selecionaSistema(BuildContext context) {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
@@ -26,7 +27,9 @@ class ItemsLista extends StatelessWidget {
   //String sistema = '';
 
   ItemsLista(
-      {required this.title,
+      {
+      required this.unidadeOrcamental,
+      required this.title,
       required this.subtitle,
       required this.sistema,
       required this.id,
@@ -78,7 +81,7 @@ class ItemsLista extends StatelessWidget {
                 margin: EdgeInsets.only(left: 10),
                 alignment: Alignment.topLeft,
                 child: Text(
-                  "DTI",
+                  unidadeOrcamental,
                   style: TextStyle(
                     color: Colors.red[900],
                     fontWeight: FontWeight.bold,

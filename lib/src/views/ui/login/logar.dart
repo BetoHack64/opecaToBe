@@ -17,7 +17,7 @@ class LoginScreem extends StatefulWidget {
 class _LoginScreemState extends State<LoginScreem> {
   TextEditingController user = TextEditingController();
   TextEditingController pass = TextEditingController();
-  late String _user, _pass;
+  late String _user = "", _pass = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(

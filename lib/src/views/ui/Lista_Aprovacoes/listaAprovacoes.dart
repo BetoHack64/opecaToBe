@@ -60,7 +60,8 @@ class _ListaAprovacoesState extends State<ListaAprovacoes> {
 
 class CardDetail {
   CardDetail(
-      {required this.title,
+      {required this.unidadeOrcamental,
+      required this.title,
       required this.subtitle,
       required this.valor,
       required this.fornecedor,
@@ -73,6 +74,7 @@ class CardDetail {
   String subtitle;
   String title;
   String valor;
+  String unidadeOrcamental;
 }
 
 class Dashboard extends StatefulWidget {
@@ -200,29 +202,13 @@ class _DashboardState extends State<Dashboard> {
       traco = '';
       nome = '';
       botaoHomeAparece = false;
-      
+
       container = Dashboard1();
     } else if (currentPage == DrawerSections.logout) {
       //container = LoginTela();
     }
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      /*floatingActionButton: botaoHomeAparece
-          ? FloatingActionButton(
-              //Floating action button on Scaffold
-              onPressed: () {
-                _selecionaSistema(context);
-                //code to execute on button press
-              },
-              child: Icon(
-                Icons.home,
-                color: Colors.grey,
-              ),
-              backgroundColor: Colors.white, //icon inside button
-              elevation: 10.0,
-            )
-          : null,*/
-      //floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0.1,
@@ -342,8 +328,8 @@ class _DashboardState extends State<Dashboard> {
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(30.0),
                                     child: IconButton(
-                                    splashRadius: 20.0,
-                                    splashColor: Colors.grey,
+                                      splashRadius: 20.0,
+                                      splashColor: Colors.grey,
                                       onPressed: () {
                                         setState(() {});
                                       },
@@ -382,6 +368,7 @@ class _DashboardState extends State<Dashboard> {
                       ? ListView.builder(
                           itemCount: _foundUsers.length,
                           itemBuilder: (context, index) => ItemsLista(
+                            unidadeOrcamental: _foundUsers[index].unidadeOrcamental,
                             title: _foundUsers[index].title,
                             subtitle: _foundUsers[index].fornecedor,
                             sistema: nome,

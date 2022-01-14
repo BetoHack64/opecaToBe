@@ -35,7 +35,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   LoginState erroCredenciais() {
-    return LoginErrorState(message: "Usuário ou senha inválidos!");
+    return LoginErrorState(message: "Usuário ou senha inválidoss!");
   }
   LoginState normal() {
     return ButtonLoginState();

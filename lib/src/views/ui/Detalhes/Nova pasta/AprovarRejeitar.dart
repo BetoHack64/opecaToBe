@@ -58,7 +58,7 @@ class _DashboardState extends State<Dashboard> {
   @override
   initState() {
     super.initState();
-    FuncoesAPI.buscaOperacoes(0).then((value) {
+    FuncoesAPI.buscaOperacoes(0,1001).then((value) {
       listaDeOperacoes = value;
     });
   }

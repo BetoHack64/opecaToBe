@@ -120,11 +120,10 @@ class FuncoesAPI {
   }
 
   //---
-  static Future<List<CardDetail>> buscaOperacoes(int appID) async {
+  static Future<List<CardDetail>> buscaOperacoes(int appID, int accountID) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var url = Uri.parse(
-        'http://83.240.225.239:130/api/Operation?ApplicationID=' +
-            appID.toString());
+        'http://83.240.225.239:130/api/Operation?ApplicationID=${ appID.toString()}&AccountID=${accountID.toString()}');
     print(url);
     var token = (sharedPreferences.getString("access_token") ?? "");
     var header = {
@@ -136,15 +135,16 @@ class FuncoesAPI {
     Map userMap = jsonDecode(response.body);
     List<CardDetail> cards = [];
     if (userMap.isNotEmpty) {
-      for (var item in userMap['OperationList']) {
+      for (var item in userMap['Apps']['Operacao']) {
         cards.add(
           CardDetail(
-            title: item['Operation'],
-            subtitle: item['Date'],
+            unidadeOrcamental: item['Linha1Campo1'],
+            title: item['Linha2Campo2'],
+            subtitle: item['Linha2Campo1'],
             id: item['OperationID'].toString(),
-            moeda: item['Currency'],
-            valor: item['ValueOperation'] ?? '23',
-            fornecedor: item['Entity1'] ?? 'Teste',
+            moeda: item['Linha2Campo4'],
+            valor: item['Linha2Campo3'] ?? '23',
+            fornecedor: item['Linha3Campo1'] ?? 'Teste',
           ),
         );
       }
@@ -153,4 +153,5 @@ class FuncoesAPI {
       return [];
     }
   }
+  
 }

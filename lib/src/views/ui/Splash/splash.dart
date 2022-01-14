@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 List lista = [];
+
 class Splashscrem extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => InitState();
@@ -21,7 +22,6 @@ class InitState extends State<Splashscrem> {
   @override
   void initState() {
     super.initState();
-    
   }
 
   //função init widget
@@ -31,11 +31,10 @@ class InitState extends State<Splashscrem> {
         bloc: BlocProvider.of<SplashBloc>(context),
         builder: (context, state) {
           if (state is SplashExecutedState) {
-          VerificaConexao().buscaConexao().then((value) {
-             lista = value;
-             SplashBloc().inicioTempo(context,lista);
-          });
-           
+            VerificaConexao().buscaConexao().then((value) {
+              lista = value;
+              SplashBloc().inicioTempo(context, lista);
+            });
           }
           if (state is SplashErrorState) {
             return Center(child: Text(state.message));
@@ -45,11 +44,6 @@ class InitState extends State<Splashscrem> {
               Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  /* gradient: LinearGradient(
-                      colors: [(Colors.red), (Color(0xFFEF5350))],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    ),*/
                 ),
               ),
               Center(

@@ -38,10 +38,10 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     return SplashExecutedState();
   }
 
-  Future<bool> conectar() async {
+  Future<bool> conecta() async {
     List resultado = [];
     try {
-      resultado = await InternetAddress.lookup('go22222ogle.com');
+      resultado = await InternetAddress.lookup('google.com');
     } catch (e) {}
 
     return resultado.isNotEmpty;
