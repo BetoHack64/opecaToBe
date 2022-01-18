@@ -1,11 +1,9 @@
+
 import 'package:SOP/src/business_logic/blocs/splash/splashBloc.dart';
 import 'package:SOP/src/business_logic/blocs/splash/states/SplashState.dart';
-import 'package:SOP/src/business_logic/services/shared_prefs_services/verificaConexao.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:SOP/src/views/ui/Splash/unicaoWidgetsSplash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-List lista = [];
 
 class Splashscrem extends StatefulWidget {
   @override
@@ -14,59 +12,25 @@ class Splashscrem extends StatefulWidget {
 
 class InitState extends State<Splashscrem> {
   @override
-  Widget build(BuildContext context) {
-    //  throw UnimplementedError();
-    return initWidget();
-  }
-
-  @override
   void initState() {
     super.initState();
   }
 
-  //função init widget
-  Widget initWidget() {
+  @override
+  Widget build(BuildContext context) {
+    //  throw UnimplementedError();
     return Scaffold(
       body: BlocBuilder<SplashBloc, SplashState>(
         bloc: BlocProvider.of<SplashBloc>(context),
         builder: (context, state) {
           if (state is SplashExecutedState) {
-            VerificaConexao().buscaConexao().then((value) {
-              lista = value;
-              SplashBloc().inicioTempo(context, lista);
-            });
+            Future.delayed(
+                Duration(seconds: 1),
+                () =>
+                    BlocProvider.of<SplashBloc>(context).inicioTempo(context));
           }
-          if (state is SplashErrorState) {
-            return Center(child: Text(state.message));
-          }
-          return Stack(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                ),
-              ),
-              Center(
-                child: Container(
-                  child: Image.asset(
-                    "assets/images/sop.png",
-                    scale: 0.9,
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.bottomRight,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 115),
-                  child: Center(
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation(Colors.red[900]),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          );
+
+          return UnicaoWidgetsSplash();
         },
       ),
     );

@@ -6,13 +6,10 @@ class SplashState extends Equatable {
 }
 
 class SplashRunningState extends SplashState {
-   late bool verifica;
-  SplashRunningState([this.verifica = false]);
 }
 
 class SplashErrorState extends SplashState {
-  final String message;
-  SplashErrorState({required this.message});
 }
 
-class SplashExecutedState extends SplashState {}
+class SplashExecutedState extends SplashState {
+}

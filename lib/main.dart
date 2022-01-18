@@ -1,6 +1,3 @@
-import 'package:SOP/src/business_logic/blocs/login/events/loginEvent.dart';
-import 'package:SOP/src/business_logic/blocs/login/loginBloc.dart';
-import 'package:SOP/src/business_logic/blocs/login/states/loginState.dart';
 import 'package:SOP/src/business_logic/blocs/splash/events/SplashEvent.dart';
 import 'package:SOP/src/business_logic/blocs/splash/splashBloc.dart';
 import 'package:SOP/src/business_logic/blocs/splash/states/SplashState.dart';
@@ -11,16 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 // Função Raiz da App, que define a tela principal
 void main() {
   runApp(
-    MultiBlocProvider(
-      providers: [
-        BlocProvider<LoginBloc>(
-          create: (context) =>
-              LoginBloc(ButtonLoginState(), lista.isNotEmpty ? true : false)
-                ..add(LoginProcessing1()),
-        ),
-      ],
-      child: MyApp(),
-    ),
+    MyApp(),
   );
 }
 
@@ -41,7 +29,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       home: BlocProvider<SplashBloc>(
         create: (_) {
-          return SplashBloc(SplashRunningState())..add(SplashGetConnection());
+          return SplashBloc(SplashRunningState())..add(SplashProcessing());
         },
         child: Splashscrem(),
       ),

@@ -13,7 +13,7 @@ class ListaOperacoesBloc
   }
   ListaOperacoesState verificaConexao(bool v) {
     if (v == true) {
-      return ListaOperacoesLoadedSucessState();
+      return ListaOperacoesLoadedSucessState(message: []);
     } else {
       return ListaOperacoesLoadedErrorState(
           message: "Verifique a sua coneção a internet!");

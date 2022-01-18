@@ -1,5 +1,4 @@
-import 'dart:async';
-import 'dart:io';
+// ignore_for_file: cancel_subscriptions
 
 import 'package:SOP/src/business_logic/blocs/login/events/loginEvent.dart';
 import 'package:SOP/src/business_logic/blocs/login/loginBloc.dart';
@@ -9,41 +8,41 @@ import 'package:SOP/src/business_logic/blocs/splash/events/SplashEvent.dart';
 import 'package:SOP/src/business_logic/blocs/splash/states/SplashState.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class SplashBloc extends Bloc<SplashEvent, SplashState> {
-  SplashBloc([SplashState? initialState]) : super(SplashRunningState()) {
-    on<SplashGetConnection>((event, emit) => emit(abrirLoginView()));
+  bool isDeviceConnected = false;
+
+  SplashBloc([SplashState? initialState, bool isConnected = false])
+      : super(SplashRunningState()) {
+    on<SplashProcessing>((event, emit) {
+      emit(processandoSplash());
+    });
+
+    on<SplashProcessed>((event, emit) {
+      emit(abrirLoginView());
+    });
   }
   //Função do tempo
-  inicioTempo(BuildContext context, List lista) async {
-    var duracao = Duration(seconds: 3);
-    return new Timer(duracao, () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) {
-          return BlocProvider<LoginBloc>(
-            create: (_) {
-              return LoginBloc(
-                  LoginNormalState(), lista.isNotEmpty ? true : false)
-                ..add(LoginGetConnection());
-            },
-            child: LoginScreem(),
-          );
-        }),
-      );
-    });
+  inicioTempo(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) {
+        return BlocProvider<LoginBloc>(
+          create: (_) {
+            return LoginBloc(LoginNormalState())..add(LoginGetConnection());
+          },
+          child: LoginScreem(),
+        );
+      }),
+    );
   }
 
   SplashState abrirLoginView() {
     return SplashExecutedState();
   }
 
-  Future<bool> conecta() async {
-    List resultado = [];
-    try {
-      resultado = await InternetAddress.lookup('google.com');
-    } catch (e) {}
-
-    return resultado.isNotEmpty;
+  SplashState processandoSplash() {
+    return SplashRunningState();
   }
 }

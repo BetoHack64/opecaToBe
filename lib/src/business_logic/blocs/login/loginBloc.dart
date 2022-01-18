@@ -1,23 +1,36 @@
+// ignore_for_file: unused_field
+
 import 'package:SOP/src/views/ui/main/main.dart';
 import 'package:SOP/src/business_logic/blocs/login/events/loginEvent.dart';
 import 'package:SOP/src/business_logic/blocs/login/states/loginState.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  LoginBloc([LoginState? initialState, bool verifica = false])
-      : super(LoginNormalState()) {
-    on<LoginGetConnection>((event, emit) => emit(verificarConexao(verifica)));
-    on<LoginProcessing>((event, emit) => emit(verificarCredenciais()));
+  bool isDeviceConnected = false;
+  TextEditingController user = TextEditingController();
+  TextEditingController pass = TextEditingController();
+  late String user2 = "", pass2 = "";
+
+  LoginBloc([LoginState? initialState]) : super(LoginNormalState()) {
+    on<LoginGetConnection>((event, emit) async {
+      isDeviceConnected = await InternetConnectionChecker().hasConnection;
+      emit(verificarConexao(isDeviceConnected));
+    });
+    on<LoginProcessing>((event, emit) async {
+      isDeviceConnected = await InternetConnectionChecker().hasConnection;
+      emit(verificarCredenciais(isDeviceConnected));
+    });
     on<LoginExecutedError>((event, emit) => emit(erroCredenciais()));
     on<LoginProcessing1>((event, emit) => emit(normal()));
   }
 
   LoginState verificarConexao(bool v) {
     if (v == true) {
-      return LoginNormalState();
+      return LoginNormalState(v);
     } else {
-      return LoginErrorConectionState(message: "Ola");
+      return LoginErrorConectionState(message: "Verifique a sua conexão à internet!");
     }
   }
 
@@ -30,13 +43,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     );
   }
 
-  LoginState verificarCredenciais() {
-    return LoginSucessedState();
+  LoginState verificarCredenciais(isDeviceConnected) {
+    return ButtonLoginPressedState(isConnected: isDeviceConnected);
   }
 
   LoginState erroCredenciais() {
     return LoginErrorState(message: "Usuário ou senha inválidoss!");
   }
+
   LoginState normal() {
     return ButtonLoginState();
   }

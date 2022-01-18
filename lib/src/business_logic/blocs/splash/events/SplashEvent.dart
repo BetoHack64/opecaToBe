@@ -5,10 +5,10 @@ class SplashEvent extends Equatable {
   List<Object?> get props => throw UnimplementedError();
 }
 
-class SplashGetConnection extends SplashEvent {
+class SplashProcessing extends SplashEvent {
   
 }
 class SplashGetConnectionError extends SplashEvent {}
-class SplashGetConnectionSuccess extends SplashEvent {}
+class SplashProcessed extends SplashEvent {}
 
 

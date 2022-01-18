@@ -33,6 +33,7 @@ class _GridDashboardState extends State<GridDashboard> {
       cardss = value;
     });
     ListaOperacoesBloc.temNet().then((value) => temOuNao = value);
+    //print(temOuNao);
   }
 
   Future<String> pegaDados() async {

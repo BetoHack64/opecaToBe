@@ -9,6 +9,7 @@ MERGED from [:flutter_full_pdf_viewer] C:\Users\HP Folio 9480\Documents\ToBe Pro
 MERGED from [:local_auth] C:\Users\HP Folio 9480\Documents\ToBe Projetos\opecaToBe\build\local_auth\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:shared_preferences_android] C:\Users\HP Folio 9480\Documents\ToBe Projetos\opecaToBe\build\shared_preferences_android\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:flutter_plugin_android_lifecycle] C:\Users\HP Folio 9480\Documents\ToBe Projetos\opecaToBe\build\flutter_plugin_android_lifecycle\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
+MERGED from [:connectivity] C:\Users\HP Folio 9480\Documents\ToBe Projetos\opecaToBe\build\connectivity\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:sqflite] C:\Users\HP Folio 9480\Documents\ToBe Projetos\opecaToBe\build\sqflite\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:advance_pdf_viewer] C:\Users\HP Folio 9480\Documents\ToBe Projetos\opecaToBe\build\advance_pdf_viewer\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:path_provider] C:\Users\HP Folio 9480\Documents\ToBe Projetos\opecaToBe\build\path_provider\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
@@ -143,6 +144,8 @@ MERGED from [:shared_preferences_android] C:\Users\HP Folio 9480\Documents\ToBe 
 MERGED from [:shared_preferences_android] C:\Users\HP Folio 9480\Documents\ToBe Projetos\opecaToBe\build\shared_preferences_android\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:flutter_plugin_android_lifecycle] C:\Users\HP Folio 9480\Documents\ToBe Projetos\opecaToBe\build\flutter_plugin_android_lifecycle\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:flutter_plugin_android_lifecycle] C:\Users\HP Folio 9480\Documents\ToBe Projetos\opecaToBe\build\flutter_plugin_android_lifecycle\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:connectivity] C:\Users\HP Folio 9480\Documents\ToBe Projetos\opecaToBe\build\connectivity\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:connectivity] C:\Users\HP Folio 9480\Documents\ToBe Projetos\opecaToBe\build\connectivity\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:sqflite] C:\Users\HP Folio 9480\Documents\ToBe Projetos\opecaToBe\build\sqflite\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:sqflite] C:\Users\HP Folio 9480\Documents\ToBe Projetos\opecaToBe\build\sqflite\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:advance_pdf_viewer] C:\Users\HP Folio 9480\Documents\ToBe Projetos\opecaToBe\build\advance_pdf_viewer\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
@@ -225,6 +228,10 @@ INJECTED from C:\Users\HP Folio 9480\Documents\ToBe Projetos\opecaToBe\android\a
 	android:minSdkVersion
 		INJECTED from C:\Users\HP Folio 9480\Documents\ToBe Projetos\opecaToBe\android\app\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\HP Folio 9480\Documents\ToBe Projetos\opecaToBe\android\app\src\debug\AndroidManifest.xml
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from [:connectivity] C:\Users\HP Folio 9480\Documents\ToBe Projetos\opecaToBe\build\connectivity\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-79
+	android:name
+		ADDED from [:connectivity] C:\Users\HP Folio 9480\Documents\ToBe Projetos\opecaToBe\build\connectivity\intermediates\library_manifest\debug\AndroidManifest.xml:7:22-76
 uses-permission#android.permission.USE_BIOMETRIC
 ADDED from [androidx.biometric:biometric:1.0.0-beta01] C:\Users\HP Folio 9480\.gradle\caches\transforms-2\files-2.1\7fd6ddfb15ec7079fd1de46dfc606ff5\biometric-1.0.0-beta01\AndroidManifest.xml:24:5-72
 	android:name

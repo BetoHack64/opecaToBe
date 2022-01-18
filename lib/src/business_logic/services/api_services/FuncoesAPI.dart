@@ -94,36 +94,22 @@ class FuncoesAPI {
       sharedPreferences.setString("Nome", usuario);
       sharedPreferences.setString(
           "IdAccount", mapResponse['User']['IdAccount'].toString());
-      List lista = [];
-      VerificaConexao().buscaConexao().then((value) {
-        lista = value;
-        if (lista.isNotEmpty) {
-          token(usuario, password, context);
-        } else {
-          Future.delayed(
-              Duration.zero, () => MensagemLogin.erroConexao(context));
-              pass.clear();
-              user.clear();
-          BlocProvider.of<LoginBloc>(context).add(LoginProcessing1());
-        }
-      });
+
+      token(usuario, password, context);
     } else {
-      //Future.delayed(Duration.zero, () => MensagemLogin.erroLogin(context));
-      // pass.clear();
-      //user.clear();
       Future.delayed(Duration.zero, () => MensagemLogin.erroLogin(context));
       user.clear();
       pass.clear();
       BlocProvider.of<LoginBloc>(context).add(LoginProcessing1());
-      //BlocProvider.of<LoginBloc>(context).add(LoginExecutedError());
     }
   }
 
   //---
-  static Future<List<CardDetail>> buscaOperacoes(int appID, int accountID) async {
+  static Future<List<CardDetail>> buscaOperacoes(
+      int appID, int accountID) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var url = Uri.parse(
-        'http://83.240.225.239:130/api/Operation?ApplicationID=${ appID.toString()}&AccountID=${accountID.toString()}');
+        'http://83.240.225.239:130/api/Operation?ApplicationID=${appID.toString()}&AccountID=${accountID.toString()}');
     print(url);
     var token = (sharedPreferences.getString("access_token") ?? "");
     var header = {
@@ -153,5 +139,4 @@ class FuncoesAPI {
       return [];
     }
   }
-  
 }

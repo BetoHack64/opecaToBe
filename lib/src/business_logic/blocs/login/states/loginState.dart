@@ -5,7 +5,10 @@ class LoginState extends Equatable {
   List<Object?> get props => [];
 }
 
-class LoginNormalState extends LoginState {}
+class LoginNormalState extends LoginState {
+  final bool isConnected;
+  LoginNormalState([this.isConnected = false]);
+}
 
 class LoginErrorState extends LoginState {
   final String message;
@@ -18,5 +21,10 @@ class LoginErrorConectionState extends LoginState {
 }
 
 class LoginSucessedState extends LoginState {}
-class ButtonLoginPressedState extends LoginState {}
+
+class ButtonLoginPressedState extends LoginState {
+  final bool isConnected;
+  ButtonLoginPressedState({required this.isConnected});
+}
+
 class ButtonLoginState extends LoginState {}
