@@ -5,13 +5,13 @@ import 'package:SOP/src/business_logic/blocs/main/mainBloc.dart';
 import 'package:SOP/src/business_logic/blocs/main/states/mainState.dart';
 import 'package:SOP/src/views/ui/login/logar.dart';
 import 'package:SOP/src/views/ui/main/drawer.dart';
+import 'package:SOP/src/views/ui/main/esperaSistemas.dart';
 import 'package:flutter/material.dart';
 import 'package:SOP/src/views/ui/main/dashboard.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 bool estaLogado = false;
-bool isRunning = false;
 void main() {
   runApp(
     MaterialApp(
@@ -42,12 +42,6 @@ class HomeState extends State<Home> {
     super.initState();
     //carrega os dados do usuario ao se abrir a view
     _carregaDados();
-
-    Future.delayed(const Duration(seconds: 2), () {
-      setState(() {
-        isRunning = true;
-      });
-    });
   }
 
   //Obtem os dados partilhados do usuario
@@ -84,28 +78,16 @@ class HomeState extends State<Home> {
       body: BlocBuilder<MainBloc, MainState>(
         bloc: BlocProvider.of<MainBloc>(context),
         builder: (context, state) {
-          if (state is MainOpeningState) {
-            if (isRunning == true) {
-              BlocProvider.of<MainBloc>(context)
-                  .add(MainGetConnectionSuccess());
-            } else {
-              return Center(
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation(Colors.red[900]),
-                ),
-              );
-            }
-          }
           if (state is MainNetworkErrorOpeningState) {
             return Center(child: Text(state.message));
+          }else if (state is MainProcessedState) {
+            return Dashboard1(listaSistemas: state.lista,);
           }
-          if (state is MainProcessedState) {
-            return Dashboard1();
-          }
-          return Text("");
+          return IndicadorProgressoCircularUIMain();
         },
       ),
-      drawer: DrawerMenu(),/* Drawer(
+      drawer:
+          DrawerMenu(), /* Drawer(
         child: SingleChildScrollView(
           child: Container(
             child: Column(

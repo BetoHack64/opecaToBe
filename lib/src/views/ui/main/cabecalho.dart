@@ -1,9 +1,10 @@
+import 'package:SOP/src/business_logic/models/sistema.dart';
 import 'package:SOP/src/views/ui/main/griddashboard.dart';
 import 'package:flutter/material.dart';
 
 class Cabecalho extends StatelessWidget {
-  final List<Sistema> lista;
-  Cabecalho({required this.lista});
+  final List<Sistema> listaSistemas;
+  Cabecalho({required this.listaSistemas});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -57,8 +58,7 @@ class Cabecalho extends StatelessWidget {
         SizedBox(
           height: 20,
         ),
-        GridDashboard(
-          items: this.lista,
+        GridDashboard(items: listaSistemas,
         )
       ],
     );

@@ -1,3 +1,4 @@
+import 'package:SOP/src/business_logic/models/sistema.dart';
 import 'package:equatable/equatable.dart';
 
 class MainState extends Equatable {
@@ -12,4 +13,7 @@ class MainNetworkErrorOpeningState extends MainState {
   MainNetworkErrorOpeningState({required this.message});
 }
 
-class MainProcessedState extends MainState {}
+class MainProcessedState extends MainState {
+  final List<Sistema> lista;
+  MainProcessedState({required this.lista});
+}

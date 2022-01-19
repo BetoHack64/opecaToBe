@@ -1,7 +1,7 @@
 import 'package:SOP/src/business_logic/blocs/listaOperacoes/events/listaOperacoesEvent.dart';
 import 'package:SOP/src/business_logic/blocs/listaOperacoes/listaOperacoesBloc.dart';
 import 'package:SOP/src/business_logic/blocs/listaOperacoes/states/listaOperacoesState.dart';
-import 'package:SOP/src/business_logic/services/shared_prefs_services/verificaConexao.dart';
+import 'package:SOP/src/business_logic/models/sistema.dart';
 import 'package:SOP/src/views/ui/Lista_Aprovacoes/listaAprovacoes.dart';
 import 'package:SOP/src/views/ui/main/iconSistema.dart';
 import 'package:flutter/material.dart';
@@ -43,8 +43,6 @@ class _GridDashboardState extends State<GridDashboard> {
 
   Future<void> _selecionaSistema(
       BuildContext context, String sistema, int appID) async {
-    /*SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    sharedPreferences.setInt("ApplicationID", appID);*/
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) {
@@ -159,19 +157,3 @@ class _GridDashboardState extends State<GridDashboard> {
   }
 }
 
-class Sistema {
-  late final int applicationID;
-  late final String applicationCod;
-  late final String applicationName;
-  late final String applicationNameShort;
-  late final String iconBase64;
-  late final String numOperations;
-  Sistema({
-    required this.applicationID,
-    required this.applicationCod,
-    required this.applicationName,
-    required this.applicationNameShort,
-    required this.iconBase64,
-    required this.numOperations,
-  });
-}

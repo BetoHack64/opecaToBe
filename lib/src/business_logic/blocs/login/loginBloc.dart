@@ -22,36 +22,37 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       isDeviceConnected = await InternetConnectionChecker().hasConnection;
       emit(verificarCredenciais(isDeviceConnected));
     });
+    on<LoginValidatingCredentials>((event, emit) async {
+      isDeviceConnected = await InternetConnectionChecker().hasConnection;
+      emit(verificarCredenciais2(isDeviceConnected));
+    });
+    on<LoginNoConnection>((event, emit) => emit(noNetwork()));
     on<LoginExecutedError>((event, emit) => emit(erroCredenciais()));
-    on<LoginProcessing1>((event, emit) => emit(normal()));
   }
 
   LoginState verificarConexao(bool v) {
     if (v == true) {
       return LoginNormalState(v);
     } else {
-      return LoginErrorConectionState(message: "Verifique a sua conexão à internet!");
+      return LoginErrorConectionState(
+          message: "Verifique a sua conexão à internet!");
     }
-  }
-
-  static abrirViewPrincipal(BuildContext context) {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) {
-        return Home();
-      }),
-    );
   }
 
   LoginState verificarCredenciais(isDeviceConnected) {
     return ButtonLoginPressedState(isConnected: isDeviceConnected);
   }
 
+  LoginState verificarCredenciais2(isDeviceConnected) {
+    return ButtonLoginPressedProcessingState(isConnected: isDeviceConnected);
+  }
+
   LoginState erroCredenciais() {
     return LoginErrorState(message: "Usuário ou senha inválidoss!");
   }
 
-  LoginState normal() {
-    return ButtonLoginState();
+  LoginState noNetwork() {
+    return LoginErrorConectionState(
+        message: "Verifique a sua conexão à internet!");
   }
 }

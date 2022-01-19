@@ -6,9 +6,11 @@ class LoginEvent extends Equatable {
 }
 
 class LoginGetConnection extends LoginEvent {}
+class LoginNoConnection extends LoginEvent {}
 
 class LoginExecutedError extends LoginEvent {}
 
+class LoginValidatingCredentials extends LoginEvent {}
 class LoginExecutedSuccess extends LoginEvent {}
 
 class LoginProcessing extends LoginEvent {}

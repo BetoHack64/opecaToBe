@@ -107,7 +107,7 @@ class _DashboardState extends State<Dashboard> {
       nome = '';
       traco = '';
       botaoHomeAparece = false;
-      container = Dashboard1();
+      container = Dashboard1(listaSistemas: [],);
     } else if (currentPage == DrawerSections.logout) {
       //container = LoginTela();
     }

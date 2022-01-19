@@ -3,6 +3,7 @@ import 'package:SOP/src/business_logic/services/api_services/FuncoesAPI.dart';
 import 'package:SOP/src/business_logic/blocs/login/events/loginEvent.dart';
 import 'package:SOP/src/business_logic/blocs/login/loginBloc.dart';
 import 'package:SOP/src/business_logic/blocs/login/states/loginState.dart';
+import 'package:SOP/src/views/ui/Login/espera.dart';
 import 'package:SOP/src/views/ui/login/mensagem.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,8 +27,8 @@ class _LoginScreemState extends State<LoginScreem> {
             Future.delayed(
                 Duration(seconds: 1), () => MensagemLogin.erroLogin(context));
           }
-          if (state is ButtonLoginPressedState) {
-            if (state.isConnected) {
+          if(state is ButtonLoginPressedProcessingState){
+          if (state.isConnected) {
               FuncoesAPI().contaUsuario(
                   BlocProvider.of<LoginBloc>(context).user2,
                   BlocProvider.of<LoginBloc>(context).pass2,
@@ -35,12 +36,12 @@ class _LoginScreemState extends State<LoginScreem> {
                   BlocProvider.of<LoginBloc>(context).pass,
                   context);
             } else {
-              return Center(child: Text('Erro de conexao'));
+              BlocProvider.of<LoginBloc>(context).add(LoginNoConnection());
             }
           }
+          
           if (state is LoginNormalState) {
-            if(state.isConnected){
-             return Stack(
+            return Stack(
               children: [
                 Container(
                   height: double.infinity,
@@ -356,12 +357,8 @@ class _LoginScreemState extends State<LoginScreem> {
                 ),
               ],
             );
-            }else{
-            
-            }
-           
           }
-          return Container();
+          return IndicadorProgressoCircularUI();
         },
       ),
     );

@@ -7,7 +7,6 @@ import 'package:SOP/src/business_logic/blocs/login/loginBloc.dart';
 import 'package:SOP/src/business_logic/blocs/main/events/mainEvent.dart';
 import 'package:SOP/src/business_logic/blocs/main/mainBloc.dart';
 import 'package:SOP/src/business_logic/blocs/main/states/mainState.dart';
-import 'package:SOP/src/business_logic/services/shared_prefs_services/verificaConexao.dart';
 import 'package:SOP/src/views/ui/login/mensagem.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -54,26 +53,26 @@ class FuncoesAPI {
       sharedPreferences.setString("usuarioSenhaLogin", password);
 
       //Redireciona para a tela Home
-      List lista = [];
-      VerificaConexao().buscaConexao().then((value) {
-        lista = value;
-        print(lista);
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) {
-              return BlocProvider<MainBloc>(
-                create: (_) {
-                  return MainBloc(MainOpeningState(), lista)
-                    ..add(MainOpenning());
 
-                  //return MainBloc(MainOpeningState(), lista)..add(MainOpenning());
-                },
-                child: Home(),
-              );
-            },
-          ),
-        );
-      });
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) {
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider<MainBloc>(
+                  create: (_) {
+                    return MainBloc(MainOpeningState())..add(MainOpenning());
+
+                    //return MainBloc(MainOpeningState(), lista)..add(MainOpenning());
+                  },
+                ),
+                
+              ],
+              child: Home(),
+            );
+          },
+        ),
+      );
     } catch (e) {}
   }
 
@@ -100,7 +99,7 @@ class FuncoesAPI {
       Future.delayed(Duration.zero, () => MensagemLogin.erroLogin(context));
       user.clear();
       pass.clear();
-      BlocProvider.of<LoginBloc>(context).add(LoginProcessing1());
+      BlocProvider.of<LoginBloc>(context).add(LoginGetConnection());
     }
   }
 

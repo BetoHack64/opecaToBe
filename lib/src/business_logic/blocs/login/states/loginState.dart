@@ -26,5 +26,9 @@ class ButtonLoginPressedState extends LoginState {
   final bool isConnected;
   ButtonLoginPressedState({required this.isConnected});
 }
+class ButtonLoginPressedProcessingState extends LoginState {
+  final bool isConnected;
+  ButtonLoginPressedProcessingState({required this.isConnected});
+}
 
 class ButtonLoginState extends LoginState {}
