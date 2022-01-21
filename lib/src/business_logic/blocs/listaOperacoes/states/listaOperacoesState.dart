@@ -1,4 +1,6 @@
-import 'package:SOP/src/views/ui/Lista_Aprovacoes/listaAprovacoes.dart';
+// ignore_for_file: must_be_immutable
+
+import 'package:SOP/src/business_logic/models/cardDetail.dart';
 import 'package:equatable/equatable.dart';
 
 class ListaOperacoesState extends Equatable {
@@ -7,7 +9,12 @@ class ListaOperacoesState extends Equatable {
 }
 
 //View Lista de Operacoes
-class ListaOperacoesLoadingState extends ListaOperacoesState {}
+class ListaOperacoesLoadingState extends ListaOperacoesState {
+  final String sistemaNome;
+  final int appID;
+  final List<CardDetail> cardDetail ;
+  ListaOperacoesLoadingState(  [this.cardDetail = const [],this.sistemaNome = '', this.appID = 0]);
+}
 
 class ListaOperacoesLoadedSucessState extends ListaOperacoesState {
   final List<CardDetail> message;
@@ -22,6 +29,9 @@ class ListaOperacoesLoadedErrorState extends ListaOperacoesState {
 //Pesquisas
 class ListaOperacoesPesquisaLoadingState extends ListaOperacoesState {}
 
-class ListaOperacoesPesquisaFindSucessState extends ListaOperacoesState {}
+class ListaOperacoesPesquisaFindSucessState extends ListaOperacoesState {
+final List<CardDetail> message;
+  ListaOperacoesPesquisaFindSucessState({required this.message});
+}
 
 class ListaOperacoesPesquisaFindErrorState extends ListaOperacoesState {}

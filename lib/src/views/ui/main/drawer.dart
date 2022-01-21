@@ -1,6 +1,9 @@
 import 'package:SOP/src/business_logic/blocs/login/events/loginEvent.dart';
 import 'package:SOP/src/business_logic/blocs/login/loginBloc.dart';
 import 'package:SOP/src/business_logic/blocs/login/states/loginState.dart';
+import 'package:SOP/src/business_logic/blocs/main/events/mainEvent.dart';
+import 'package:SOP/src/business_logic/blocs/main/mainBloc.dart';
+import 'package:SOP/src/business_logic/blocs/main/states/mainState.dart';
 import 'package:SOP/src/views/ui/Header/my_header_drawer.dart';
 import 'package:SOP/src/views/ui/Login/logar.dart';
 import 'package:SOP/src/views/ui/main/main.dart';
@@ -15,13 +18,33 @@ class DrawerMenu extends StatefulWidget {
 
 class _DrawerMenuState extends State<DrawerMenu> {
   int isActivated = 0;
-  partilha(BuildContext context) async {
+  logout(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.clear();
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) {
-          return LoginScreem();
+          return BlocProvider<LoginBloc>(
+            create: (_) {
+              return LoginBloc(LoginNormalState())..add(LoginGetConnection());
+            },
+            child: LoginScreem(),
+          );
+        },
+      ),
+    );
+  }
+
+  openMain(BuildContext context) async {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) {
+          return BlocProvider<MainBloc>(
+            create: (_) {
+              return MainBloc(MainOpeningState())..add(MainOpenning());
+            },
+            child: Home(),
+          );
         },
       ),
     );
@@ -29,11 +52,12 @@ class _DrawerMenuState extends State<DrawerMenu> {
 
   void changedSelected(String paginaDestino, BuildContext context) {
     setState(() {
-      if (paginaDestino == "Home") {
+      if (paginaDestino == "Dashboard") {
+        openMain(context);
       } else {
-        //partilha(context);
-        
-        BlocProvider.of<LoginBloc>(context).add(LoginProcessing1());
+        logout(context);
+
+        //BlocProvider.of<LoginBloc>(context).add(LoginProcessing1());
       }
     });
   }
@@ -49,11 +73,11 @@ class _DrawerMenuState extends State<DrawerMenu> {
             ListTile(
               leading: Icon(Icons.dashboard_outlined),
               title: Text(
-                'Home',
+                'Dashboard',
                 style: TextStyle(fontSize: 15),
               ),
               onTap: () {
-                changedSelected("Home", context);
+                changedSelected("Dashboard", context);
               },
             ),
             ListTile(

@@ -1,7 +1,10 @@
+import 'package:SOP/src/business_logic/models/cardDetail.dart';
+import 'package:SOP/src/business_logic/models/detalhes.dart';
 import 'package:SOP/src/business_logic/services/api_services/FuncoesAPI.dart';
 import 'package:SOP/src/views/ui/Header/my_header_drawer.dart';
 import 'package:SOP/src/views/ui/Lista_Aprovacoes/listaAprovacoes.dart';
 import 'package:SOP/src/views/ui/main/dashboard.dart';
+import 'package:SOP/src/views/ui/main/drawer.dart';
 import 'package:SOP/src/views/ui/main/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,24 +21,40 @@ String cont = '';
 String dataO = '';
 String cash = '';
 List<CardDetail> listaDeOperacoes = [];
+int contador = 0;
+bool isTrue = false;
+
+int _currentIndex = 0;
+final List _children = [];
+// ignore: unused_element
+OperationData _detalhes = OperationData(
+  applicationId: '',
+  operationCodId: '',
+  operationId: '',
+  header: Header(campo: '', valor: ''),
+  dados: [],
+  grelha: Grelha(
+      header: Header_grelha(coluna1: '', coluna2: '', coluna3: ''), data: []),
+  anexo: Anexo(operationId: '', idConteudo: '', data: []),
+);
 
 bool botaoHomeAparece = true;
 
 bool botao = false;
+
+/*AprovarRejeitar(
+      nome, id, valor, botaoHomeAparece, tit, dataO, cash, _detalhes));*/
+
 void main() {
-  runApp(AprovarRejeitar(nome, id, valor, botaoHomeAparece, tit, dataO, cash));
+  runApp(AprovarRejeitar(_detalhes));
 }
 
 class AprovarRejeitar extends StatelessWidget {
-  AprovarRejeitar(String sistema, String idOp, String valorOficio,
-      bool btnAparece, String title, String data, String moeda) {
-    nome = sistema;
-    id = idOp;
-    valor = valorOficio;
-    botaoHomeAparece = btnAparece;
-    tit = title;
-    dataO = data;
-    cash = moeda;
+  AprovarRejeitar(OperationData detalhes) {
+    _detalhes = detalhes;
+
+    print(_detalhes.grelha.header.coluna1);
+    
   }
   @override
   Widget build(BuildContext context) {
@@ -54,13 +73,8 @@ class _DashboardState extends State<Dashboard> {
   var currentPage = null;
   bool menu = false;
   int seleteposition = 2;
-  @override
-  initState() {
-    super.initState();
-    FuncoesAPI.buscaOperacoes(0,1001).then((value) {
-      listaDeOperacoes = value;
-    });
-  }
+
+  //get getLinhas => null;
 
   @override
   Widget build(BuildContext context) {
@@ -79,13 +93,102 @@ class _DashboardState extends State<Dashboard> {
       );
     }
 
+    //Gera o conteudo das celulas
+    List<DataCell> getCelulas(List<dynamic> cells) =>
+        cells.map((data) => DataCell(Text('$data'))).toList();
+
+    //Desenha o cabeçalho das Colunas
+    List<DataColumn> getColunas(List<String> columns) => columns
+        .map((String columns) => DataColumn(
+              label: Text(columns),
+            ))
+        .toList();
+    //Desenha as linhas
+    List<DataRow> getLinhas(List<String> columns, List<dynamic> cell) => columns
+        .map((String columns) => DataRow(
+              cells: getCelulas(cell),
+            ))
+        .toList();
+    //Construção do cabeçalho da tabela
+    final columns = [
+      _detalhes.grelha.header.coluna1,
+      _detalhes.grelha.header.coluna2,
+      _detalhes.grelha.header.coluna3
+    ];
+
+    List<DataRow> _tabela() {
+      var celulas = [];
+      List<DataRow> lista = [];
+      for (int i = 0; i < _detalhes.grelha.data.length; i++) {
+        celulas = [
+          _detalhes.grelha.data[i].valor1,
+          _detalhes.grelha.data[i].valor2,
+          _detalhes.grelha.data[i].valor3
+        ];
+        DataRow rows = DataRow(cells: getCelulas(celulas));
+
+        lista.add(rows);
+      }
+
+      return lista;
+    }
+
+    //Construção da Tabela
+    Widget _tabelaDados() {
+      return Container(
+        //margin: EdgeInsets.only(right: 10, top: 10), poderia usar o FitdBox para rem o pading
+        child: DataTable(
+          horizontalMargin: 1,
+          columnSpacing: 19,
+          columns: getColunas(columns),
+          rows: _tabela(),
+        ),
+      );
+    }
+
+    //Construção dos campos
+    Widget _camposPovoar(int i) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 1),
+            child: Text(
+              _detalhes.dados[i].campo,
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                  color: Colors.black.withOpacity(0.6),
+                  fontSize: 13,
+                  //fontWeight: FontWeight.bold,
+                  fontFamily: "Open Sans"),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 6),
+            child: Text(
+              (_detalhes.dados[i].campo.contains('Data'))
+                  ? _detalhes.dados[i].valor.split('-').reversed.join('-')
+                  : _detalhes.dados[i].valor,
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                  color: Colors.black.withOpacity(0.7),
+                  fontSize: 17,
+                  //fontWeight: FontWeight.bold,   DateFormat("'Data numérica:' dd/MM/yyyy").format(data)
+                  fontFamily: "Open Sans"),
+            ),
+          ),
+        ],
+      );
+    }
+
     //Retornar a Detalhes de Operaçõesvoid
     void _retornaPaginaDetalhe(BuildContext context, String sistema) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) {
             // applicationDetailItems = [];
-            return ListaAprovacoes(sistema, traco, listaDeOperacoes, true);
+            return ListaAprovacoes(nomeSistema: sistema,);
           },
         ),
       );
@@ -96,10 +199,28 @@ class _DashboardState extends State<Dashboard> {
         MaterialPageRoute(
           builder: (context) {
             // applicationDetailItems = [];
-            return ListaAprovacoes(sistema, traco, listaDeOperacoes, true);
+            return ListaAprovacoes(nomeSistema: sistema,);
           },
         ),
       );
+    }
+
+    void onTabTapped(int index) {
+      setState(() {
+        _currentIndex = index;
+
+        if (index == 2) {
+          showMaterialModalBottomSheet(
+            context: context,
+            builder: (context) =>
+                HomeModal(_detalhes.dados[0].valor, _detalhes.anexo),
+          );
+        } else if (index == 0) {
+          print('Aprovar');
+        } else if (index == 1) {
+          print('Rejeitar');
+        }
+      });
     }
 
     var container;
@@ -116,11 +237,14 @@ class _DashboardState extends State<Dashboard> {
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
-        elevation: 5.0,
+        elevation: 4.0,
         backgroundColor: Colors.red[900],
         title: Text(
-          '${nome} - ${tit} ${id}', // ${id}
+          _detalhes.dados[0].valor +
+              '                ' +
+              _detalhes.operationId, // ${id}
           textAlign: TextAlign.center,
+          overflow: TextOverflow.ellipsis,
           maxLines: 2,
         ),
         centerTitle: true,
@@ -135,6 +259,101 @@ class _DashboardState extends State<Dashboard> {
         ],
       ),
 
+      //Botões inferiores
+
+      bottomNavigationBar: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        // mainAxisSpacing: MainAxisSpacing.right,
+        children: [
+          Container(
+            //color: Colors.amber,
+            margin: const EdgeInsets.only(
+                // top: 1,
+                ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    height: 50, //altura do button
+                    width: 100, //Largura button
+                    child: ElevatedButton(
+                      child: Text('Aprovar'.toUpperCase()),
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          //side: BorderSide(color: Colors.red)
+                        ),
+                        primary: Colors.green,
+                        onPrimary: Colors.white,
+                        onSurface: Colors.grey,
+                      ),
+                      onPressed: () {
+                        print('Aprovar'.toUpperCase());
+                      },
+                    ),
+                  ),
+                ),
+                //Fim botão aprovar
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    height: 50, //altura do button
+                    width: 100, //Largura button
+                    child: ElevatedButton(
+                      child: Text('Rejeitar'.toUpperCase()),
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          //side: BorderSide(color: Colors.red)
+                        ),
+                        primary: Colors.red[900],
+                        onPrimary: Colors.white,
+                        onSurface: Colors.grey,
+                      ),
+                      onPressed: () {
+                        print('Rejeitar'.toUpperCase());
+                      },
+                    ),
+                  ),
+                ),
+                //Fim btn rejeitar
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    height: 50, //altura do button
+                    width: 100, //Largura button
+                    child: ElevatedButton(
+                      child: Text('Anexos'.toUpperCase()),
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          //side: BorderSide(color: Colors.red)
+                        ),
+                        primary: Color(0xFF263238),
+                        onPrimary: Colors.white,
+                        onSurface: Colors.grey,
+                      ),
+                      onPressed: () {
+                      
+                        showMaterialModalBottomSheet(
+                          context: context,
+                          builder: (context) => HomeModal(
+                              _detalhes.dados[0].valor, _detalhes.anexo),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+      //
+
       body: (container == null)
           ?
           //Design do Conteúdo toda descrição da operaçã à aprovar ou rejeitar
@@ -144,88 +363,6 @@ class _DashboardState extends State<Dashboard> {
                 shrinkWrap: true,
                 children: [
                   //Informação de cabeçalho
-                  /* Center(
-                      child: Padding(
-                    padding: EdgeInsets.only(top: 16, bottom: 8),
-                    child: Text(
-                      "${nome} - ${tit}".toUpperCase(),
-                      style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "Open Sans"),
-                    ),
-                  )),*/
-
-                  /* Center(
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                        top: 30,
-                        bottom: 3,
-                        //left: 10,
-                      ),
-                      child: Text(
-                        "${id} ".toUpperCase(),
-                        style: TextStyle(
-                            color: Colors.red[900],
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "Open Sans"),
-                      ),
-                    ),
-                  ),*/
-//Fim da Informação de Cabeçalho
-
-//Informação de Tipo Operação
-                  /*  Center(
-                      child: Padding(
-                    padding: EdgeInsets.only(top: 3, bottom: 16),
-                    child: Text(
-                      "${tit}".toUpperCase(), //Nome Ope
-                      style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "Open Sans"),
-                    ),
-                  )),*/
-//Fim informação de Operação
-
-//Fim informação de Operação
-
-                  //Texto IconData
-                  /*  Padding(
-            padding: EdgeInsets.only(left: 17),
-            child: Text("14.000.000,00 AKZ",
-                style:TextStyle(
-                            color: Colors.red,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "Open Sans",
-                      ),
-            ),
-            
-          ),*/
-
-//texto ID Fim
-//Texto IconData
-                  /* Padding(
-                    padding: EdgeInsets.only(
-                        top: 0,
-                        bottom: 10,
-                        left: MediaQuery.of(context).size.width - 160),
-                    child: Text(
-                      "ID: ${id}",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "Open Sans"),
-                    ),
-                  ),*/
-
-//texto ID Fim
-
                   Center(
                     child: Padding(
                       padding: EdgeInsets.only(
@@ -234,7 +371,7 @@ class _DashboardState extends State<Dashboard> {
                         //left: 10,
                       ),
                       child: Text(
-                        "Toneca - Serviços Assistencia Técnica".toUpperCase(),
+                        _detalhes.header.valor,
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 14,
@@ -251,25 +388,22 @@ class _DashboardState extends State<Dashboard> {
                     // Inicia Aqui o 1º card com a  informação referente ao numero da conta
                     elevation: 5.0,
                     margin: new EdgeInsets.symmetric(
-                        horizontal: MediaQuery.of(context).size.width * 0.02,
-                        vertical: MediaQuery.of(context).size.height * 0.01),
+                      horizontal: MediaQuery.of(context).size.width * 0.01,
+                      vertical: MediaQuery.of(context).size.height * 0.01,
+                    ),
                     child: Container(
-                      decoration:
-                          BoxDecoration(color: Color.fromARGB(0, 0, 0, 0)),
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(0, 0, 0, 0),
+                      ),
+
                       child: ListTile(
                         contentPadding: EdgeInsets.symmetric(
-                            horizontal: 20.0, vertical: 0.0),
-                        /*  leading: Container(
-                          padding: EdgeInsets.only(right: 12.0),
-                          decoration: new BoxDecoration(
-                              border: new Border(
-                                  right: new BorderSide(
-                                      width: 1.0, color: Colors.white24))),
-                          child: Icon(Icons.open_with_sharp,
-                              color: Colors.red[900]),
-                        ),*/
+                          horizontal: 20.0,
+                          vertical: 0.0,
+                        ),
                         title: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             //aqui irei colocar todos os widgets q farão parte dos detalhes
                             Container(
@@ -279,103 +413,26 @@ class _DashboardState extends State<Dashboard> {
                                 children: [
                                   Padding(
                                     padding: EdgeInsets.only(
-                                      top: 4,
-                                      bottom: 6,
+                                      top: 0,
+                                      bottom: 2,
                                       //left: 20,
                                     ),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(bottom: 1),
-                                          child: Text(
-                                            "Valor ",
-                                            //textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                                color: Colors.black
-                                                    .withOpacity(0.7),
-                                                fontSize: 15,
-                                                //fontWeight: FontWeight.bold,
-                                                fontFamily: "Open Sans"),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(bottom: 6),
-                                          child: Text(
-                                            " ${valor}  ${cash}",
-                                            //textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                                color: Colors.black
-                                                    .withOpacity(0.7),
-                                                fontSize: 17,
-                                                //fontWeight: FontWeight.bold,
-                                                fontFamily: "Open Sans"),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(bottom: 6),
-                                          child: Text(
-                                            "Data ",
-                                            style: TextStyle(
-                                                color: Colors.black
-                                                    .withOpacity(0.7),
-                                                fontSize: 15,
-                                                // fontWeight: FontWeight.bold,
-                                                fontFamily: "Open Sans"),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(bottom: 6),
-                                          child: Text(
-                                            "${dataO} ",
-                                            style: TextStyle(
-                                                color: Colors.black
-                                                    .withOpacity(0.7),
-                                                fontSize: 17,
-                                                // fontWeight: FontWeight.bold,
-                                                fontFamily: "Open Sans"),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(bottom: 6),
-                                          child: Text(
-                                            "Orçamento ",
-                                            style: TextStyle(
-                                                color: Colors.black
-                                                    .withOpacity(0.7),
-                                                fontSize: 15,
-                                                //fontWeight: FontWeight.bold,
-                                                fontFamily: "Open Sans"),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(bottom: 6),
-                                          child: Text(
-                                            "1.0000.9876 AKZ",
-                                            style: TextStyle(
-                                                color: Colors.black
-                                                    .withOpacity(0.7),
-                                                fontSize: 17,
-                                                //fontWeight: FontWeight.bold,
-                                                fontFamily: "Open Sans"),
-                                          ),
-                                        ),
+                                        //Intrução for
+                                        for (int i = 3;
+                                            i < _detalhes.dados.length;
+                                            i++)
+                                          (_detalhes.dados[i].valor == 'ok')
+                                              ? _camposPovoar(++i)
+                                              : _camposPovoar(i),
+
+                                        // _camposPovoar(i),
                                       ],
                                     ),
                                   ),
-
-                                  ///VALOR
-
-                                  //Sess
-
-                                  ///
                                 ],
                               ),
                             ),
@@ -383,103 +440,7 @@ class _DashboardState extends State<Dashboard> {
                             Divider(
                               color: Colors.black,
                             ),
-                            /* Padding(
-                              padding: EdgeInsets.only(
-                                top: 4,
-                                bottom: 10,
-                                left: 10,
-                              ),
-                              child: Text(
-                                "Produtos Adquiridos".toUpperCase(),
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: "Open Sans"),
-                              ),
-                            ),*/
-
-                            Container(
-                              margin: EdgeInsets.only(right: 0, left: 35),
-                              width: double.infinity,
-                              child: Table(
-                                // border: TableBorder.all(
-                                //     color: Colors.black, width: 1.0, style: BorderStyle.solid),
-                                border: TableBorder.symmetric(
-                                    inside: BorderSide(
-                                        width: 0.01, color: Colors.white)),
-                                defaultVerticalAlignment:
-                                    TableCellVerticalAlignment.middle,
-                                columnWidths: {
-                                  0: FlexColumnWidth(0.1),
-                                  1: FlexColumnWidth(0.1),
-                                },
-                                children: [
-                                  TableRow(children: [
-                                    Text(
-                                      "Hack",
-                                      //textScaleFactor: 1.2,
-                                      //textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: Colors.black87,
-                                          fontSize: 14,
-                                          //fontWeight: FontWeight.bold,
-                                          fontFamily: "Open Sans"),
-                                    ),
-                                    Text(
-                                      "3.000.000,00 AKZ",
-                                      // textScaleFactor: 1.2,
-                                      //textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: Colors.black87,
-                                          fontSize: 14,
-                                          // fontWeight: FontWeight.bold,
-                                          fontFamily: "Open Sans"),
-                                    ),
-                                  ]),
-                                  TableRow(children: [
-                                    Text(
-                                      "PC DELL",
-                                      // textScaleFactor: 1.2,
-                                      // textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: Colors.black87,
-                                          fontSize: 14,
-                                          fontFamily: "Open Sans"),
-                                    ),
-                                    Text(
-                                      "10.000,00 AKZ".toString(),
-                                      //textScaleFactor: 1.2,
-                                      // textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: Colors.black87,
-                                          fontSize: 14,
-                                          fontFamily: "Open Sans"),
-                                    ),
-                                  ]),
-                                  TableRow(children: [
-                                    Text(
-                                      "Telefones",
-                                      //textAlign: TextAlign.center,
-                                      //textScaleFactor: 1.2,
-                                      style: TextStyle(
-                                          color: Colors.black87,
-                                          fontSize: 14,
-                                          fontFamily: "Open Sans"),
-                                    ),
-                                    Text(
-                                      "10.000,00 AKZ".toString(),
-                                      //textScaleFactor: 1.3,
-                                      // textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: Colors.black87,
-                                          fontSize: 14,
-                                          fontFamily: "Open Sans"),
-                                    ),
-                                  ]),
-                                ],
-                              ),
-                            ),
+                            _tabelaDados(),
                           ],
                         ),
                       ), //makeListTile,
@@ -487,109 +448,7 @@ class _DashboardState extends State<Dashboard> {
                   ),
 
                   //Card com informações dos produtos
-
-                  /*Divider(
-                    color: Colors.black,
-                  ),*/
-                  //Fim Divisão
-                  //Botões para aceitar e rejeitar
-
-                  //   _botaoAprovar(),
-                  //  _botaoRejeitar()
-                  Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      // mainAxisSpacing: MainAxisSpacing.right,
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(
-                            top: 200,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            //crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: SizedBox(
-                                  height: 50, //altura do button
-                                  width: 100, //Largura button
-                                  child: ElevatedButton(
-                                    child: Text('Aprovar'.toUpperCase()),
-                                    style: ElevatedButton.styleFrom(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                        //side: BorderSide(color: Colors.red)
-                                      ),
-                                      primary: Colors.green,
-                                      onPrimary: Colors.white,
-                                      onSurface: Colors.grey,
-                                    ),
-                                    onPressed: () {
-                                      print('Aprovar'.toUpperCase());
-                                    },
-                                  ),
-                                ),
-                              ),
-                              //Fim botão aprovar
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: SizedBox(
-                                  height: 50, //altura do button
-                                  width: 100, //Largura button
-                                  child: ElevatedButton(
-                                    child: Text('Rejeitar'.toUpperCase()),
-                                    style: ElevatedButton.styleFrom(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                        //side: BorderSide(color: Colors.red)
-                                      ),
-                                      primary: Colors.red[900],
-                                      onPrimary: Colors.white,
-                                      onSurface: Colors.grey,
-                                    ),
-                                    onPressed: () {
-                                      print('Rejeitar'.toUpperCase());
-                                    },
-                                  ),
-                                ),
-                              ),
-                              //Fim btn rejeitar
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: SizedBox(
-                                  height: 50, //altura do button
-                                  width: 100, //Largura button
-                                  child: ElevatedButton(
-                                    child: Text('Anexos'.toUpperCase()),
-                                    style: ElevatedButton.styleFrom(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                        //side: BorderSide(color: Colors.red)
-                                      ),
-                                      primary: Colors.grey,
-                                      onPrimary: Colors.white,
-                                      onSurface: Colors.grey,
-                                    ),
-                                    onPressed: () {
-                                      showMaterialModalBottomSheet(
-                                        context: context,
-                                        builder: (context) =>
-                                            HomeModal(tit, nome),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  //botões estavam aqui  *btns*
 
                   //Fim dos botões
                 ],
@@ -602,18 +461,7 @@ class _DashboardState extends State<Dashboard> {
           : container,
       floatingActionButton:
           botaoHomeAparece ? null : null, //Desenha o Dash lateral esquerdo
-      drawer: Drawer(
-        child: SingleChildScrollView(
-          child: Container(
-            child: Column(
-              children: [
-                MyHeaderDrawer(),
-                myDrawerList(),
-              ],
-            ),
-          ),
-        ),
-      ),
+      drawer: DrawerMenu(),
     );
   }
 
@@ -700,40 +548,6 @@ class _DashboardState extends State<Dashboard> {
           },
 
           child: Text("APROVAR",
-              style: TextStyle(
-                  color: Colors.white,
-                  letterSpacing: 1.5,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold)),
-        ),
-      ),
-    );
-  }
-
-  ///Botão Rejeitar
-  _botaoRejeitar() {
-    return Container(
-      padding: EdgeInsets.all(0),
-      width: double.infinity,
-      margin: const EdgeInsets.only(right: 130, left: 130),
-      child: SizedBox(
-        height: 60, //altura do button
-        width: 20, //Largura button
-        child: ElevatedButton(
-          //  elevation: 5.0,
-          style: ElevatedButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-              //side: BorderSide(color: Colors.red)
-            ),
-            primary: Colors.red[900], // background
-            onPrimary: Colors.white, // foreground
-          ),
-          onPressed: () {
-            print("Rejeitar");
-          },
-
-          child: Text("REJEITAR",
               style: TextStyle(
                   color: Colors.white,
                   letterSpacing: 1.5,

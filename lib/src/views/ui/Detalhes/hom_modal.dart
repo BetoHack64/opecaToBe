@@ -1,29 +1,52 @@
+import 'package:SOP/src/business_logic/models/detalhes.dart';
+import 'package:SOP/src/business_logic/services/api_services/FuncoesAPI.dart';
 import 'package:SOP/src/views/ui/Detalhes/pdf_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 String titulo = '';
 String nome = '';
+Anexo _anexos = Anexo(operationId: '', idConteudo: '', data: []);
 
 class HomeModal extends StatefulWidget {
-  HomeModal(String titu, String nomes) {
+  //Antes HomeModal(String titu, String nomes)
+  HomeModal(String titu, Anexo anexo) {
     titulo = titu;
-    nome = nomes;
+    _anexos = anexo;
+    //nome = nomes;
   }
   @override
   _HomeModalState createState() => _HomeModalState();
 }
 
 class _HomeModalState extends State<HomeModal> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  String f = '';
   bool _isLoading = false;
 
-  _listaFicheiro() {
+  _listaFicheiro(int i) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => PdfVer(titulo, nome)),
-        );
+        String fo =
+            _anexos.data[i + 1].valor.toString() == 'PDF' ? 'pdf' : 'bug';
+        print('aqui Modal');
+
+        // print(nome);
+        FuncoesAPI.buscaPdf('2021101000004', '1').then((value) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return PdfVer(_anexos.data[i].valor, _anexos.operationId,
+                    _anexos.idConteudo, value);
+              },
+            ),
+          );
+        });
       },
       child: Card(
         // Inicia Aqui o 1º card com a  informação referente ao numero da conta
@@ -43,10 +66,12 @@ class _HomeModalState extends State<HomeModal> {
               child: Icon(Icons.picture_as_pdf, color: Colors.red[900]),
             ),
             title: Text(
-              "Factura-Recibo Agosto/2020",
+              _anexos.data[i].valor,
               style:
                   TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
             ),
+            subtitle: Text('Documento anexado'),
+            //trailing: Icon(Icons.favorite_outline),
           ), //makeListTile,
         ), // termina Aqui o 1º card com a  informação referente ao numero da conta
       ),
@@ -60,15 +85,6 @@ class _HomeModalState extends State<HomeModal> {
         child: Form(
             child: Column(
           children: [
-            /*Text(
-              "anexos DA OPERAÇÃO".toUpperCase(),
-              style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: "Open Sans"),
-            ),*/
-
             //Lista de Arquivos
             Card(
               // Inicia Aqui o 1º card com a  informação referente ao numero da conta
@@ -91,14 +107,11 @@ class _HomeModalState extends State<HomeModal> {
                         Icons.arrow_back,
                         color: Colors.red[900],
                       ),
-                      onPressed: () =>
-                          //Navigator.of(context, rootNavigator: true).pop()
-                          //Voltar a página que chamou a modal
-                          Navigator.of(context).pop(),
+                      onPressed: () => Navigator.of(context).pop(),
                     ),
                   ),
                   title: Text(
-                    "${nome} - ${titulo}".toUpperCase(),
+                    " ${titulo}".toUpperCase(),
                     style: TextStyle(
                         color: Colors.red[900], fontWeight: FontWeight.bold),
                   ),
@@ -106,7 +119,8 @@ class _HomeModalState extends State<HomeModal> {
               ),
             ),
             //Final Lista
-            _listaFicheiro()
+            for (int i = 0; i < _anexos.data.length; i++)
+              if (_anexos.data[i].campo != 'Formato') _listaFicheiro(i)
           ],
         )));
   }

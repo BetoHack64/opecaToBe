@@ -1,6 +1,9 @@
+import 'package:SOP/src/business_logic/models/detalhes.dart';
+import 'package:SOP/src/business_logic/services/api_services/FuncoesAPI.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:SOP/src/views/ui/Detalhes/AprovarRejeitar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ItemsLista extends StatelessWidget {
   final String title;
@@ -12,23 +15,46 @@ class ItemsLista extends StatelessWidget {
   final String moeda;
   final int index;
   final String unidadeOrcamental;
-  void _selecionaSistema(BuildContext context) {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (context) {
-          return AprovarRejeitar(this.sistema, this.id, this.valor, true,
-              this.title, this.data, this.moeda);
-        },
-      ),
-    );
+  
+  //Criação de objeto de Detalhes
+  OperationData _detalhes = OperationData(
+    applicationId: '',
+    operationCodId: '',
+    operationId: '',
+    header: Header(campo: '', valor: ''),
+    dados: [],
+    grelha: Grelha(
+        header: Header_grelha(coluna1: '', coluna2: '', coluna3: ''), data: []),
+    anexo: Anexo(operationId: '', idConteudo: '', data: []),
+  );
+//Fim do objeto _detalhes
+
+  //Função para chamar tela de Detalhes
+
+  void _selecionaSistema(BuildContext context) async{
+  SharedPreferences sharedPreferences =await SharedPreferences.getInstance();
+      String nomeSistema =sharedPreferences.getString('SistemaID') ?? 'bug sistemaID';
+      print('Aqui');
+      print(id);
+    FuncoesAPI.buscaDetalhes(nomeSistema, '2021101000004').then((value) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) {
+            // print('Dentro 3');
+            // print(this._detalhes.applicationId);
+            return AprovarRejeitar(value);
+          },
+        ),
+      );
+    });
   }
+
 
   //oid Function() onTap;
   //String sistema = '';
 
   ItemsLista(
-      {
-      required this.unidadeOrcamental,
+      {required this.unidadeOrcamental,
       required this.title,
       required this.subtitle,
       required this.sistema,
@@ -45,7 +71,7 @@ class ItemsLista extends StatelessWidget {
         shape: Border(
             //right: BorderSide(color: Color(0xFFB71c1c), width: 5),
             //bottom: BorderSide(color: Color(0xFF636161), width: 1)
-        ),
+            ),
         //color: Colors.blue,
         elevation: 4.0,
         margin: new EdgeInsets.symmetric(
@@ -83,7 +109,7 @@ class ItemsLista extends StatelessWidget {
                 child: Text(
                   unidadeOrcamental,
                   style: TextStyle(
-                    color: Colors.red[900],
+                    color: Colors.grey[600],
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -131,7 +157,11 @@ class ItemsLista extends StatelessWidget {
                                                         ? 119
                                                         : title.length == 19
                                                             ? 118
-                                                            : 100,
+                                                            : title.length == 21
+                                                                ? 130:
+                                                                title.length == 5
+                                                                ? 42
+                                                                : 100,
                       ),
                       Expanded(
                         child: Container(

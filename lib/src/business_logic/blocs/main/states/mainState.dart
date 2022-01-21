@@ -6,7 +6,10 @@ class MainState extends Equatable {
   List<Object?> get props => [];
 }
 
-class MainOpeningState extends MainState {}
+class MainOpeningState extends MainState {
+final List<Sistema> lista;
+  MainOpeningState([this.lista = const []]);
+}
 
 class MainNetworkErrorOpeningState extends MainState {
   final String message;

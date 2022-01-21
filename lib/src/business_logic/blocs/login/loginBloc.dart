@@ -1,6 +1,5 @@
 // ignore_for_file: unused_field
 
-import 'package:SOP/src/views/ui/main/main.dart';
 import 'package:SOP/src/business_logic/blocs/login/events/loginEvent.dart';
 import 'package:SOP/src/business_logic/blocs/login/states/loginState.dart';
 import 'package:flutter/material.dart';

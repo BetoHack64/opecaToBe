@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:SOP/src/views/ui/Lista_Aprovacoes/listaAprovacoes.dart';
+import 'package:SOP/src/business_logic/models/detalhes.dart';
 import 'package:SOP/src/views/ui/main/main.dart';
 import 'package:SOP/src/business_logic/blocs/login/events/loginEvent.dart';
 import 'package:SOP/src/business_logic/blocs/login/loginBloc.dart';
@@ -37,7 +37,7 @@ class FuncoesAPI {
         '&grant_type=password';
 
     // Converte a string "corpo" para uma string no formato JSON
-    var _body = json.encode(corpo);
+    //var _body = json.encode(corpo);
 
     // Envia uma requisiçao POST com o seu devido cabeçalho e corpo à URL
     var response = await http.post(url, headers: header, body: corpo);
@@ -104,38 +104,80 @@ class FuncoesAPI {
   }
 
   //---
-  static Future<List<CardDetail>> buscaOperacoes(
-      int appID, int accountID) async {
+ //Buscar detalhes da operação  APpID=51000000 OpreaID=2021101000004
+  static Future<OperationData> buscaDetalhes(
+      String ApplicationID, String OperationID) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    //idAccount = (sharedPreferences.getString("IdAccount") ?? "");
     var url = Uri.parse(
-        'http://83.240.225.239:130/api/Operation?ApplicationID=${appID.toString()}&AccountID=${accountID.toString()}');
-    print(url);
+        'http://83.240.225.239:130/api/OperationData?ApplicationID=$ApplicationID&OperationID=$OperationID');
+    //print(url);
     var token = (sharedPreferences.getString("access_token") ?? "");
+    // print(token);
     var header = {
       "Content-Type": "application/json",
       "Authorization": "Bearer $token"
     };
-
+    //Variaveis para os Dados
+    List<Data0> listaData = [];
+    List<Grelha> listaGrelha = [];
+    //fim Variaveis
     var response = await http.get(url, headers: header);
-    Map userMap = jsonDecode(response.body);
-    List<CardDetail> cards = [];
+    Map<String, dynamic> userMap = jsonDecode(response.body);
+
+    OperationData detals;
+    print(userMap['OperationData']['ApplicationID']);
     if (userMap.isNotEmpty) {
-      for (var item in userMap['Apps']['Operacao']) {
-        cards.add(
-          CardDetail(
-            unidadeOrcamental: item['Linha1Campo1'],
-            title: item['Linha2Campo2'],
-            subtitle: item['Linha2Campo1'],
-            id: item['OperationID'].toString(),
-            moeda: item['Linha2Campo4'],
-            valor: item['Linha2Campo3'] ?? '23',
-            fornecedor: item['Linha3Campo1'] ?? 'Teste',
-          ),
-        );
+      //Para os dados do detalhes
+      for (var item in userMap['OperationData']['Data']) {
+        Data0 data = Data0(campo: item['Campo'], valor: item['Valor'] ?? "ok");
+        listaData.add(data);
       }
-      return cards;
+
+      //Para a Construção da  Tabela
+
+      return OperationData(
+        applicationId: userMap['OperationData']['ApplicationID'],
+        operationCodId: userMap['OperationData']['OperationCodID'],
+        operationId: userMap['OperationData']['OperationID'].toString(),
+        header: Header.fromJson(userMap['OperationData']['Header']),
+        dados: listaData,
+        grelha: Grelha.fromJson(userMap['OperationData']['Grelha']),
+        anexo: Anexo.fromJson(userMap['OperationData']['Anexo']),
+      );
     } else {
-      return [];
+      print('Bug');
+      return OperationData(
+        applicationId: '',
+        operationCodId: '',
+        operationId: '',
+        header: Header(campo: '', valor: ''),
+        dados: [],
+        grelha: Grelha(
+            header: Header_grelha(coluna1: '', coluna2: '', coluna3: ''),
+            data: []),
+        anexo: Anexo(operationId: '', idConteudo: '', data: []),
+      );
     }
+  }
+  //Fim da função pegar os detalhes da operação
+
+  static Future<String> buscaPdf(String OperationID, String ContentID) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    //idAccount = (sharedPreferences.getString("IdAccount") ?? "");
+    var url = Uri.parse(
+        'http://83.240.225.239:130/api/File?OperationID=$OperationID&ContentID=$ContentID');
+    //print(url);
+    var token = (sharedPreferences.getString("access_token") ?? "");
+    // print(token);
+    var header = {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token"
+    };
+    var response = await http.get(url, headers: header);
+    //Map<String, dynamic> userMap = jsonDecode(response.body);
+    
+    //print(jsonDecode(response.body).toString());
+    return jsonDecode(response.body).toString();
   }
 }

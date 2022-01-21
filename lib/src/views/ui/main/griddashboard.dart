@@ -1,20 +1,10 @@
-import 'package:SOP/src/business_logic/blocs/listaOperacoes/events/listaOperacoesEvent.dart';
-import 'package:SOP/src/business_logic/blocs/listaOperacoes/listaOperacoesBloc.dart';
-import 'package:SOP/src/business_logic/blocs/listaOperacoes/states/listaOperacoesState.dart';
+import 'package:SOP/src/business_logic/blocs/main/mainBloc.dart';
 import 'package:SOP/src/business_logic/models/sistema.dart';
-import 'package:SOP/src/views/ui/Lista_Aprovacoes/listaAprovacoes.dart';
 import 'package:SOP/src/views/ui/main/iconSistema.dart';
 import 'package:flutter/material.dart';
-import 'package:SOP/src/business_logic/services/api_services/FuncoesAPI.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-String traco = ' - ';
 List<Sistema> applicationDetailItems = [];
-List<CardDetail> cardss = [];
-int id = 0;
-List lista = [];
-bool temOuNao = false;
 
 class GridDashboard extends StatefulWidget {
   GridDashboard({required List<Sistema> items}) {
@@ -29,34 +19,6 @@ class _GridDashboardState extends State<GridDashboard> {
   @override
   initState() {
     super.initState();
-    FuncoesAPI.buscaOperacoes(51000000, 1001).then((value) {
-      cardss = value;
-    });
-    ListaOperacoesBloc.temNet().then((value) => temOuNao = value);
-    //print(temOuNao);
-  }
-
-  Future<String> pegaDados() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    return (sharedPreferences.getString("IdAccount") ?? "");
-  }
-
-  Future<void> _selecionaSistema(
-      BuildContext context, String sistema, int appID) async {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (context) {
-          applicationDetailItems = [];
-          return BlocProvider<ListaOperacoesBloc>(
-            create: (_) {
-              return ListaOperacoesBloc(ListaOperacoesLoadingState(), temOuNao)
-                ..add(ListaOperacoesGetConnection());
-            },
-            child: ListaAprovacoes(sistema, traco, cardss, true),
-          );
-        },
-      ),
-    );
   }
 
   @override
@@ -72,7 +34,7 @@ class _GridDashboardState extends State<GridDashboard> {
         children: myList.map(
           (data) {
             return InkWell(
-              onTap: () => _selecionaSistema(
+              onTap: () => BlocProvider.of<MainBloc>(context).selecionaSistema(
                   context, data.applicationCod, data.applicationID),
               borderRadius: BorderRadius.circular(10),
               child: Container(
@@ -156,4 +118,3 @@ class _GridDashboardState extends State<GridDashboard> {
     );
   }
 }
-

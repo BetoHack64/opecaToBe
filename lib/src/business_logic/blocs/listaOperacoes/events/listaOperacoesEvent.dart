@@ -10,4 +10,7 @@ class ListaOperacoesGetConnection extends ListaOperacoesEvent {}
 class ListaOperacoesGetConnectionError extends ListaOperacoesEvent {}
 class ListaOperacoesGetConnectionSucess extends ListaOperacoesEvent {}
 class ListaOperacoesGetLista extends ListaOperacoesEvent {}
-class ListaOperacoesGetPesquisaLista extends ListaOperacoesEvent {}
+class ListaOperacoesGetPesquisaLista extends ListaOperacoesEvent {
+  final String pesquisa;
+  ListaOperacoesGetPesquisaLista([this.pesquisa = '']);
+}
