@@ -2,20 +2,22 @@ import 'package:SOP/src/business_logic/blocs/main/mainBloc.dart';
 import 'package:SOP/src/business_logic/blocs/main/states/mainState.dart';
 import 'package:SOP/src/views/ui/login/logar.dart';
 import 'package:SOP/src/views/ui/main/drawer.dart';
+import 'package:SOP/src/views/ui/main/logout.dart';
 import 'package:flutter/material.dart';
 import 'package:SOP/src/views/ui/main/dashboard.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
   runApp(
-    Builder(
-      builder: (context) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          home: (BlocProvider.of<MainBloc>(context).estaLogado == true) ? Home() : LoginScreem(),
-        );
-      }
-    ),
+    Builder(builder: (context) {
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        
+        home: (BlocProvider.of<MainBloc>(context).estaLogado == true)
+            ? Home()
+            : LoginScreem(),
+      );
+    }),
   );
 }
 
@@ -50,6 +52,10 @@ class HomeState extends State<Home> {
         title: Text('Portal de Operações'),
         backgroundColor: Colors.red[900],
         centerTitle: true,
+        actions: [
+          LogoutButton(),
+        ],
+        
       ),
       backgroundColor: Colors.white, //
       body: BlocBuilder<MainBloc, MainState>(
@@ -65,7 +71,6 @@ class HomeState extends State<Home> {
           return Container();
         },
       ),
-      drawer: DrawerMenu(),
     );
   }
 }

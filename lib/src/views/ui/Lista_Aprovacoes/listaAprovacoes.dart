@@ -5,6 +5,8 @@ import 'package:SOP/src/business_logic/blocs/listaOperacoes/states/listaOperacoe
 import 'package:SOP/src/business_logic/models/cardDetail.dart';
 import 'package:SOP/src/views/ui/Lista_Aprovacoes/itemsLista.dart';
 import 'package:SOP/src/views/ui/main/drawer.dart';
+import 'package:SOP/src/views/ui/main/homeIconButton.dart';
+import 'package:SOP/src/views/ui/main/logout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:SOP/src/views/ui/Header/my_header_drawer.dart';
@@ -58,9 +60,11 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+    
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
+      leading: RetrocederButton(telaRetroceder:'listaOperacoes'),
         elevation: 0.1,
         backgroundColor: Colors.red[900],
         title: (BlocProvider.of<ListaOperacoesBloc>(context).botaoHomeAparece ==
@@ -77,35 +81,7 @@ class _DashboardState extends State<Dashboard> {
                         ? 20
                         : 20),
               ),
-        actions: [
-          (BlocProvider.of<ListaOperacoesBloc>(context).botaoHomeAparece ==
-                  false)
-              ? Text("")
-              : Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 0.0),
-                      child: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            if (BlocProvider.of<ListaOperacoesBloc>(context)
-                                .caixaDePesquisaEstaVisivel) {
-                              BlocProvider.of<ListaOperacoesBloc>(context)
-                                  .caixaDePesquisaEstaVisivel = false;
-                            } else {
-                              BlocProvider.of<ListaOperacoesBloc>(context)
-                                  .caixaDePesquisaEstaVisivel = true;
-                            }
-                          });
-                        },
-                        icon: Icon(
-                          Icons.search,
-                        ),
-                      ),
-                    ),
-                  ],
-                )
-        ],
+        //actions: [ LogoutButton()],
         centerTitle: true,
       ),
       body: Column(
@@ -117,63 +93,62 @@ class _DashboardState extends State<Dashboard> {
                 height: 60.0,
                 width: 250.0,
                 alignment: Alignment(-1.0, 0.0),
-                child: BlocProvider.of<ListaOperacoesBloc>(context)
-                        .caixaDePesquisaEstaVisivel
-                    ? AnimatedContainer(
+                child: AnimatedContainer(
+                  duration: Duration(milliseconds: 375),
+                  height: 40.0,
+                  width: (toggle == 0) ? 48.0 : 250.0,
+                  curve: Curves.easeOut,
+                  decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular(30.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black38,
+                          spreadRadius: -14.0,
+                          blurRadius: 10.0,
+                          offset: Offset(-4.0, 10.0),
+                        ),
+                      ]),
+                  child: Stack(
+                    children: [
+                      AnimatedPositioned(
                         duration: Duration(milliseconds: 375),
-                        height: 48.0,
-                        width: (toggle == 0) ? 48.0 : 250.0,
+                        left: (toggle == 0) ? 45.0 : 15.0,
+                        top: 13.0,
                         curve: Curves.easeOut,
-                        decoration: BoxDecoration(
-                            color: Colors.grey[300],
-                            borderRadius: BorderRadius.circular(30.0),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black38,
-                                spreadRadius: -14.0,
-                                blurRadius: 10.0,
-                                offset: Offset(-4.0, 10.0),
-                              ),
-                            ]),
-                        child: Stack(
-                          children: [
-                            AnimatedPositioned(
-                              duration: Duration(milliseconds: 375),
-                              left: (toggle == 0) ? 20.0 : 40.0,
-                              top: 13.0,
-                              curve: Curves.easeOut,
-                              child: AnimatedOpacity(
-                                opacity: (toggle == 0) ? 0.0 : 1.0,
-                                duration: Duration(milliseconds: 200),
-                                child: Container(
-                                  height: 23.0,
-                                  width: 200.0,
-                                  child: TextField(
-                                    onChanged: (valor) => runFilter(valor),
-                                    cursorRadius: Radius.circular(10.0),
-                                    cursorWidth: 2.0,
-                                    cursorColor: Colors.black,
-                                    decoration: InputDecoration(
-                                      floatingLabelBehavior:
-                                          FloatingLabelBehavior.never,
-                                      labelText: 'Pesquisar...',
-                                      labelStyle: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 17.0,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                      alignLabelWithHint: true,
-                                      border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(20.0),
-                                        borderSide: BorderSide.none,
-                                      ),
-                                    ),
-                                  ),
+                        child: AnimatedOpacity(
+                          opacity: (toggle == 0) ? 0.0 : 1.0,
+                          duration: Duration(milliseconds: 200),
+                          child: Container(
+                            height: 20.0,
+                            width: 150.0,
+                            
+                            child: TextField(
+                              onChanged: (valor) => runFilter(valor),
+                              cursorRadius: Radius.circular(10.0),
+                              cursorWidth: 2.0,
+                              cursorColor: Colors.black,
+                              decoration: InputDecoration(
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.never,
+                                //labelText: 'Pesquisar...',
+                                label: Text('Pesquisa'),
+                                labelStyle: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 17.0,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                alignLabelWithHint: true,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                  borderSide: BorderSide.none,
                                 ),
                               ),
                             ),
-                            Container(
+                          ),
+                        ),
+                      ),
+                      /*Container(
                             margin: EdgeInsets.only(left: 200),
                               child: Material(
                                 color: Colors.white,
@@ -190,27 +165,10 @@ class _DashboardState extends State<Dashboard> {
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      )
-                    : Container(
-                        margin: EdgeInsets.only(top: 12),
-                        child: Center(
-                            child: Column(
-                          children: [
-                            Text(
-                              "LISTA DE OPERAÇÕES",
-                              textScaleFactor: 1.4,
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                            Text(
-                              "Selecione a operação",
-                              style: TextStyle(color: Colors.grey),
-                            )
-                          ],
-                        )),
-                      ),
+                            ),*/
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
@@ -276,7 +234,6 @@ class _DashboardState extends State<Dashboard> {
               }),
         ],
       ),
-      drawer: DrawerMenu(),
     );
   }
 

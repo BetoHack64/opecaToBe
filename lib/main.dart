@@ -1,8 +1,8 @@
-import 'package:SOP/src/business_logic/blocs/splash/events/SplashEvent.dart';
-import 'package:SOP/src/business_logic/blocs/splash/splashBloc.dart';
-import 'package:SOP/src/business_logic/blocs/splash/states/SplashState.dart';
+import 'package:SOP/src/business_logic/blocs/login/events/loginEvent.dart';
+import 'package:SOP/src/business_logic/blocs/login/loginBloc.dart';
+import 'package:SOP/src/business_logic/blocs/login/states/loginState.dart';
+import 'package:SOP/src/views/ui/Login/logar.dart';
 import 'package:flutter/material.dart';
-import 'package:SOP/src/views/ui/Splash/splash.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // Função Raiz da App, que define a tela principal
@@ -27,11 +27,11 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: BlocProvider<SplashBloc>(
+      home: BlocProvider<LoginBloc>(
         create: (_) {
-          return SplashBloc(SplashRunningState())..add(SplashProcessing());
+          return LoginBloc(LoginNormalState())..add(LoginGetConnection());
         },
-        child: Splashscrem(),
+        child: LoginScreem(),
       ),
     );
   }

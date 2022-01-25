@@ -25,7 +25,7 @@ class OperationData {
   late Header header;
   late List<Data0> dados;
   late Grelha grelha;
-  late Anexo anexo;
+  late List<Anexo> anexo;
 
   OperationData(
       {required this.applicationId,
@@ -45,7 +45,11 @@ class OperationData {
         ? null
         : (json["Data"] as List).map((e) => Data0.fromJson(e)).toList())!;
     grelha = (json["Grelha"] == null ? null : Grelha.fromJson(json["Grelha"]))!;
-    anexo = (json["Anexo"] == null ? null : Anexo.fromJson(json["Anexo"]))!;
+   // anexo = (json["Anexo"] == null ? null : Anexo.fromJson(json["Anexo"]))!;
+    //Para anexos a
+    anexo = (json["Anexo"] == null
+        ? null
+        : (json["Anexo"] as List).map((e) => Anexo.fromJson(e)).toList())!;
   }
 
   Map<String, dynamic> toJson() {
@@ -63,7 +67,7 @@ class OperationData {
       data["Grelha"] = grelha.toJson();
     }
     if (anexo != null) {
-      data["Anexo"] = anexo.toJson();
+      data["Anexo"] = this.anexo.map((e) => e.toJson()).toList();
     }
     return data;
   }

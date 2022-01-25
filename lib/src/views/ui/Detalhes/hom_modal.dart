@@ -6,11 +6,11 @@ import 'package:flutter/material.dart';
 
 String titulo = '';
 String nome = '';
-Anexo _anexos = Anexo(operationId: '', idConteudo: '', data: []);
+List<Anexo> _anexos = [];
 
 class HomeModal extends StatefulWidget {
   //Antes HomeModal(String titu, String nomes)
-  HomeModal(String titu, Anexo anexo) {
+  HomeModal(String titu, List<Anexo> anexo) {
     titulo = titu;
     _anexos = anexo;
     //nome = nomes;
@@ -28,11 +28,11 @@ class _HomeModalState extends State<HomeModal> {
   String f = '';
   bool _isLoading = false;
 
-  _listaFicheiro(int i) {
+  _listaFicheiro(int i, int aux) {
     return GestureDetector(
       onTap: () {
         String fo =
-            _anexos.data[i + 1].valor.toString() == 'PDF' ? 'pdf' : 'bug';
+            _anexos[i + 1].data[aux].valor.toString() == 'PDF' ? 'pdf' : 'bug';
         print('aqui Modal');
 
         // print(nome);
@@ -41,8 +41,8 @@ class _HomeModalState extends State<HomeModal> {
             context,
             MaterialPageRoute(
               builder: (context) {
-                return PdfVer(_anexos.data[i].valor, _anexos.operationId,
-                    _anexos.idConteudo, value);
+                return PdfVer(_anexos[i].data[aux].valor,
+                    _anexos[i].operationId, _anexos[i].idConteudo, value);
               },
             ),
           );
@@ -66,7 +66,7 @@ class _HomeModalState extends State<HomeModal> {
               child: Icon(Icons.picture_as_pdf, color: Colors.red[900]),
             ),
             title: Text(
-              _anexos.data[i].valor,
+              _anexos[i].data[aux].valor,
               style:
                   TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
             ),
@@ -119,8 +119,9 @@ class _HomeModalState extends State<HomeModal> {
               ),
             ),
             //Final Lista
-            for (int i = 0; i < _anexos.data.length; i++)
-              if (_anexos.data[i].campo != 'Formato') _listaFicheiro(i)
+            for (int aux = 0; aux < _anexos[0].data.length; aux++)
+              if (_anexos[0].data[aux].valor != 'Formato')
+                _listaFicheiro(0, aux)
           ],
         )));
   }

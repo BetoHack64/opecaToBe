@@ -1,28 +1,14 @@
 import 'package:SOP/src/business_logic/models/cardDetail.dart';
 import 'package:SOP/src/business_logic/models/detalhes.dart';
-import 'package:SOP/src/business_logic/services/api_services/FuncoesAPI.dart';
-import 'package:SOP/src/views/ui/Header/my_header_drawer.dart';
 import 'package:SOP/src/views/ui/Lista_Aprovacoes/listaAprovacoes.dart';
-import 'package:SOP/src/views/ui/main/dashboard.dart';
 import 'package:SOP/src/views/ui/main/drawer.dart';
+import 'package:SOP/src/views/ui/main/homeIconButton.dart';
 import 'package:SOP/src/views/ui/main/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'hom_modal.dart';
-//import 'constant.dart';
 
-String traco = ' - ';
-String nome = '';
-String id = '';
-String valor = '';
-String tit = ''; //referen descrição da operação
-String cont = '';
-String dataO = '';
-String cash = '';
-List<CardDetail> listaDeOperacoes = [];
-int contador = 0;
-bool isTrue = false;
 
 int _currentIndex = 0;
 final List _children = [];
@@ -35,15 +21,12 @@ OperationData _detalhes = OperationData(
   dados: [],
   grelha: Grelha(
       header: Header_grelha(coluna1: '', coluna2: '', coluna3: ''), data: []),
-  anexo: Anexo(operationId: '', idConteudo: '', data: []),
+  anexo: [],
 );
 
 bool botaoHomeAparece = true;
 
 bool botao = false;
-
-/*AprovarRejeitar(
-      nome, id, valor, botaoHomeAparece, tit, dataO, cash, _detalhes));*/
 
 void main() {
   runApp(AprovarRejeitar(_detalhes));
@@ -54,7 +37,6 @@ class AprovarRejeitar extends StatelessWidget {
     _detalhes = detalhes;
 
     print(_detalhes.grelha.header.coluna1);
-    
   }
   @override
   Widget build(BuildContext context) {
@@ -78,7 +60,6 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
-    String tr = traco;
     final larg = MediaQuery.of(context).size.width;
     MediaQueryData queryData;
     queryData = MediaQuery.of(context);
@@ -155,7 +136,9 @@ class _DashboardState extends State<Dashboard> {
           Padding(
             padding: const EdgeInsets.only(bottom: 1),
             child: Text(
-              _detalhes.dados[i].campo,
+              (_detalhes.dados[i].campo == 'ok')
+                  ? ''
+                  : _detalhes.dados[i].campo,
               textAlign: TextAlign.left,
               style: TextStyle(
                   color: Colors.black.withOpacity(0.6),
@@ -188,55 +171,19 @@ class _DashboardState extends State<Dashboard> {
         MaterialPageRoute(
           builder: (context) {
             // applicationDetailItems = [];
-            return ListaAprovacoes(nomeSistema: sistema,);
+            return ListaAprovacoes(
+              nomeSistema: sistema,
+            );
           },
         ),
       );
     }
 
-    void _retornaLista(BuildContext context, String sistema) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) {
-            // applicationDetailItems = [];
-            return ListaAprovacoes(nomeSistema: sistema,);
-          },
-        ),
-      );
-    }
-
-    void onTabTapped(int index) {
-      setState(() {
-        _currentIndex = index;
-
-        if (index == 2) {
-          showMaterialModalBottomSheet(
-            context: context,
-            builder: (context) =>
-                HomeModal(_detalhes.dados[0].valor, _detalhes.anexo),
-          );
-        } else if (index == 0) {
-          print('Aprovar');
-        } else if (index == 1) {
-          print('Rejeitar');
-        }
-      });
-    }
-
-    var container;
-    if (currentPage == DrawerSections.dashboard) {
-      nome = '';
-      traco = '';
-      botaoHomeAparece = false;
-      container = Dashboard1(listaSistemas: [],);
-    } else if (currentPage == DrawerSections.logout) {
-      //container = LoginTela();
-    }
-    //print(traco);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
+        leading: RetrocederButton(telaRetroceder: 'aprovarReprovar'),
         elevation: 4.0,
         backgroundColor: Colors.red[900],
         title: Text(
@@ -248,15 +195,6 @@ class _DashboardState extends State<Dashboard> {
           maxLines: 2,
         ),
         centerTitle: true,
-        actions: [
-          //Center(child: Text('Anexos')),
-          botaoHomeAparece
-              ? IconButton(
-                  onPressed: () => _retornaLista(context, nome),
-                  icon: Icon(Icons.list_alt_outlined),
-                )
-              : Text(""),
-        ],
       ),
 
       //Botões inferiores
@@ -337,7 +275,6 @@ class _DashboardState extends State<Dashboard> {
                         onSurface: Colors.grey,
                       ),
                       onPressed: () {
-                      
                         showMaterialModalBottomSheet(
                           context: context,
                           builder: (context) => HomeModal(
@@ -354,209 +291,111 @@ class _DashboardState extends State<Dashboard> {
       ),
       //
 
-      body: (container == null)
-          ?
+      body:
           //Design do Conteúdo toda descrição da operaçã à aprovar ou rejeitar
           Container(
-              child: ListView(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                children: [
-                  //Informação de cabeçalho
-                  Center(
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                        top: 18,
-                        // bottom: 12,
-                        //left: 10,
-                      ),
-                      child: Text(
-                        _detalhes.header.valor,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "Open Sans"),
-                      ),
-                    ),
-                  ),
-                  Divider(
-                    color: Colors.black,
-                  ),
-                  //Fim divisão Operação
-                  Card(
-                    // Inicia Aqui o 1º card com a  informação referente ao numero da conta
-                    elevation: 5.0,
-                    margin: new EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.01,
-                      vertical: MediaQuery.of(context).size.height * 0.01,
-                    ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(0, 0, 0, 0),
-                      ),
+        child: ListView(
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          children: [
+            //Informação de cabeçalho
+            Center(
+              child: Padding(
+                padding: EdgeInsets.only(
+                  top: 18,
+                  // bottom: 12,
+                  //left: 10,
+                ),
+                child: Text(
+                  _detalhes.header.valor.isEmpty
+                      ? 'vazio'
+                      : _detalhes.header.valor,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "Open Sans"),
+                ),
+              ),
+            ),
+            Divider(
+              color: Colors.black,
+            ),
+            //Fim divisão Operação
+            Card(
+              // Inicia Aqui o 1º card com a  informação referente ao numero da conta
+              elevation: 5.0,
+              margin: new EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.01,
+                vertical: MediaQuery.of(context).size.height * 0.01,
+              ),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(0, 0, 0, 0),
+                ),
 
-                      child: ListTile(
-                        contentPadding: EdgeInsets.symmetric(
-                          horizontal: 20.0,
-                          vertical: 0.0,
-                        ),
-                        title: Column(
+                child: ListTile(
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 20.0,
+                    vertical: 0.0,
+                  ),
+                  title: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      //aqui irei colocar todos os widgets q farão parte dos detalhes
+                      Container(
+                        margin: EdgeInsets.only(right: 0, left: 15),
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            //aqui irei colocar todos os widgets q farão parte dos detalhes
-                            Container(
-                              margin: EdgeInsets.only(right: 0, left: 15),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                top: 0,
+                                bottom: 2,
+                                //left: 20,
+                              ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      top: 0,
-                                      bottom: 2,
-                                      //left: 20,
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        //Intrução for
-                                        for (int i = 3;
-                                            i < _detalhes.dados.length;
-                                            i++)
-                                          (_detalhes.dados[i].valor == 'ok')
-                                              ? _camposPovoar(++i)
-                                              : _camposPovoar(i),
+                                  //Intrução for
+                                  for (int i = 2;
+                                      i < _detalhes.dados.length;
+                                      i++)
+                                    (_detalhes.dados[i].valor == 'ok')
+                                        ? _camposPovoar(++i)
+                                        : _camposPovoar(i),
 
-                                        // _camposPovoar(i),
-                                      ],
-                                    ),
-                                  ),
+                                  // _camposPovoar(i),
                                 ],
                               ),
                             ),
-
-                            Divider(
-                              color: Colors.black,
-                            ),
-                            _tabelaDados(),
                           ],
                         ),
-                      ), //makeListTile,
-                    ), // termina Aqui o 1º card com a  informação referente ao numero da conta
+                      ),
+
+                      Divider(
+                        color: Colors.black,
+                      ),
+                      _tabelaDados(),
+                    ],
                   ),
+                ), //makeListTile,
+              ), // termina Aqui o 1º card com a  informação referente ao numero da conta
+            ),
 
-                  //Card com informações dos produtos
-                  //botões estavam aqui  *btns*
+            //Card com informações dos produtos
+            //botões estavam aqui  *btns*
 
-                  //Fim dos botões
-                ],
-              ),
-            )
-          /*
-      Center(child: Text('Teste')
-      )*/
-          //Fim do Conteúdo
-          : container,
+            //Fim dos botões
+          ],
+        ),
+      ),
+      //Fim do Conteúdo
+
       floatingActionButton:
           botaoHomeAparece ? null : null, //Desenha o Dash lateral esquerdo
       drawer: DrawerMenu(),
     );
   }
-
-  Widget myDrawerList() {
-    return Container(
-      padding: EdgeInsets.only(
-        top: 15,
-      ),
-      child: Column(
-        children: [
-          menuItem(1, "Dashboard", Icons.dashboard_outlined,
-              currentPage == DrawerSections.dashboard ? true : false),
-          menuItem(2, "Sair", Icons.exit_to_app,
-              currentPage == DrawerSections.logout ? true : false),
-        ],
-      ),
-    );
-  }
-
-  Widget menuItem(int id, String titulo, IconData icon, bool selected) {
-    return Material(
-      color: selected ? Colors.grey[300] : Colors.transparent,
-      child: InkWell(
-        onTap: () {
-          Navigator.pop(context);
-          setState(() {
-            if (id == 1) {
-              currentPage = DrawerSections.dashboard;
-            } else if (id == 2) {
-              currentPage = DrawerSections.logout;
-            }
-          });
-        },
-        splashColor: Colors.black,
-        child: Padding(
-          padding: EdgeInsets.all(15.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: Icon(
-                  icon,
-                  size: 20,
-                  color: Colors.black,
-                ),
-              ),
-              Expanded(
-                flex: 3,
-                child: Text(
-                  titulo,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-//Botão Aprovar
-  _botaoAprovar() {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 30.0),
-      width: double.infinity,
-      margin: const EdgeInsets.only(right: 130, left: 130),
-      child: SizedBox(
-        height: 60, //altura do button
-        width: 20, //Largura button
-        child: ElevatedButton(
-          //  elevation: 5.0,
-          style: ElevatedButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-              //side: BorderSide(color: Colors.red)
-            ),
-            primary: Colors.green, // background
-            onPrimary: Colors.white, // foreground
-          ),
-          onPressed: () {
-            print("Aprovar");
-          },
-
-          child: Text("APROVAR",
-              style: TextStyle(
-                  color: Colors.white,
-                  letterSpacing: 1.5,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold)),
-        ),
-      ),
-    );
-  }
 }
-
-enum DrawerSections { dashboard, logout }

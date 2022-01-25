@@ -19,8 +19,10 @@ String contID = '';
 String id = '';
 String base = '';
 bool red = false;
+
 class PdfVer extends StatefulWidget {
-  PdfVer(String titu, String opID, String contentID, String fic64,[bool redireciona= false]) {
+  PdfVer(String titu, String opID, String contentID, String fic64,
+      [bool redireciona = false]) {
     titulo = titu;
     print(titu);
     contID = contentID;
@@ -31,7 +33,6 @@ class PdfVer extends StatefulWidget {
     print('PDF');
     print(base.toString());
     red = redireciona;
-    
   }
   @override
   _MyAppState createState() => _MyAppState();
@@ -42,15 +43,9 @@ class _MyAppState extends State<PdfVer> {
 
   @override
   void initState() {
-  if(red ==true){
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => Home()),
-      );
-  }
     super.initState();
     //print(titulo);
-    
+
     print('Base');
     print(base.toString());
     createFileOfPdfUrl(titulo, base).then((f) {
@@ -76,6 +71,12 @@ class _MyAppState extends State<PdfVer> {
     print(filePdf.path);
     filePdf.writeAsBytesSync(List.from(decodedBytes));
     return filePdf;
+  }
+
+  @override
+  void dispose() {
+    print("dis 1");
+    super.dispose();
   }
 
   @override
@@ -112,7 +113,10 @@ class _PDFScreenState extends State<PDFScreen> {
           leading: IconButton(
               icon: Icon(Icons.share),
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => Home()),
+                );
               }),
           actions: <Widget>[
             IconButton(

@@ -15,7 +15,7 @@ class ItemsLista extends StatelessWidget {
   final String moeda;
   final int index;
   final String unidadeOrcamental;
-  
+
   //Criação de objeto de Detalhes
   OperationData _detalhes = OperationData(
     applicationId: '',
@@ -25,18 +25,21 @@ class ItemsLista extends StatelessWidget {
     dados: [],
     grelha: Grelha(
         header: Header_grelha(coluna1: '', coluna2: '', coluna3: ''), data: []),
-    anexo: Anexo(operationId: '', idConteudo: '', data: []),
+    anexo: [],
   );
 //Fim do objeto _detalhes
 
   //Função para chamar tela de Detalhes
 
-  void _selecionaSistema(BuildContext context) async{
-  SharedPreferences sharedPreferences =await SharedPreferences.getInstance();
-      String nomeSistema =sharedPreferences.getString('SistemaID') ?? 'bug sistemaID';
-      print('Aqui');
-      print(id);
-    FuncoesAPI.buscaDetalhes(nomeSistema, '2021101000004').then((value) {
+  void _selecionaSistema(BuildContext context) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String nomeSistema =
+        sharedPreferences.getString('SistemaID') ?? 'bug sistemaID';
+    print('Aqui itemLista');
+    print('ID : ' + id);
+    print('SIS ' + nomeSistema);
+    print('------------------fim itemLista');
+    FuncoesAPI.buscaDetalhes(nomeSistema, '2021103000014').then((value) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) {
@@ -48,7 +51,6 @@ class ItemsLista extends StatelessWidget {
       );
     });
   }
-
 
   //oid Function() onTap;
   //String sistema = '';
@@ -158,10 +160,11 @@ class ItemsLista extends StatelessWidget {
                                                         : title.length == 19
                                                             ? 118
                                                             : title.length == 21
-                                                                ? 130:
-                                                                title.length == 5
-                                                                ? 42
-                                                                : 100,
+                                                                ? 130
+                                                                : title.length ==
+                                                                        5
+                                                                    ? 42
+                                                                    : 100,
                       ),
                       Expanded(
                         child: Container(
