@@ -1,8 +1,12 @@
+import 'package:SOP/src/business_logic/blocs/aprovarReprovar/aprovarReprovarBloc.dart';
+import 'package:SOP/src/business_logic/blocs/aprovarReprovar/events/aprovarReprovarEvent.dart';
+import 'package:SOP/src/business_logic/blocs/aprovarReprovar/states/aprovarReprovarState.dart';
 import 'package:SOP/src/business_logic/models/detalhes.dart';
 import 'package:SOP/src/business_logic/services/api_services/FuncoesAPI.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:SOP/src/views/ui/Detalhes/AprovarRejeitar.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ItemsLista extends StatelessWidget {
@@ -27,6 +31,17 @@ class ItemsLista extends StatelessWidget {
         header: Header_grelha(coluna1: '', coluna2: '', coluna3: ''), data: []),
     anexo: [],
   );
+  AprovarReprovarBloc teste = AprovarReprovarBloc(LoadingAprovarReprovarState());
+  OperationData detalhes = OperationData(
+    applicationId: '',
+    operationCodId: '',
+    operationId: '',
+    header: Header(campo: '', valor: ''),
+    dados: [],
+    grelha: Grelha(
+        header: Header_grelha(coluna1: '', coluna2: '', coluna3: ''), data: []),
+    anexo: [],
+  );
 //Fim do objeto _detalhes
 
   //Função para chamar tela de Detalhes
@@ -35,21 +50,27 @@ class ItemsLista extends StatelessWidget {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String nomeSistema =
         sharedPreferences.getString('SistemaID') ?? 'bug sistemaID';
+        sharedPreferences.setString('OperationID',id);
     print('Aqui itemLista');
     print('ID : ' + id);
     print('SIS ' + nomeSistema);
     print('------------------fim itemLista');
-    FuncoesAPI.buscaDetalhes(nomeSistema, '2021103000014').then((value) {
-      Navigator.of(context).pushReplacement(
+    detalhes = await teste.teste();
+    Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) {
             // print('Dentro 3');
             // print(this._detalhes.applicationId);
-            return AprovarRejeitar(value);
+            return BlocProvider<AprovarReprovarBloc>(
+              create: (_) {
+              return AprovarReprovarBloc(LoadingAprovarReprovarState())
+                ..add(LoadAprovarReprovarEvent());
+            },
+            child: AprovarRejeitar(detalhes),
+            );
           },
         ),
       );
-    });
   }
 
   //oid Function() onTap;

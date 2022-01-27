@@ -36,7 +36,7 @@ class _HomeModalState extends State<HomeModal> {
         print('aqui Modal');
 
         // print(nome);
-        FuncoesAPI.buscaPdf('2021101000004', '1').then((value) {
+        /*FuncoesAPI.buscaPdf('2021101000004', '1').then((value) {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -46,7 +46,7 @@ class _HomeModalState extends State<HomeModal> {
               },
             ),
           );
-        });
+        });*/
       },
       child: Card(
         // Inicia Aqui o 1º card com a  informação referente ao numero da conta
@@ -66,7 +66,7 @@ class _HomeModalState extends State<HomeModal> {
               child: Icon(Icons.picture_as_pdf, color: Colors.red[900]),
             ),
             title: Text(
-              _anexos[i].data[aux].valor,
+              _anexos.isNotEmpty ? _anexos[i].data[aux].valor: '',
               style:
                   TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
             ),
@@ -119,9 +119,10 @@ class _HomeModalState extends State<HomeModal> {
               ),
             ),
             //Final Lista
-            for (int aux = 0; aux < _anexos[0].data.length; aux++)
-              if (_anexos[0].data[aux].valor != 'Formato')
-                _listaFicheiro(0, aux)
+            if(_anexos.isNotEmpty)
+              for (int aux = 0; aux < _anexos[0].data.length; aux++)
+                if (_anexos[0].data[aux].valor != 'Formato')
+                  _listaFicheiro(0, aux)
           ],
         )));
   }

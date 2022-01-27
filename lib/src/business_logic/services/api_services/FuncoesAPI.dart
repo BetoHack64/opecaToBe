@@ -66,7 +66,6 @@ class FuncoesAPI {
                     //return MainBloc(MainOpeningState(), lista)..add(MainOpenning());
                   },
                 ),
-                
               ],
               child: Home(),
             );
@@ -101,108 +100,5 @@ class FuncoesAPI {
       pass.clear();
       BlocProvider.of<LoginBloc>(context).add(LoginGetConnection());
     }
-  }
-
-  //---
- //Buscar detalhes da operação  APpID=51000000 OpreaID=2021101000004
- static Future<OperationData> buscaDetalhes(
-      String ApplicationID, String OperationID) async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    //idAccount = (sharedPreferences.getString("IdAccount") ?? "");
-    print('ApID ' + ApplicationID);
-    print('OpID ' + OperationID);
-    var url = Uri.parse(
-        'http://83.240.225.239:130/api/OperationData?ApplicationID=$ApplicationID&OperationID=$OperationID');
-    //print(url);
-    var token = (sharedPreferences.getString("access_token") ?? "");
-    // print(token);
-    var header = {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer $token"
-    };
-    //Variaveis para os Dados
-    List<Data0> listaData = [];
-    List<Data2> listaData2 = [];
-    List<Anexo> listaAnexos = [];
-    List<Grelha> listaGrelha = [];
-    //fim Variaveis
-    var response = await http.get(url, headers: header);
-    Map<String, dynamic> userMap = jsonDecode(response.body);
-
-    //OperationData detals;
-    print(userMap['OperationData']['ApplicationID']);
-    if (userMap.isNotEmpty) {
-      //Para os dados do detalhes
-      for (var item in userMap['OperationData']['Data']) {
-        Data0 data = Data0(campo: item['Campo'], valor: item['Valor'] ?? "ok");
-        listaData.add(data);
-      }
-      //Pear dados dos Anexos
-      for (var item1 in userMap['OperationData']['Anexo']) {
-        for (var item in item1['Data']) {
-          Data2 data2 =
-              Data2(campo: item['Campo'], valor: item['Valor'] ?? "ok");
-          listaData2.add(data2);
-        }
-      }
-
-      //Pegar os Anexos
-      for (var item in userMap['OperationData']['Data']) {
-        Anexo anexos = Anexo(
-            operationId: item['OperationID'],
-            idConteudo: item['IDConteudo'],
-            data: listaData2);
-        listaAnexos.add(anexos);
-      }
-
-      //Para a Construção da  Tabela
-
-      return OperationData(
-        applicationId: userMap['OperationData']['ApplicationID'],
-        operationCodId: userMap['OperationData']['OperationCodID'],
-        operationId: userMap['OperationData']['OperationID'].toString(),
-        header: Header.fromJson(userMap['OperationData']['Header']),
-        dados: listaData,
-        grelha: (userMap['OperationData']['Grelha']) != null
-            ? Grelha.fromJson(userMap['OperationData']['Grelha'])
-            : Grelha(
-                header: Header_grelha(coluna1: '', coluna2: '', coluna3: ''),
-                data: []),
-        anexo:(userMap['OperationData']['Grelha'])!=null?listaAnexos:  [],
-      );
-    } else {
-      print('Bug');
-      return OperationData(
-        applicationId: '',
-        operationCodId: '',
-        operationId: '',
-        header: Header(campo: '', valor: ''),
-        dados: [],
-        grelha: Grelha(
-            header: Header_grelha(coluna1: '', coluna2: '', coluna3: ''),
-            data: []),
-        anexo: [],
-      );
-    }
-  }
-  //Fim da função pegar os detalhes da operação
-
-  static Future<String> buscaPdf(String OperationID, String ContentID) async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    //idAccount = (sharedPreferences.getString("IdAccount") ?? "");
-    var url = Uri.parse(
-        'http://83.240.225.239:130/api/File?OperationID=$OperationID&ContentID=$ContentID');
-    //print(url);
-    var token = (sharedPreferences.getString("access_token") ?? "");
-    // print(token);
-    var header = {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer $token"
-    };
-    var response = await http.get(url, headers: header);
-    //Map<String, dynamic> userMap = jsonDecode(response.body);
-
-    //print(jsonDecode(response.body).toString());
-    return jsonDecode(response.body).toString();
   }
 }

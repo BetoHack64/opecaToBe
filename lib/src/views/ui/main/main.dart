@@ -1,7 +1,6 @@
 import 'package:SOP/src/business_logic/blocs/main/mainBloc.dart';
 import 'package:SOP/src/business_logic/blocs/main/states/mainState.dart';
 import 'package:SOP/src/views/ui/login/logar.dart';
-import 'package:SOP/src/views/ui/main/drawer.dart';
 import 'package:SOP/src/views/ui/main/logout.dart';
 import 'package:flutter/material.dart';
 import 'package:SOP/src/views/ui/main/dashboard.dart';

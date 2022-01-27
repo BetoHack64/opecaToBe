@@ -19,6 +19,23 @@ class MensagemLogin {
         });
   }
 
+ static naoTemAnexo(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: new Text("Anexos"),
+              content: new Text(
+                  "Nenhum anexo encontrado!"),
+              actions: <Widget>[
+                new TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: new Text("Fechar"))
+              ]);
+        });
+  }
   static erroLogin(BuildContext context) {
     showDialog(
         context: context,
