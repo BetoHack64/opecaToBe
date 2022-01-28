@@ -11,6 +11,10 @@ class AprovarReprovarBloc
     extends Bloc<AprovarReprovarEvent, AprovarReprovarState> {
   AprovarReprovarRepository aprovarReprovarRepository =
       AprovarReprovarRepository();
+      String ficheiroString = '';
+      String opID = '';
+      String idCont = '';
+      String nomeAnexo = '';
   OperationData detalhes = OperationData(
     applicationId: '',
     operationCodId: '',
@@ -34,16 +38,12 @@ class AprovarReprovarBloc
       operationID = sharedPreferences.getString('OperationID') ?? 'bug';
       isDeviceConnected = await InternetConnectionChecker().hasConnection;
       try {
-        detalhes = await teste();
-        print('//aqui//');
-        print(detalhes.applicationId);
-        print('//daqui//');
+        detalhes = await teste(operationID);
+        //print('//aqui//');
+        //print(detalhes.applicationId);
+        //print('//daqui//');
         //Construção do cabeçalho da tabela
-        columns = [
-          detalhes.grelha.header.coluna1,
-          detalhes.grelha.header.coluna2,
-          detalhes.grelha.header.coluna3
-        ];
+        
 
         //emit(menuProcessado(listaSistemas));
       } catch (erro) {
@@ -68,30 +68,31 @@ class AprovarReprovarBloc
     }
   }
 
-  Future<OperationData> teste()async{
+  Future<OperationData> teste(String opID)async{
   SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       nomeSistema = sharedPreferences.getString('SistemaID') ?? 'bug sistemaID';
-      operationID = sharedPreferences.getString('OperationID') ?? 'bug';
-      isDeviceConnected = await InternetConnectionChecker().hasConnection;
+     
       try {
         detalhes = await aprovarReprovarRepository.getDetalhesOperacao(
-            nomeSistema, operationID);
-        print('//aqui//');
-        print(detalhes.applicationId);
-        print('//daqui//');
-        //Construção do cabeçalho da tabela
-        columns = [
-          detalhes.grelha.header.coluna1,
-          detalhes.grelha.header.coluna2,
-          detalhes.grelha.header.coluna3
-        ];
-
-        //emit(menuProcessado(listaSistemas));
+            nomeSistema, opID);
       } catch (erro) {
-        print('Erro lista sistemas $erro');
+        print('Erro ao buscar detalhes ' + erro.toString());
       }
       return detalhes;
+  }
+  
+  Future<String> buscaPDF(String opID, String idCont)async{
+  SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      nomeSistema = sharedPreferences.getString('SistemaID') ?? 'bug sistemaID';
+     String ficheiroBase64 = '';
+      try {
+        ficheiroBase64 = await aprovarReprovarRepository.getPDFOperacao(opID, idCont);
+      } catch (erro) {
+        print('Erro ao buscar detalhes ' + erro.toString());
+      }
+      return ficheiroBase64;
   }
   AprovarReprovarState abrindoAnexo(List a, OperationData b) {
     if (a.isEmpty) {
@@ -138,11 +139,13 @@ class AprovarReprovarBloc
   Widget tabelaDados() {
     return Container(
       //margin: EdgeInsets.only(right: 10, top: 10), poderia usar o FitdBox para rem o pading
-      child: DataTable(
-        horizontalMargin: 1,
-        columnSpacing: 19,
-        columns: getColunas(columns),
-        rows: tabela(),
+      child: Center(
+        child: DataTable(
+          horizontalMargin: 1,
+          columnSpacing: 19,
+          columns: getColunas(columns),
+          rows: tabela(),
+        ),
       ),
     );
   }

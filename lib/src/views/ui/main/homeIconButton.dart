@@ -4,13 +4,14 @@ import 'package:SOP/src/business_logic/blocs/listaOperacoes/states/listaOperacoe
 import 'package:SOP/src/business_logic/blocs/main/events/mainEvent.dart';
 import 'package:SOP/src/business_logic/blocs/main/mainBloc.dart';
 import 'package:SOP/src/business_logic/blocs/main/states/mainState.dart';
+import 'package:SOP/src/views/ui/Detalhes/AprovarRejeitar.dart';
 import 'package:SOP/src/views/ui/Lista_Aprovacoes/listaAprovacoes.dart';
 import 'package:SOP/src/views/ui/main/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RetrocederButton extends StatelessWidget {
-  String telaRetroceder;
+  final String telaRetroceder;
   RetrocederButton({required this.telaRetroceder});
   @override
   Widget build(BuildContext context) {
@@ -56,6 +57,16 @@ class RetrocederButton extends StatelessWidget {
                       return ListaAprovacoes(
                         nomeSistema: sistema,
                       );
+                    },
+                  ),
+                );
+              }
+              else if (telaRetroceder == 'anexoVer') {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      // applicationDetailItems = [];
+                      return AprovarRejeitar(detalhes);
                     },
                   ),
                 );

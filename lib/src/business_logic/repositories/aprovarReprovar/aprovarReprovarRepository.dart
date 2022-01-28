@@ -18,48 +18,49 @@ class AprovarReprovarRepository {
     );
     final Map<String, dynamic> detalhesJSON =
         await aprovarReprovarAPI.buscaDetalhes(applicationID, operationID);
+
     //Variaveis para os Dados
     List<Data0> listaData = [];
     List<Data2> listaData2 = [];
-    List<Anexo> listaAnexos = [];
     List<Anexo> anexos = [];
+    Header_grelha gr = Header_grelha(coluna1: '', coluna2: '', coluna3: '');
+    Grelha grelha = Grelha(header: gr, data: []);
+    if (detalhesJSON['OperationData']['Grelha'] != null) {
+      print('Tem grelha');
 
-    //OperationData detals;
-    if (detalhesJSON.isNotEmpty) {
-      //print(detalhesJSON['OperationData'].toString());
-      //Para os dados do detalhes
-      for (var item in detalhesJSON['OperationData']['Data']) {
-        Data0 data = Data0(campo: item['Campo'], valor: item['Valor'] ?? "ok");
-        listaData.add(data);
-      }
-      if (detalhesJSON['OperationData']['Anexo'] != null) {
-        //Pear dados dos Anexos
-        for (var item in detalhesJSON['OperationData']['Anexo']['Data']) {
-          Data2 data2 =
-              Data2(campo: item['Campo'], valor: item['Valor'] ?? "ok");
-          listaData2.add(data2);
-          //Pegar os Anexos
-          anexos.add(Anexo.fromJson(detalhesJSON['OperationData']['Anexo']));
-        }
-      } else {
-        print('buggs');
-      }
-
-      //Para a Construção da  Tabela
-      dadosObjecto = OperationData(
-        applicationId: detalhesJSON['OperationData']['ApplicationID'],
-        operationCodId: detalhesJSON['OperationData']['OperationCodID'],
-        operationId: detalhesJSON['OperationData']['OperationID'].toString(),
-        header: Header.fromJson(detalhesJSON['OperationData']['Header']),
-        dados: listaData,
-        grelha: Grelha.fromJson(detalhesJSON['OperationData']['Grelha']),
-        anexo: anexos.isNotEmpty ? anexos: [],
-      );
-
-      return dadosObjecto;
+      grelha = Grelha.fromJson(detalhesJSON['OperationData']['Grelha']);
     } else {
-      return dadosObjecto;
+      print('Nao tem grelha');
+      //print(detalhesJSON['OperationData'].toString());
     }
+    //OperationData detals;
+    //print(detalhesJSON['OperationData'].toString());
+    //Para os dados do detalhes
+    for (var item in detalhesJSON['OperationData']['Data']) {
+      Data0 data = Data0(campo: item['Campo'], valor: item['Valor'] ?? "ok");
+      listaData.add(data);
+    }
+    if (detalhesJSON['OperationData']['Anexo'] != null) {
+      //Pear dados dos Anexos
+      for (var item2 in detalhesJSON['OperationData']['Anexo']) {
+        anexos.add(Anexo.fromJson(item2));
+        //print('APP ID ' + detalhesJSON['OperationData']['OperationCodID']);
+      }
+    } else {
+      print('buggs');
+    }
+
+    //Para a Construção da  Tabela
+    dadosObjecto = OperationData(
+      applicationId: detalhesJSON['OperationData']['ApplicationID'],
+      operationCodId: detalhesJSON['OperationData']['OperationCodID'],
+      operationId: detalhesJSON['OperationData']['OperationID'].toString(),
+      header: Header.fromJson(detalhesJSON['OperationData']['Header']),
+      dados: listaData,
+      grelha: grelha,
+      anexo: anexos.isNotEmpty ? anexos : [],
+    );
+    return dadosObjecto;
   }
 
   Future<String> getPDFOperacao(String operationID, String contentID) async {

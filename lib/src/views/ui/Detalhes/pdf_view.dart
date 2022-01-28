@@ -1,39 +1,15 @@
 import 'dart:convert';
 
-import 'package:SOP/src/business_logic/models/detalhes.dart';
-import 'package:SOP/src/views/ui/Detalhes/hom_modal.dart';
-import 'package:SOP/src/views/ui/main/main.dart';
+import 'package:SOP/src/business_logic/blocs/aprovarReprovar/aprovarReprovarBloc.dart';
+import 'package:SOP/src/views/ui/main/homeIconButton.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_full_pdf_viewer/full_pdf_viewer_scaffold.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
-//import 'package:SOP/src/views/ui/main/convertPdf.dart';
-
-//void main() => runApp(PdfVer());
-
-String titulo = '';
-String nomes = '';
-String contID = '';
-String id = '';
-String base = '';
-bool red = false;
-
 class PdfVer extends StatefulWidget {
-  PdfVer(String titu, String opID, String contentID, String fic64,
-      [bool redireciona = false]) {
-    titulo = titu;
-    print(titu);
-    contID = contentID;
-    id = opID;
-    base = fic64;
-    print(id);
-    print(contID);
-    print('PDF');
-    print(base.toString());
-    red = redireciona;
-  }
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -44,11 +20,9 @@ class _MyAppState extends State<PdfVer> {
   @override
   void initState() {
     super.initState();
-    //print(titulo);
-
-    print('Base');
-    print(base.toString());
-    createFileOfPdfUrl(titulo, base).then((f) {
+    createFileOfPdfUrl(BlocProvider.of<AprovarReprovarBloc>(context).nomeAnexo,
+            BlocProvider.of<AprovarReprovarBloc>(context).ficheiroString)
+        .then((f) {
       setState(() {
         pathPDF = f.path;
         print(pathPDF);
@@ -57,7 +31,7 @@ class _MyAppState extends State<PdfVer> {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => PDFScreen(pathPDF)),
+        MaterialPageRoute(builder: (context) => PDFScreen(pathPDF: pathPDF)),
       );
     });
   }
@@ -91,8 +65,8 @@ class _MyAppState extends State<PdfVer> {
 }
 
 class PDFScreen extends StatefulWidget {
-  String pathPDF = "";
-  PDFScreen(this.pathPDF);
+  final String pathPDF;
+  PDFScreen({required this.pathPDF});
 
   @override
   State<PDFScreen> createState() => _PDFScreenState();
@@ -109,15 +83,12 @@ class _PDFScreenState extends State<PDFScreen> {
   Widget build(BuildContext context) {
     return PDFViewerScaffold(
         appBar: AppBar(
-          title: Text("Documento"),
-          leading: IconButton(
-              icon: Icon(Icons.share),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => Home()),
-                );
-              }),
+          backgroundColor: Colors.red[900],
+          title: Center(
+          //margin: EdgeInsets.only(left: 10),
+            child: Text(BlocProvider.of<AprovarReprovarBloc>(context).nomeAnexo.toUpperCase()),
+          ),
+          leading: RetrocederButton(telaRetroceder: 'anexoVer'),
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.share),

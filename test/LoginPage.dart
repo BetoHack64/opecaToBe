@@ -91,7 +91,7 @@ class LoginPage extends StatelessWidget {
     String login = _ctrlLogin.text;
     String senha = _ctrlSenha.text;
 
-    print("login : $login senha: $senha");
+   // print("login : $login senha: $senha");
 
    // var response = await Token.token(login, senha);
 

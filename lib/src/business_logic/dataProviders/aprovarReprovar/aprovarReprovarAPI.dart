@@ -8,8 +8,8 @@ class AprovarReprovarAPI {
   Future<Map<String, dynamic>> buscaDetalhes(
       String applicationID, String operationID) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    print('ApID ' + applicationID);
-    print('OpID ' + operationID);
+    //print('ApID ' + applicationID);
+    //print('OpID ' + operationID);
     var url = Uri.parse(
         'http://83.240.225.239:130/api/OperationData?ApplicationID=$applicationID&OperationID=$operationID');
     var token = (sharedPreferences.getString("access_token") ?? "");
@@ -20,7 +20,7 @@ class AprovarReprovarAPI {
     
     var response = await http.get(url, headers: header);
     Map<String, dynamic> userMap = jsonDecode(response.body);
-
+  
     return userMap;
   }
   //Fim da função pegar os detalhes da operação

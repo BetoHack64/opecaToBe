@@ -50,12 +50,12 @@ class ItemsLista extends StatelessWidget {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String nomeSistema =
         sharedPreferences.getString('SistemaID') ?? 'bug sistemaID';
+        sharedPreferences.remove('OperationID');
         sharedPreferences.setString('OperationID',id);
-    print('Aqui itemLista');
-    print('ID : ' + id);
-    print('SIS ' + nomeSistema);
-    print('------------------fim itemLista');
-    detalhes = await teste.teste();
+        
+    
+    detalhes = await teste.teste(id);
+    //print(detalhes.dados.toString());
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) {

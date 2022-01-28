@@ -28,4 +28,5 @@ class AbrirAnexosState extends AprovarReprovarState {
   AbrirAnexosState({required this.cheia, required this.lista});
 }
 
+
 class AbrindoTelaState extends AprovarReprovarState {}

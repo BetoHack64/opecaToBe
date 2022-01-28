@@ -21,7 +21,7 @@ class _IconSistemaState extends State<IconSistema> {
     final decodedBytes = base64Decode(widget.imageAnalysed);
     final directory = await getApplicationDocumentsDirectory();
     fileImg = File('${directory.path}/${widget.nome}.png');
-    print(fileImg.path);
+    //print(fileImg.path);
     fileImg.writeAsBytesSync(List.from(decodedBytes));
 
     setState(() {

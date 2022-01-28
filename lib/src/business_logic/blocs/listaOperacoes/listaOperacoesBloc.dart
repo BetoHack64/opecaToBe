@@ -27,7 +27,7 @@ class ListaOperacoesBloc
       nomeSistema = sistemaID =
           sharedPreferences.getString('SistemaID') ?? 'bug sistemaID';
       idAccount = sharedPreferences.getString('IdAccount') ?? 'bug idAcount';
-      print('idAacount = $idAccount e sistemaId = $sistemaID');
+      //print('idAacount = $idAccount e sistemaId = $sistemaID');
       isDeviceConnected = await InternetConnectionChecker().hasConnection;
       try {
         foundUsers = await cardDetailRepository.getOperationsPerSystem(

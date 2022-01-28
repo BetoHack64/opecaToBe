@@ -8,8 +8,8 @@ class PdfConverter {
     formato = formato.toLowerCase();
     final decodedBytes = base64Decode(ficb64);
     final directory = await getExternalStorageDirectory();
-    print(directory!.path);
-    filePdf = File('${directory.path}/$nome.$formato');
+    //print(directory!.path);
+    filePdf = File('${directory!.path}/$nome.$formato');
     
     //print(filePdf.path);
     filePdf.writeAsBytesSync(List.from(decodedBytes));

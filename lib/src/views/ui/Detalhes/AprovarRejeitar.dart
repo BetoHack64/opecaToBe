@@ -27,11 +27,17 @@ void main() {
 }
 
 class AprovarRejeitar extends StatelessWidget {
-   AprovarRejeitar(OperationData detalhesDados) {
+  AprovarRejeitar(OperationData detalhesDados) {
     detalhes = detalhesDados;
   }
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<AprovarReprovarBloc>(context).detalhes = detalhes;
+    BlocProvider.of<AprovarReprovarBloc>(context).columns = [
+      detalhes.grelha.header.coluna1,
+      detalhes.grelha.header.coluna1,
+      detalhes.grelha.header.coluna1,
+    ];
     return MaterialApp(
       home: Dashboard(),
     );
@@ -53,13 +59,16 @@ class _DashboardState extends State<Dashboard> {
         leading: RetrocederButton(telaRetroceder: 'aprovarReprovar'),
         elevation: 4.0,
         backgroundColor: Colors.red[900],
-        title: Text(
-          detalhes.dados[0].valor +
-              '                ' +
-              detalhes.operationId, // ${id}
-          textAlign: TextAlign.center,
-          overflow: TextOverflow.ellipsis,
-          maxLines: 2,
+        title: Container(
+        margin: EdgeInsets.only(right:15),
+          child: Text(
+            detalhes.dados[0].valor.toUpperCase() +
+                '                ' +
+                detalhes.operationId, // ${id}
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 2,
+          ),
         ),
         centerTitle: true,
       ),
@@ -142,9 +151,24 @@ class _DashboardState extends State<Dashboard> {
                         onSurface: Colors.grey,
                       ),
                       onPressed: () {
-                        BlocProvider.of<AprovarReprovarBloc>(context).add(
-                            AbrirAnexosEvent(
-                                lista: detalhes.anexo, objeto: detalhes));
+                        if (detalhes.anexo.isEmpty == true) {
+                          Future.delayed(Duration(seconds: 0),
+                              () => MensagemLogin.naoTemAnexo(context));
+                        }
+                        if (detalhes.anexo.isEmpty == false) {
+                          print(detalhes.dados[0].valor);
+                          print(detalhes.operationId);
+                          showMaterialModalBottomSheet(
+                            context: context,
+                            builder: (context) => BlocProvider.value(
+                              value: BlocProvider.of<AprovarReprovarBloc>(context),
+                              child: HomeModal(),
+                              
+                            ),
+                          );
+                          
+                        }
+                       
                       },
                     ),
                   ),
@@ -157,128 +181,109 @@ class _DashboardState extends State<Dashboard> {
       //
 
       //Design do Conteúdo toda descrição da operaçã à aprovar ou rejeitar
-      body: BlocBuilder<AprovarReprovarBloc, AprovarReprovarState>(
-          bloc: BlocProvider.of<AprovarReprovarBloc>(context),
-          builder: (context, state) {
-          if (state is AbrirAnexosState) {
-            if (state.cheia == false) {
-              Future.delayed(Duration(seconds: 0),
-                  () => MensagemLogin.naoTemAnexo(context));
-            } else {
-              showMaterialModalBottomSheet(
-                  context: context,
-                  builder: (context) =>
-                      HomeModal(state.lista.dados[0].valor, state.lista.anexo));
-            }
-          }
-          if(state is LoadedErrorAprovarReprovarState){
-          return Center(child: Text('Erro'));
-          }
-            return Container(
-              child: ListView(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                children: [
-                  //Informação de cabeçalho
-                  Center(
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                        top: 18,
-                        // bottom: 12,
-                        //left: 10,
-                      ),
-                      child: Text(
-                        detalhes.header.valor.isEmpty
-                            ? 'vazio'
-                            : detalhes.header.valor,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "Open Sans"),
-                      ),
-                    ),
-                  ),
-                  Divider(
-                    color: Colors.black,
-                  ),
-                  //Fim divisão Operação
-                  Card(
-                    // Inicia Aqui o 1º card com a  informação referente ao numero da conta
-                    elevation: 5.0,
-                    margin: new EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.01,
-                      vertical: MediaQuery.of(context).size.height * 0.01,
-                    ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(0, 0, 0, 0),
-                      ),
+      body: Container(
+        child: ListView(
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          children: [
+            //Informação de cabeçalho
+            Center(
+              child: Padding(
+                padding: EdgeInsets.only(
+                  top: 18,
+                  // bottom: 12,
+                  //left: 10,
+                ),
+                child: Text(
+                  detalhes.header.valor.isEmpty
+                      ? 'vazio'
+                      : detalhes.header.valor,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "Open Sans"),
+                ),
+              ),
+            ),
+            Divider(
+              color: Colors.black,
+            ),
+            //Fim divisão Operação
+            Card(
+              // Inicia Aqui o 1º card com a  informação referente ao numero da conta
+              elevation: 5.0,
+              margin: new EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.01,
+                vertical: MediaQuery.of(context).size.height * 0.01,
+              ),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(0, 0, 0, 0),
+                ),
 
-                      child: ListTile(
-                        contentPadding: EdgeInsets.symmetric(
-                          horizontal: 20.0,
-                          vertical: 0.0,
-                        ),
-                        title: Column(
+                child: ListTile(
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 20.0,
+                    vertical: 0.0,
+                  ),
+                  title: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      //aqui irei colocar todos os widgets q farão parte dos detalhes
+                      Container(
+                        margin: EdgeInsets.only(right: 0, left: 15),
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            //aqui irei colocar todos os widgets q farão parte dos detalhes
-                            Container(
-                              margin: EdgeInsets.only(right: 0, left: 15),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                top: 0,
+                                bottom: 2,
+                                //left: 20,
+                              ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      top: 0,
-                                      bottom: 2,
-                                      //left: 20,
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        //Intrução for
-                                        for (int i = 2;i < detalhes.dados.length;i++)
-                                          (detalhes.dados[i].valor == 'ok')
-                                              ? BlocProvider.of<
-                                                          AprovarReprovarBloc>(
-                                                      context)
-                                                  .camposPovoar(++i)
-                                              : BlocProvider.of<
-                                                          AprovarReprovarBloc>(
-                                                      context)
-                                                  .camposPovoar(i),
+                                  //Intrução for
+                                  for (int i = 2;
+                                      i < detalhes.dados.length;
+                                      i++)
+                                    (detalhes.dados[i].valor == 'ok')
+                                        ? BlocProvider.of<AprovarReprovarBloc>(
+                                                context)
+                                            .camposPovoar(++i)
+                                        : BlocProvider.of<AprovarReprovarBloc>(
+                                                context)
+                                            .camposPovoar(i),
 
-                                        // _camposPovoar(i),
-                                      ],
-                                    ),
-                                  ),
+                                  // _camposPovoar(i),
                                 ],
                               ),
                             ),
-
-                            Divider(
-                              color: Colors.black,
-                            ),
-                            BlocProvider.of<AprovarReprovarBloc>(context)
-                                .tabelaDados(),
                           ],
                         ),
-                      ), //makeListTile,
-                    ), // termina Aqui o 1º card com a  informação referente ao numero da conta
+                      ),
+
+                      Divider(
+                        color: Colors.black,
+                      ),
+                      BlocProvider.of<AprovarReprovarBloc>(context)
+                          .tabelaDados(),
+                    ],
                   ),
+                ), //makeListTile,
+              ), // termina Aqui o 1º card com a  informação referente ao numero da conta
+            ),
 
-                  //Card com informações dos produtos
-                  //botões estavam aqui  *btns*
+            //Card com informações dos produtos
+            //botões estavam aqui  *btns*
 
-                  //Fim dos botões
-                ],
-              ),
-            );
-          }),
+            //Fim dos botões
+          ],
+        ),
+      ),
       //Fim do Conteúdo
 
       drawer: DrawerMenu(),

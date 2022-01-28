@@ -10,7 +10,7 @@ class CardDetailAPI{
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var url = Uri.parse(
         'http://83.240.225.239:130/api/Operation?ApplicationID=$appID&AccountID=$accountID');
-    print(url);
+    //print(url);
     var token = (sharedPreferences.getString("access_token") ?? "");
     var header = {
       "Content-Type": "application/json",
