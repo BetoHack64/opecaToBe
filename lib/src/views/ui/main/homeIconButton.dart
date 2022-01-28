@@ -1,3 +1,4 @@
+import 'package:SOP/src/business_logic/blocs/aprovarReprovar/aprovarReprovarBloc.dart';
 import 'package:SOP/src/business_logic/blocs/listaOperacoes/events/listaOperacoesEvent.dart';
 import 'package:SOP/src/business_logic/blocs/listaOperacoes/listaOperacoesBloc.dart';
 import 'package:SOP/src/business_logic/blocs/listaOperacoes/states/listaOperacoesState.dart';
@@ -10,6 +11,7 @@ import 'package:SOP/src/views/ui/Lista_Aprovacoes/listaAprovacoes.dart';
 import 'package:SOP/src/views/ui/main/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class RetrocederButton extends StatelessWidget {
   final String telaRetroceder;
@@ -61,16 +63,30 @@ class RetrocederButton extends StatelessWidget {
                     },
                   ),
                 );
-              }
-              else if (telaRetroceder == 'anexoVer') {
+              } else if (telaRetroceder == 'anexoVer') {
                 Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      // applicationDetailItems = [];
+                      return AprovarRejeitar(detalhes);
+                    },
+                  ),
+                );
+                showMaterialModalBottomSheet(
+                  context: context,
+                  builder: (context) => BlocProvider.value(
+                    value: BlocProvider.of<AprovarReprovarBloc>(context),
+                    child: HomeModal(),
+                  ),
+                );
+                /*Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
                     builder: (context) {
                       // applicationDetailItems = [];
                       return HomeModal();
                     },
                   ),
-                );
+                );*/
               }
             },
             icon: Icon(Icons.arrow_back)));
