@@ -5,6 +5,7 @@ import 'package:SOP/src/business_logic/blocs/main/events/mainEvent.dart';
 import 'package:SOP/src/business_logic/blocs/main/mainBloc.dart';
 import 'package:SOP/src/business_logic/blocs/main/states/mainState.dart';
 import 'package:SOP/src/views/ui/Detalhes/AprovarRejeitar.dart';
+import 'package:SOP/src/views/ui/Detalhes/hom_modal.dart';
 import 'package:SOP/src/views/ui/Lista_Aprovacoes/listaAprovacoes.dart';
 import 'package:SOP/src/views/ui/main/main.dart';
 import 'package:flutter/material.dart';
@@ -66,7 +67,7 @@ class RetrocederButton extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (context) {
                       // applicationDetailItems = [];
-                      return AprovarRejeitar(detalhes);
+                      return HomeModal();
                     },
                   ),
                 );
