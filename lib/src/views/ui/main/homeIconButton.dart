@@ -89,6 +89,6 @@ class RetrocederButton extends StatelessWidget {
                 );*/
               }
             },
-            icon: Icon(Icons.arrow_back)));
+            icon: Icon(Icons.chevron_left),color: Colors.black,));
   }
 }

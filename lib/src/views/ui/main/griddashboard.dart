@@ -105,7 +105,7 @@ class _GridDashboardState extends State<GridDashboard> {
                               ),
                             ),
                           ),
-                          margin: EdgeInsets.only(left: 105, bottom: 5),
+                          margin: EdgeInsets.only(left: 105, bottom: 8),
                         ),
                         Container(
                           child: IconSistema(
