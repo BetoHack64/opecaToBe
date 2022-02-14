@@ -7,6 +7,7 @@ import 'package:SOP/src/views/ui/Login/espera.dart';
 import 'package:SOP/src/views/ui/login/mensagem.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginScreem extends StatefulWidget {
   @override
@@ -27,8 +28,8 @@ class _LoginScreemState extends State<LoginScreem> {
             Future.delayed(
                 Duration(seconds: 1), () => MensagemLogin.erroLogin(context));
           }
-          if(state is ButtonLoginPressedProcessingState){
-          if (state.isConnected) {
+          if (state is ButtonLoginPressedProcessingState) {
+            if (state.isConnected) {
               FuncoesAPI().contaUsuario(
                   BlocProvider.of<LoginBloc>(context).user2,
                   BlocProvider.of<LoginBloc>(context).pass2,
@@ -39,11 +40,12 @@ class _LoginScreemState extends State<LoginScreem> {
               BlocProvider.of<LoginBloc>(context).add(LoginNoConnection());
             }
           }
-          
+
           if (state is LoginNormalState) {
             return Stack(
               children: [
                 Container(
+                  //Aqui esta o principal
                   height: double.infinity,
                   width: double.infinity,
                   decoration: BoxDecoration(
@@ -51,38 +53,105 @@ class _LoginScreemState extends State<LoginScreem> {
                     begin: Alignment.center,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Color(0xFFFFFFFF),
-                      Color(0xFFFFFFFF),
+                      Color(0xFFfff9f9),
+                      Color(0xFFfff9f9),
                       Color(0xFFFFFFFF),
                       Color(0xFFFFFFFF),
                     ],
-                    stops: [0.1, 0.4, 0.7, 0.9],
+                    stops: [0.2, 0.4, 0.7, 0.9],
                   )),
                   child: Center(
                     child: Column(
                       children: [
                         Container(
-                          margin: EdgeInsets.only(top: 65),
-                          child: Image.asset(
-                            "assets/images/sop.png",
-                            //color: Colors.white,
-                            /*  height: 200,
-                        width: 100,*/
-                            scale: 0.9,
+                          width: MediaQuery.of(context).size.width * 1,
+                          //height: 100,
+
+                          // margin: EdgeInsets.only(bottom: 2),
+                          child: Row(
+                            children: [
+                              Stack(
+                                children: [
+                                  SafeArea(
+                                    child: Container(
+                                      width:
+                                          MediaQuery.of(context).size.width * 1,
+                                      child: SvgPicture.asset(
+                                        "assets/images/login.svg",
+                                        width: 400,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 303,
+                                    height: 111,
+                                    margin: EdgeInsets.only(
+                                      top: MediaQuery.of(context).size.height /
+                                          5.1,
+                                      left: MediaQuery.of(context).size.height /
+                                          13,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(30.0),
+                                        bottomLeft: Radius.circular(30.0),
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black,
+                                          spreadRadius: -6.0,
+                                          blurRadius: 13.0,
+                                        ),
+                                      ],
+                                    ),
+                                    //margin: EdgeInsets.only(top: 65),
+                                    child: Image.asset(
+                                      "assets/images/keve_exe.jpg",
+                                      scale: 0.9,
+                                    ), //logo da aplicação
+                                  ),
+                                  Center(
+                                    child: Container(
+                                      margin: EdgeInsets.only(
+                                        top:
+                                            MediaQuery.of(context).size.height /
+                                                2.7,
+                                        left:
+                                            MediaQuery.of(context).size.height /
+                                                5,
+                                      ),
+                                      child: Text(
+                                        "Bem vindo!",
+                                        style: TextStyle(
+                                            color: Color(0xFF3b98d4),
+                                            fontFamily: "SEGOEUI",
+                                            fontSize: 27,
+                                            fontWeight: FontWeight.w800),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+
+                              //Logo
+                            ],
                           ), //logo da aplicação
                         ),
                       ],
                     ),
                   ),
                 ),
+
                 //Container de Autenticação
                 Container(
                   height: double.infinity,
                   child: SingleChildScrollView(
-                    physics: AlwaysScrollableScrollPhysics(),
+                    //AlwaysScrollableScrollPhysics() habilitar scrol
+                    physics: NeverScrollableScrollPhysics(),
                     padding: EdgeInsets.symmetric(
-                      horizontal: 30.0,
-                      vertical: MediaQuery.of(context).size.height / 7,
+                      horizontal: MediaQuery.of(context).size.width * 0.006,
+                      vertical: MediaQuery.of(context).size.height / 3, //Era 7
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -91,17 +160,12 @@ class _LoginScreemState extends State<LoginScreem> {
                           child: Padding(
                             padding: const EdgeInsets.only(top: 80, bottom: 1),
                             child: Container(
-                              width: MediaQuery.of(context).size.width / 1.2,
+                              width: MediaQuery.of(context).size.width,
                               height: MediaQuery.of(context).size.height / 1.6,
                               decoration: BoxDecoration(
                                 color: Colors.white,
-                                borderRadius: BorderRadius.circular(10.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                      offset: Offset(0, 1),
-                                      blurRadius: 12,
-                                      color: Color(0xFFE0E0E0)),
-                                ],
+                                borderRadius: BorderRadius.circular(42.0),
+
                                 /*border: Border.all(
                                   color:  Color(0xFFD50000),
                                 ),*/
@@ -109,63 +173,45 @@ class _LoginScreemState extends State<LoginScreem> {
                               child: Column(
                                 children: [
                                   //SizedBox(height: 35.0),
-                                  Container(
-                                    width: double.infinity,
-                                    height: MediaQuery.of(context).size.height *
-                                        0.1,
-                                    margin: EdgeInsets.only(
-                                      top: 12.9,
-                                    ),
-                                    child: Image.asset(
-                                      "assets/images/keve_exe.jpg",
-                                      //color: Colors.white,
-                                      /*  height: 200,
-                                  width: 100,*/
-                                      //scale: 0.20,
-                                    ), //logo do Banco
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(
-                                      bottom: 10,
-                                    ),
-                                    child: Text(
-                                      "Autenticação",
-                                      style: TextStyle(
-                                          color: Color(0xFF616161),
-                                          fontFamily: "openSans",
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
+                                  /*
+                                 Container com img do banco*/
+                                  /*
+                                      Conteiner com os dizeres autenticação
+                                  */
+
                                   SizedBox(
                                       height:
                                           MediaQuery.of(context).size.height *
-                                              0.0),
+                                              0.03),
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 21),
+                                        padding: const EdgeInsets.only(
+                                            left: 21, bottom: 10),
                                         child: Text(
-                                          'Utilizador',
+                                          'Login',
                                           style: TextStyle(
-                                            color: Color(0xFF616161),
-                                            fontSize: 18,
+                                            fontFamily: "Ubuntu",
+                                            color: Color(0xFF2b395b),
+                                            fontSize: 27,
                                             letterSpacing: 1,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                       ),
                                       SizedBox(height: 8.0),
+
+                                      //
                                       Container(
                                         margin: const EdgeInsets.only(
                                             right: 20, left: 20),
+                                        alignment: Alignment.centerLeft,
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(10),
-                                          color: Color(0xFFEEEEEE),
+                                          color: Color(0xFFf9f9f9),
                                           boxShadow: [
                                             BoxShadow(
                                                 offset: Offset(0, 7),
@@ -187,23 +233,41 @@ class _LoginScreemState extends State<LoginScreem> {
                                                       context)
                                                   .user,
                                           style: TextStyle(
-                                            color: Color(0xFF303030),
-                                            fontFamily: "openSans",
-                                            fontSize: 20,
+                                            color: Color(0xFF2b395b),
+                                            fontFamily: "Ubuntu",
+                                            fontWeight: FontWeight.w800,
+                                            fontSize: 18,
                                           ),
+                                          // obscureText: true,
                                           decoration: InputDecoration(
+                                            hintText: 'Utilizador',
                                             border: InputBorder.none,
-                                            contentPadding:
-                                                EdgeInsets.only(top: 14.0),
-                                            prefixIcon: Icon(
-                                              Icons.person,
-                                              color: (Color(0xFF616161)),
+                                            contentPadding: EdgeInsets.only(
+                                              top: 16.0,
+                                              //right: 2,
                                             ),
-                                            // hintText: 'Utilizador',
-                                            //hintStyle: TextStyle(color:Color(0xFF616161)),
+
+                                            prefixIcon: Container(
+                                              width: 35,
+                                              height: 35,
+                                              margin: EdgeInsets.all(10),
+                                              child: Material(
+                                                color: Colors.blue,
+                                                // elevation: 2.0,
+                                                borderRadius:
+                                                    BorderRadius.circular(95),
+                                                child: Icon(
+                                                    Icons.person_outline,
+                                                    color: Colors.white),
+                                              ),
+                                            ),
+
+                                            // hintText: 'Senha',
+                                            //hintStyle: TextStyle(color: Color(0xFF616161)),
                                           ),
                                         ),
                                       )
+                                      //
                                     ],
                                   ),
                                   SizedBox(height: 30.0),
@@ -211,20 +275,10 @@ class _LoginScreemState extends State<LoginScreem> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 21),
-                                        child: Text(
-                                          'Senha',
-                                          style: TextStyle(
-                                            color: Color(0xFF303030),
-                                            fontSize: 18,
-                                            letterSpacing: 1,
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: "openSans",
-                                          ),
-                                        ),
-                                      ),
+                                      /*  height
+                                          Tinha o texto para Senha
+                                      */
+
                                       SizedBox(
                                           height: MediaQuery.of(context)
                                                   .size
@@ -237,7 +291,7 @@ class _LoginScreemState extends State<LoginScreem> {
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(10),
-                                          color: Color(0xFFEEEEEE),
+                                          color: Color(0xFFf9f9f9),
                                           boxShadow: [
                                             BoxShadow(
                                                 offset: Offset(0, 7),
@@ -259,21 +313,34 @@ class _LoginScreemState extends State<LoginScreem> {
                                                       context)
                                                   .pass,
                                           style: TextStyle(
-                                            color: Color(0xFF303030),
-                                            fontFamily: "openSans",
-                                            fontSize: 20,
+                                            color: Color(0xFF2b395b),
+                                            fontFamily: "Ubuntu",
+                                            fontWeight: FontWeight.w800,
+                                            fontSize: 18,
                                           ),
+                                          // textAlign: TextAlign.values(1,2),
                                           obscureText: true,
                                           decoration: InputDecoration(
+                                            hintText: 'Senha',
+                                            //hintTextDirection:TextDirection.ltr,
                                             border: InputBorder.none,
-                                            contentPadding:
-                                                EdgeInsets.only(top: 14.0),
-                                            prefixIcon: Icon(
-                                              Icons.lock,
-                                              color: (Color(0xFF616161)),
+                                            contentPadding: EdgeInsets.only(
+                                              top: 16.0,
                                             ),
-                                            // hintText: 'Senha',
-                                            //hintStyle: TextStyle(color: Color(0xFF616161)),
+
+                                            prefixIcon: Container(
+                                              width: 35,
+                                              height: 35,
+                                              margin: EdgeInsets.all(10),
+                                              child: Material(
+                                                color: Colors.blue,
+                                                // elevation: 2.0,
+                                                borderRadius:
+                                                    BorderRadius.circular(95),
+                                                child: Icon(Icons.lock,
+                                                    color: Colors.white),
+                                              ),
+                                            ),
                                           ),
                                         ),
                                       )
@@ -302,7 +369,7 @@ class _LoginScreemState extends State<LoginScreem> {
                                               //side: BorderSide(color: Colors.red)
                                             ),
                                             primary:
-                                                Colors.red[900], // background
+                                                Color(0xFF3b98d4), // background
                                             onPrimary:
                                                 Colors.white, // foreground
                                           ),
@@ -334,14 +401,36 @@ class _LoginScreemState extends State<LoginScreem> {
                                                   //token(_user, _pass);
                                                 },
 
-                                          child: Text("LOGIN",
+                                          child: Text("Login",
                                               style: TextStyle(
+                                                  fontFamily: "Ubuntu",
                                                   color: Colors.white,
                                                   letterSpacing: 1.5,
                                                   fontSize: 20,
                                                   fontWeight: FontWeight.bold)),
                                         );
                                       }),
+                                    ),
+                                  ),
+                                  Container(
+                                    child: Text(
+                                      "Ao iniciar a sessão concordará com os nossos ",
+                                      style: TextStyle(
+                                          color: Color(0xFF616161),
+                                          fontFamily: "Ubuntu",
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  Container(
+                                    child: Text(
+                                      " termos de serviço & Politicas de privacidade",
+                                      style: TextStyle(
+                                        color: Colors.blue,
+                                        fontFamily: "Ubuntu",
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -361,7 +450,6 @@ class _LoginScreemState extends State<LoginScreem> {
           return IndicadorProgressoCircularUI();
         },
       ),
-      
     );
   }
 }

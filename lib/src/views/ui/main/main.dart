@@ -11,7 +11,6 @@ void main() {
     Builder(builder: (context) {
       return MaterialApp(
         debugShowCheckedModeBanner: false,
-        
         home: (BlocProvider.of<MainBloc>(context).estaLogado == true)
             ? Home()
             : LoginScreem(),
@@ -33,42 +32,51 @@ class HomeState extends State<Home> {
     BlocProvider.of<MainBloc>(context).carregaDados();
   }
 
-/*
-  partilha() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.clear();
-    prefs.commit();
-    Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => LoginScreem()),
-        (Route<dynamic> route) => false);
-  }
-*/
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Portal de Operações'),
-        backgroundColor: Colors.red[900],
-        centerTitle: true,
-        actions: [
-          LogoutButton(),
-        ],
-        
-      ),
-      backgroundColor: Colors.white, //
-      body: BlocBuilder<MainBloc, MainState>(
-        bloc: BlocProvider.of<MainBloc>(context),
-        builder: (context, state) {
-          if (state is MainNetworkErrorOpeningState) {
-            return Center(child: Text(state.message));
-          } else if (state is MainOpeningState) {
-            return Dashboard1(
-              listaSistemas: state.lista,
-            );
-          }
-          return Container();
-        },
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 0.0,
+          title: Padding(
+            padding: const EdgeInsets.only(right: 74),
+            child: Text(
+              'Portal de Operações',
+              style: TextStyle(
+                fontFamily: "SEGOEUI",
+                color: Colors.black,
+                fontSize: 22,
+              ),
+              //textAlign: TextAlign.left,
+            ),
+          ),
+          backgroundColor: const Color(0xFFfff9f9), //fae0e2
+          centerTitle: true,
+          actions: [
+            LogoutButton(),
+          ],
+          leading: IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.widgets,
+                color: const Color(0xFFfd8900),
+              )),
+        ),
+
+        backgroundColor: Colors.white, //
+        body: BlocBuilder<MainBloc, MainState>(
+          bloc: BlocProvider.of<MainBloc>(context),
+          builder: (context, state) {
+            if (state is MainNetworkErrorOpeningState) {
+              return Center(child: Text(state.message));
+            } else if (state is MainOpeningState) {
+              return Dashboard1(
+                listaSistemas: state.lista,
+              );
+            }
+            return Container();
+          },
+        ),
       ),
     );
   }

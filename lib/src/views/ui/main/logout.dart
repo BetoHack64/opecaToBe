@@ -10,7 +10,7 @@ class LogoutButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-    margin: EdgeInsets.only(left: 0),
+        margin: EdgeInsets.only(left: 0),
         child: IconButton(
             onPressed: () async {
               SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -29,7 +29,9 @@ class LogoutButton extends StatelessWidget {
                 ),
               );
             },
-            icon: Icon(Icons.exit_to_app)));
+            icon: Icon(
+              Icons.exit_to_app,
+              color: const Color(0xFFfd8900),
+            )));
   }
-
 }

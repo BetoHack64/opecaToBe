@@ -68,12 +68,7 @@ BlocProvider.of<AprovarReprovarBloc>(context).idCont = detalhes.anexo[aux].idCon
               style:
                   TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
             ),
-            subtitle: Text('Documento anexado : ' +
-                i.toString() +
-                ' Aux ' +
-                aux.toString() +
-                ' idConteudo ' +
-                detalhes.anexo[i].idConteudo),
+            
             //trailing: Icon(Icons.favorite_outline),
           ), //makeListTile,
         ), // termina Aqui o 1º card com a  informação referente ao numero da conta
