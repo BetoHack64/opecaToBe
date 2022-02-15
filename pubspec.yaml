@@ -84,6 +84,7 @@ flutter:
     - assets/images/swatchbook.png
     - assets/images/sop.png
     - assets/images/keve_exe.jpg
+    - assets/images/setabaixo.svg
     - assets/PDFs/
     - assets/images/
   # An image asset can refer to one or more resolution-specific "variants", see

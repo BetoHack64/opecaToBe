@@ -57,201 +57,197 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          leading: RetrocederButton(telaRetroceder: 'listaOperacoes'),
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        leading: RetrocederButton(telaRetroceder: 'listaOperacoes'),
 
-          elevation: 0.1,
-          backgroundColor: Color(0xFFfff9f9),
-          title: (BlocProvider.of<ListaOperacoesBloc>(context)
-                      .botaoHomeAparece ==
-                  false)
-              ? Text("Portal de Operações")
-              : Text(
-                  'Portal de Operações' +
-                      BlocProvider.of<ListaOperacoesBloc>(context).traco +
-                      sistema,
-                  style: TextStyle(
-                      fontSize: (BlocProvider.of<ListaOperacoesBloc>(context)
-                                  .botaoHomeAparece ==
-                              true)
-                          ? 20
-                          : 20),
-                ),
-          //actions: [ LogoutButton()],
-          centerTitle: true,
-          titleTextStyle: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-            fontFamily: "SEGOEUI",
-          ),
+        elevation: 0.1,
+        backgroundColor: Color(0xFFfff9f9),
+        title: (BlocProvider.of<ListaOperacoesBloc>(context).botaoHomeAparece ==
+                false)
+            ? Text("Portal de Operações")
+            : Text(
+                'Portal de Operações' +
+                    BlocProvider.of<ListaOperacoesBloc>(context).traco +
+                    sistema,
+                style: TextStyle(
+                    fontSize: (BlocProvider.of<ListaOperacoesBloc>(context)
+                                .botaoHomeAparece ==
+                            true)
+                        ? 20
+                        : 20),
+              ),
+        //actions: [ LogoutButton()],
+        centerTitle: true,
+        titleTextStyle: TextStyle(
+          color: Colors.black,
+          fontWeight: FontWeight.bold,
+          fontFamily: "SEGOEUI",
         ),
-        body: Column(
-          children: [
-            Stack(
-              children: [
-                Container(
-                  color: Color(0xFFfff9f9),
-                  child: Center(
-                    child: Container(
-                      height: 40.0,
-                      width: 250.0,
-                      alignment: Alignment(-1.0, 0.0),
-                    ),
+      ),
+      body: Column(
+        children: [
+          Stack(
+            children: [
+              Container(
+                color: Color(0xFFfff9f9),
+                child: Center(
+                  child: Container(
+                    height: 40.0,
+                    width: 250.0,
+                    alignment: Alignment(-1.0, 0.0),
                   ),
                 ),
-                Opacity(
-                  opacity: 0.6,
-                  child: Container(
-                    child: AnimatedContainer(
-                      duration: Duration(milliseconds: 375),
-                      height: 40.0,
-                      width: (toggle == 0) ? 50.0 : 370.0,
-                      curve: Curves.easeOut,
-                      decoration: BoxDecoration(
-                          color: Color(0xFFeeeae9),
-                          borderRadius: BorderRadius.circular(30.0),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black38,
-                              spreadRadius: -14.0,
-                              blurRadius: 10.0,
-                              offset: Offset(-4.0, 10.0),
-                            ),
-                          ]),
-                      child: Stack(
-                        children: [
-                          AnimatedPositioned(
-                            duration: Duration(milliseconds: 375),
-                            left: (toggle == 0) ? 45.0 : 15.0,
-                            top: 13.0,
-                            curve: Curves.easeOut,
-                            child: AnimatedOpacity(
-                              opacity: (toggle == 0) ? 0.0 : 1.0,
-                              duration: Duration(milliseconds: 200),
-                              child: Container(
-                                height: 20.0,
-                                width: 150.0,
-                                child: TextField(
-                                  onChanged: (valor) => runFilter(valor),
-                                  cursorRadius: Radius.circular(10.0),
-                                  cursorWidth: 2.0,
-                                  cursorColor: Colors.black,
-                                  decoration: InputDecoration(
-                                    floatingLabelBehavior:
-                                        FloatingLabelBehavior.never,
-                                    //labelText: 'Pesquisar...',
-                                    label: Text('Pesquisa'),
-                                    labelStyle: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 17.0,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                    alignLabelWithHint: true,
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      borderSide: BorderSide.none,
-                                    ),
+              ),
+              Opacity(
+                opacity: 0.65,
+                child: Container(
+                  child: AnimatedContainer(
+                    duration: Duration(milliseconds: 375),
+                    height: 40.0,
+                    width: (toggle == 0) ? 50.0 : 370.0,
+                    curve: Curves.easeOut,
+                    decoration: BoxDecoration(
+                        color: Color(0xFFeeeae9),
+                        borderRadius: BorderRadius.circular(30.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black38,
+                            spreadRadius: -14.0,
+                            blurRadius: 10.0,
+                            offset: Offset(-4.0, 10.0),
+                          ),
+                        ]),
+                    child: Stack(
+                      children: [
+                        AnimatedPositioned(
+                          duration: Duration(milliseconds: 375),
+                          left: (toggle == 0) ? 45.0 : 15.0,
+                          top: 13.0,
+                          curve: Curves.easeOut,
+                          child: AnimatedOpacity(
+                            opacity: (toggle == 0) ? 0.0 : 1.0,
+                            duration: Duration(milliseconds: 200),
+                            child: Container(
+                              height: 20.0,
+                              width: 150.0,
+                              child: TextField(
+                                onChanged: (valor) => runFilter(valor),
+                                cursorRadius: Radius.circular(10.0),
+                                cursorWidth: 2.0,
+                                cursorColor: Colors.black,
+                                decoration: InputDecoration(
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.never,
+                                  //labelText: 'Pesquisar...',
+                                  label: Text('Pesquisa'),
+                                  labelStyle: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 19.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  alignLabelWithHint: true,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    borderSide: BorderSide.none,
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                          Container(
-                              margin: EdgeInsets.only(left: 318),
-                                child: Material(
-                                  color: Color(0xFFeeeae9),
-                                  borderRadius: BorderRadius.circular(30.0),
-                                  child: IconButton(
-                                    splashRadius: 20.0,
-                                    splashColor: Colors.grey,
-                                    onPressed: () {
-                                      setState(() {});
-                                    },
-                                    icon: Image.asset(
-                                      'assets/images/search.png',
-                                      height: 18.0,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                        ],
-                      ),
-                    ),
-                    margin: EdgeInsets.only(
-                        bottom: 10,
-                        left: (MediaQuery.of(context).size.width / 2) - 184,
-                        top: 10),
-                  ),
-                ),
-              ],
-            ),
-            BlocBuilder<ListaOperacoesBloc, ListaOperacoesState>(
-                bloc: BlocProvider.of<ListaOperacoesBloc>(context),
-                builder: (context, state) {
-                  if (state is ListaOperacoesLoadedSucessState) {
-                    return Expanded(
-                      flex: 360,
-                      child: BlocProvider.of<ListaOperacoesBloc>(context)
-                              .foundUsers
-                              .isNotEmpty
-                          ? ListView.builder(
-                              itemCount:
-                                  BlocProvider.of<ListaOperacoesBloc>(context)
-                                      .foundUsers
-                                      .length,
-                              itemBuilder: (context, index) => ItemsLista(
-                                unidadeOrcamental:
-                                    BlocProvider.of<ListaOperacoesBloc>(context)
-                                        .foundUsers[index]
-                                        .unidadeOrcamental,
-                                title:
-                                    BlocProvider.of<ListaOperacoesBloc>(context)
-                                        .foundUsers[index]
-                                        .title,
-                                subtitle:
-                                    BlocProvider.of<ListaOperacoesBloc>(context)
-                                        .foundUsers[index]
-                                        .fornecedor,
-                                sistema: nome,
-                                id: BlocProvider.of<ListaOperacoesBloc>(context)
-                                    .foundUsers[index]
-                                    .id,
-                                data:
-                                    BlocProvider.of<ListaOperacoesBloc>(context)
-                                        .foundUsers[index]
-                                        .subtitle,
-                                valor:
-                                    BlocProvider.of<ListaOperacoesBloc>(context)
-                                        .foundUsers[index]
-                                        .valor
-                                        .toString(),
-                                moeda:
-                                    BlocProvider.of<ListaOperacoesBloc>(context)
-                                        .foundUsers[index]
-                                        .moeda,
-                                index: index,
-                              ),
-                            )
-                          : Container(
-                              margin: EdgeInsets.only(bottom: 130),
-                              child: Center(
-                                child: const Text(
-                                  'Nenhum resultado encontrado.',
-                                  style: TextStyle(fontSize: 20),
-                                ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(left: 318),
+                          child: Material(
+                            color: Color(0xFFeeeae9),
+                            borderRadius: BorderRadius.circular(30.0),
+                            child: IconButton(
+                              splashRadius: 20.0,
+                              splashColor: Colors.grey,
+                              onPressed: () {
+                                setState(() {});
+                              },
+                              icon: Image.asset(
+                                'assets/images/search.png',
+                                height: 18.0,
                               ),
                             ),
-                    );
-                  }
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  margin: EdgeInsets.only(
+                      bottom: 15,
+                      left: (MediaQuery.of(context).size.width / 2) - 184,
+                      top: 6),
+                ),
+              ),
+            ],
+          ),
+          BlocBuilder<ListaOperacoesBloc, ListaOperacoesState>(
+              bloc: BlocProvider.of<ListaOperacoesBloc>(context),
+              builder: (context, state) {
+                if (state is ListaOperacoesLoadedSucessState) {
+                  return Expanded(
+                    flex: 360,
+                    child: BlocProvider.of<ListaOperacoesBloc>(context)
+                            .foundUsers
+                            .isNotEmpty
+                        ? ListView.builder(
+                            itemCount:
+                                BlocProvider.of<ListaOperacoesBloc>(context)
+                                    .foundUsers
+                                    .length,
+                            itemBuilder: (context, index) => ItemsLista(
+                              unidadeOrcamental:
+                                  BlocProvider.of<ListaOperacoesBloc>(context)
+                                      .foundUsers[index]
+                                      .unidadeOrcamental,
+                              title:
+                                  BlocProvider.of<ListaOperacoesBloc>(context)
+                                      .foundUsers[index]
+                                      .title,
+                              subtitle:
+                                  BlocProvider.of<ListaOperacoesBloc>(context)
+                                      .foundUsers[index]
+                                      .fornecedor,
+                              sistema: nome,
+                              id: BlocProvider.of<ListaOperacoesBloc>(context)
+                                  .foundUsers[index]
+                                  .id,
+                              data: BlocProvider.of<ListaOperacoesBloc>(context)
+                                  .foundUsers[index]
+                                  .subtitle,
+                              valor:
+                                  BlocProvider.of<ListaOperacoesBloc>(context)
+                                      .foundUsers[index]
+                                      .valor
+                                      .toString(),
+                              moeda:
+                                  BlocProvider.of<ListaOperacoesBloc>(context)
+                                      .foundUsers[index]
+                                      .moeda,
+                              index: index,
+                            ),
+                          )
+                        : Container(
+                            margin: EdgeInsets.only(bottom: 130),
+                            child: Center(
+                              child: const Text(
+                                'Nenhum resultado encontrado.',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ),
+                          ),
+                  );
+                }
 
-                  return Container();
-                }),
-          ],
-        ),
+                return Container();
+              }),
+        ],
       ),
     );
   }
