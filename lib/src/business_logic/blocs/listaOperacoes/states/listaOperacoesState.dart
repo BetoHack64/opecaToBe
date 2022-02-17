@@ -1,7 +1,9 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:SOP/src/business_logic/models/cardDetail.dart';
+import 'package:SOP/src/business_logic/models/detalhes.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 class ListaOperacoesState extends Equatable {
   @override
@@ -35,3 +37,7 @@ final List<CardDetail> message;
 }
 
 class ListaOperacoesPesquisaFindErrorState extends ListaOperacoesState {}
+
+class AbrindoExpandLoadingState extends ListaOperacoesState {
+
+}

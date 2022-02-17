@@ -6,6 +6,7 @@ class ListaOperacoesEvent extends Equatable {
 }
 
 class ListaOperacoesGetConnection extends ListaOperacoesEvent {}
+class AbrirExpanded extends ListaOperacoesEvent {}
 
 class ListaOperacoesGetConnectionError extends ListaOperacoesEvent {}
 class ListaOperacoesGetConnectionSucess extends ListaOperacoesEvent {}
