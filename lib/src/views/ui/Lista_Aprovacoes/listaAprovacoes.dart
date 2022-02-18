@@ -201,7 +201,9 @@ class _DashboardState extends State<Dashboard> {
                                 BlocProvider.of<ListaOperacoesBloc>(context)
                                     .foundUsers
                                     .length,
-                            itemBuilder: (context, index) => ItemsLista(
+                            itemBuilder: (context, index) {
+//print(index);
+                              return ItemsLista(
                               unidadeOrcamental:
                                   BlocProvider.of<ListaOperacoesBloc>(context)
                                       .foundUsers[index]
@@ -231,7 +233,8 @@ class _DashboardState extends State<Dashboard> {
                                       .foundUsers[index]
                                       .moeda,
                               index: index,
-                            ),
+                            );
+                            },
                           )
                         : Container(
                             margin: EdgeInsets.only(bottom: 130),

@@ -18,7 +18,6 @@ class _LoginScreemState extends State<LoginScreem> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false, //Desabilitar
       body: BlocBuilder<LoginBloc, LoginState>(
         bloc: BlocProvider.of<LoginBloc>(context),
         builder: (context, state) {
@@ -72,86 +71,63 @@ class _LoginScreemState extends State<LoginScreem> {
                           child: Row(
                             children: [
                               Stack(
-                                //alignment: Alignment.topCenter,
                                 children: [
-                                  FittedBox(
+                                  SafeArea(
                                     child: Container(
-                                      //alignment: Alignment.topCenter,
                                       width:
                                           MediaQuery.of(context).size.width * 1,
-                                      // height: MediaQuery.of(context).size.height ,
-                                      child: Stack(
-                                        children: [
-                                          Center(
-                                            child: SvgPicture.asset(
-                                              "assets/images/login.svg",
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.9,
-                                            ),
-                                          ),
-                                          Center(
-                                            child: Container(
-                                              // alignment: Alignment.topCenter,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .height /
-                                                  2.3,
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height /
-                                                  6.3,
-
-                                              margin: EdgeInsets.only(
-                                                top: MediaQuery.of(context)
-                                                        .size
-                                                        .height /
-                                                    6.6,
-                                              ),
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.only(
-                                                  topRight:
-                                                      Radius.circular(30.0),
-                                                  bottomLeft:
-                                                      Radius.circular(30.0),
-                                                ),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: Colors.black,
-                                                    spreadRadius: -6.0,
-                                                    blurRadius: 13.0,
-                                                  ),
-                                                ],
-                                              ),
-                                              //margin: EdgeInsets.only(top: 65),
-                                              child: Image.asset(
-                                                "assets/images/keve_exe.jpg",
-                                                scale: 0.8,
-                                              ), //logo da aplicação
-                                            ),
-                                          ),
-                                          Center(
-                                            child: Container(
-                                              margin: EdgeInsets.only(
-                                                top: MediaQuery.of(context)
-                                                        .size
-                                                        .height /
-                                                    3,
-                                              ),
-                                              child: Text(
-                                                "Bem vindo!",
-                                                style: TextStyle(
-                                                    color: Color(0xFF3b98d4),
-                                                    fontFamily: "SEGOEUI",
-                                                    fontSize: 27,
-                                                    fontWeight:
-                                                        FontWeight.w800),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
+                                      child: SvgPicture.asset(
+                                        "assets/images/login.svg",
+                                        width: 400,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 303,
+                                    height: 111,
+                                    margin: EdgeInsets.only(
+                                      top: MediaQuery.of(context).size.height /
+                                          5.1,
+                                      left: MediaQuery.of(context).size.height /
+                                          13,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(30.0),
+                                        bottomLeft: Radius.circular(30.0),
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black,
+                                          spreadRadius: -6.0,
+                                          blurRadius: 13.0,
+                                        ),
+                                      ],
+                                    ),
+                                    //margin: EdgeInsets.only(top: 65),
+                                    child: Image.asset(
+                                      "assets/images/keve_exe.jpg",
+                                      scale: 0.9,
+                                    ), //logo da aplicação
+                                  ),
+                                  Center(
+                                    child: Container(
+                                      margin: EdgeInsets.only(
+                                        top:
+                                            MediaQuery.of(context).size.height /
+                                                2.7,
+                                        left:
+                                            MediaQuery.of(context).size.height /
+                                                5,
+                                      ),
+                                      child: Text(
+                                        "Bem vindo!",
+                                        style: TextStyle(
+                                            color: Color(0xFF3b98d4),
+                                            fontFamily: "SEGOEUI",
+                                            fontSize: 27,
+                                            fontWeight: FontWeight.w800),
                                       ),
                                     ),
                                   ),
@@ -175,8 +151,7 @@ class _LoginScreemState extends State<LoginScreem> {
                     physics: NeverScrollableScrollPhysics(),
                     padding: EdgeInsets.symmetric(
                       horizontal: MediaQuery.of(context).size.width * 0.006,
-                      vertical:
-                          MediaQuery.of(context).size.height / 2.8, //Era 7
+                      vertical: MediaQuery.of(context).size.height / 3, //Era 7
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -220,7 +195,7 @@ class _LoginScreemState extends State<LoginScreem> {
                                           style: TextStyle(
                                             fontFamily: "Ubuntu",
                                             color: Color(0xFF2b395b),
-                                            fontSize: 26,
+                                            fontSize: 27,
                                             letterSpacing: 1,
                                             fontWeight: FontWeight.bold,
                                           ),
@@ -295,7 +270,7 @@ class _LoginScreemState extends State<LoginScreem> {
                                       //
                                     ],
                                   ),
-                                  SizedBox(height: 20.0),
+                                  SizedBox(height: 30.0),
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -372,7 +347,6 @@ class _LoginScreemState extends State<LoginScreem> {
                                     ],
                                   ),
                                   //Botão
-                                  SizedBox(height: 6.0),
                                   //Botão Entrar
                                   Container(
                                     padding:
@@ -438,7 +412,6 @@ class _LoginScreemState extends State<LoginScreem> {
                                       }),
                                     ),
                                   ),
-                                  SizedBox(height: 6.0),
                                   Container(
                                     child: Text(
                                       "Ao iniciar a sessão concordará com os nossos ",

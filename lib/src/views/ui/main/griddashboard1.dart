@@ -77,8 +77,8 @@ class _GridDashboardState extends State<GridDashboard> {
                       children: <Widget>[
                         Container(
                           decoration: BoxDecoration(
-                            color: const Color(0xFFfb2436),
-                            borderRadius: BorderRadius.circular(30.0),
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(4.0),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.grey.withOpacity(0.4),
@@ -97,41 +97,40 @@ class _GridDashboardState extends State<GridDashboard> {
                               data.numOperations,
                               style: TextStyle(
                                 color: data.numOperations == "0"
-                                    ? Colors.white
-                                    : Colors.white,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w900,
+                                    ? Colors.black
+                                    : Colors.red[900],
+                                fontSize: 11,
+                                fontWeight: FontWeight.w600,
                                 fontFamily: "SEGOEUI",
                               ),
                             ),
                           ),
-                          margin: EdgeInsets.only(left: 105, bottom: 2),
+                          margin: EdgeInsets.only(left: 105, bottom: 8),
                         ),
                         Container(
                           child: IconSistema(
                               imageAnalysed: data.iconBase64,
                               nome: data.applicationCod),
-                          margin: EdgeInsets.only(bottom: 0.1),
+                          margin: EdgeInsets.only(bottom: 16),
                         ),
                         Container(
                           child: Text(
                             data.applicationCod,
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
                               fontFamily: "SEGOEUI",
-                              letterSpacing: 1,
                             ),
                           ),
-                          margin: EdgeInsets.only(bottom: 2),
+                          margin: EdgeInsets.only(bottom: 5),
                         ),
                         Text(
                           data.applicationNameShort,
                           style: TextStyle(
                             color: Colors.grey,
                             fontSize: 14,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w600,
                             fontFamily: "SEGOEUI",
                           ),
                         ),

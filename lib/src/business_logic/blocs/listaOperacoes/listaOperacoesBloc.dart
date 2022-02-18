@@ -28,7 +28,8 @@ class ListaOperacoesBloc
     anexo: [],
   );
   CardDetailRepository cardDetailRepository = CardDetailRepository();
-  AprovarReprovarRepository aprovarReprovarRepository = AprovarReprovarRepository();
+  AprovarReprovarRepository aprovarReprovarRepository =
+      AprovarReprovarRepository();
   List<CardDetail> cards = [];
   List<CardDetail> foundUsers = [];
   String idAccount = '';
@@ -39,9 +40,9 @@ class ListaOperacoesBloc
   List<String> columns = [];
   ListaOperacoesBloc([ListaOperacoesState? initialState])
       : super(ListaOperacoesLoadingState()) {
-      
     on<ListaOperacoesGetConnection>((event, emit) async {
-      SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
       nomeSistema = sistemaID =
           sharedPreferences.getString('SistemaID') ?? 'bug sistemaID';
       idAccount = sharedPreferences.getString('IdAccount') ?? 'bug idAcount';
@@ -57,14 +58,15 @@ class ListaOperacoesBloc
       }
       emit(verificaConexao(isDeviceConnected, foundUsers));
     });
-    on<AbrirExpanded>((event, emit){
+    on<AbrirExpanded>((event, emit) {
       emit(abreExpanded());
     });
   }
 
-  AbrindoExpandLoadingState abreExpanded (){
-    return AbrindoExpandLoadingState(); 
+  AbrindoExpandLoadingState abreExpanded() {
+    return AbrindoExpandLoadingState();
   }
+
   ListaOperacoesState verificaConexao(bool v, List<CardDetail> lista) {
     if (v == true) {
       return ListaOperacoesLoadedSucessState(message: lista);
@@ -76,34 +78,37 @@ class ListaOperacoesBloc
 
 //----------------------- Aprova e Reprovar
 
-Future<OperationData> buscaDetalhes(String opID)async{
-  SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
-      nomeSistema = sharedPreferences.getString('SistemaID') ?? 'bug sistemaID';
-     
-      try {
-        detalhes = await aprovarReprovarRepository.getDetalhesOperacao(
-            nomeSistema, opID);
-      } catch (erro) {
-        print('Erro ao buscar detalhes ' + erro.toString());
-      }
-      return detalhes;
+  Future<OperationData> buscaDetalhes(String opID) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    nomeSistema = sharedPreferences.getString('SistemaID') ?? 'bug sistemaID';
+    //print(opID);
+    try {
+      detalhes = await aprovarReprovarRepository.getDetalhesOperacao(
+          nomeSistema, opID);
+      columns = [
+        detalhes.grelha.header.coluna1,
+        detalhes.grelha.header.coluna2,
+        detalhes.grelha.header.coluna3
+      ];
+    } catch (erro) {
+      print('Erro ao buscar detalhes ' + erro.toString());
+    }
+    return detalhes;
   }
-  
-  
-  Future<String> buscaPDF(String opID, String idCont)async{
-  SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
-      nomeSistema = sharedPreferences.getString('SistemaID') ?? 'bug sistemaID';
-     String ficheiroBase64 = '';
-      try {
-        ficheiroBase64 = await aprovarReprovarRepository.getPDFOperacao(opID, idCont);
-      } catch (erro) {
-        print('Erro ao buscar detalhes ' + erro.toString());
-      }
-      return ficheiroBase64;
+
+  Future<String> buscaPDF(String opID, String idCont) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    nomeSistema = sharedPreferences.getString('SistemaID') ?? 'bug sistemaID';
+    String ficheiroBase64 = '';
+    try {
+      ficheiroBase64 =
+          await aprovarReprovarRepository.getPDFOperacao(opID, idCont);
+    } catch (erro) {
+      print('Erro ao buscar detalhes ' + erro.toString());
+    }
+    return ficheiroBase64;
   }
-  
+
   //Gera o conteudo das celulas
   List<DataCell> getCelulas(List<dynamic> cells) =>
       cells.map((data) => DataCell(Text('$data'))).toList();
@@ -185,5 +190,4 @@ Future<OperationData> buscaDetalhes(String opID)async{
       ],
     );
   }
-
 }

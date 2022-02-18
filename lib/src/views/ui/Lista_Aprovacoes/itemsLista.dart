@@ -1,8 +1,8 @@
 // ignore_for_file: must_be_immutable, unused_field
 
-
 import 'package:SOP/src/business_logic/models/detalhes.dart';
 import 'package:SOP/src/views/ui/Lista_Aprovacoes/expancaoDetalhes.dart';
+import 'package:SOP/src/views/ui/Lista_Aprovacoes/expansaoDetalhe.dart';
 import 'package:flutter/material.dart';
 
 class ItemsLista extends StatefulWidget {
@@ -32,21 +32,8 @@ class ItemsLista extends StatefulWidget {
 }
 
 class _ItemsListaState extends State<ItemsLista> {
-  @override
-  initState() {
-    super.initState();
-  }
-
-  OperationData detalhes = OperationData(
-    applicationId: '',
-    operationCodId: '',
-    operationId: '',
-    header: Header(campo: '', valor: ''),
-    dados: [],
-    grelha: Grelha(
-        header: Header_grelha(coluna1: '', coluna2: '', coluna3: ''), data: []),
-    anexo: [],
-  );
+  String seta = 'assets/setabaixo.PNG';
+  bool estaExpandido = false;
 
   /*void _iniVariaveis() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -61,6 +48,7 @@ class _ItemsListaState extends State<ItemsLista> {
 
   @override
   Widget build(BuildContext context) {
+    //print(widget.id);
     return Container(
       child: Card(
         shape: RoundedRectangleBorder(
@@ -89,87 +77,64 @@ class _ItemsListaState extends State<ItemsLista> {
                     fontSize: 17),
               ),
               width: 87,
-              margin: EdgeInsets.fromLTRB(270, 10, 0, 0),
+              margin: EdgeInsets.fromLTRB(270, 4, 0, 0),
             ),
             Container(
-              child: Stack(
-                children: [
-                  Column(
-                    children: [
-                      Container(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          widget.unidadeOrcamental,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17.5,
-                            fontFamily: "SEGOEUI",
-                          ),
-                        ),
-                        //color: Colors.green,
-                        margin: EdgeInsets.fromLTRB(18, 0, 0, 0),
-                      ),
-                      Positioned(
-                        bottom: 2,
-                        child: Container(
-                          child: Container(
-                            margin: EdgeInsets.fromLTRB(2, 0, 5, 0),
-                            //width: 70,
+              alignment: Alignment.topLeft,
+              child: Text(
+                widget.unidadeOrcamental,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 17.5,
+                  fontFamily: "SEGOEUI",
+                ),
+              ),
+              //color: Colors.green,
+              margin: EdgeInsets.fromLTRB(18, 0, 0, 0),
+            ),
+            Container(
+              margin: EdgeInsets.fromLTRB(2, 0, 0, 0),
+              //width: 70,
 
-                            child: ExpancaoDetalhes(widget.subtitle, widget.id),
-
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50.0),
-                              //color: Colors.black,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    //color: Colors.blue,
-                    margin: EdgeInsetsDirectional.only(
-                      top: 63.0,
-                    ),
-                    child: Divider(
-                      thickness: 1,
-                      indent: 22,
-                      endIndent: 26,
-                      color: Colors.black26,
-                    ),
-                  ),
-                  Positioned(
-                    top: 10,
-                    child: Container(
-                      //color: Colors.red,
+              child: ExpandirDetalhes(forn: widget.subtitle, id: widget.id, context: context),
+            ),
+            Container(
+              //color: Colors.blue,
+              margin: EdgeInsetsDirectional.only(
+                top: 0.0,
+              ),
+              child: Divider(
+                thickness: 2,
+                indent: 22,
+                endIndent: 26,
+                color: Colors.black26,
+              ),
+            ),
+            Container(
+              //color: Colors.red,
+              padding: EdgeInsets.zero,
+              height: 22,
+              width: 48,
+              margin: EdgeInsetsDirectional.only(
+                start: 335.0,
+              ),
+              child: Center(
+                child: Row(
+                  //mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    IconButton(
                       padding: EdgeInsets.zero,
-                      height: 22,
-                      width: 48,
-                      margin: EdgeInsetsDirectional.only(
-                        start: 335.0,
-                      ),
-                      child: Center(
-                        child: Row(
-                          //mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            IconButton(
-                              padding: EdgeInsets.zero,
-                              iconSize: 35,
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.keyboard_arrow_right,
-                                color: Colors.black,
-                                //size: 30.0,
-                              ),
-                            ),
-                          ],
-                        ),
+                      iconSize: 35,
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.keyboard_arrow_right,
+                        color: Colors.black,
+                        //size: 30.0,
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             Container(

@@ -2,44 +2,35 @@ import 'package:SOP/src/business_logic/blocs/listaOperacoes/listaOperacoesBloc.d
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-String fornec = '';
-String id = '';
-
-class ExpancaoDetalhes extends StatefulWidget {
-  ExpancaoDetalhes(String fornecedor, String idOp) {
-    fornec = fornecedor;
-    id = idOp;
-  }
-
+class ExpandirDetalhes extends StatefulWidget {
+  late final String forn;
+  late final String id;
+  late final BuildContext context;
+  ExpandirDetalhes(
+      {required this.forn, required this.id, required this.context});
   @override
-  State<ExpancaoDetalhes> createState() => _ExpancaoDetalhesState();
+  State<ExpandirDetalhes> createState() => _ExpandirDetalhesState();
 }
 
-class _ExpancaoDetalhesState extends State<ExpancaoDetalhes> {
-  @override
-  initState() {
-    super.initState();
-    print(id);
-  }
-
+class _ExpandirDetalhesState extends State<ExpandirDetalhes> {
   String seta = 'assets/setabaixo.PNG';
   bool estaExpandido = false;
+
   @override
   Widget build(BuildContext context) {
-  BlocProvider.of<ListaOperacoesBloc>(context).buscaDetalhes(id);
     return ExpansionTile(
       textColor: Colors.black,
       collapsedTextColor: Colors.black,
       onExpansionChanged: (value) {
-        //print(value);
-
+        print(widget.id);
+        BlocProvider.of<ListaOperacoesBloc>(widget.context)
+            .buscaDetalhes(widget.id);
         if (value == true) {
           setState(() {
             seta = "assets/setacima.PNG";
             estaExpandido = true;
           });
           if (estaExpandido == true) {
-            
             BlocProvider.of<ListaOperacoesBloc>(context).columns = [
               BlocProvider.of<ListaOperacoesBloc>(context)
                   .detalhes
@@ -75,7 +66,7 @@ class _ExpancaoDetalhesState extends State<ExpancaoDetalhes> {
               width: 30,
             ),
           ),
-          Text(fornec),
+          Text(widget.forn),
         ],
       ),
       backgroundColor: Colors.white,

@@ -5,7 +5,6 @@ import 'package:SOP/src/views/ui/main/logout.dart';
 import 'package:flutter/material.dart';
 import 'package:SOP/src/views/ui/main/dashboard.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 
 void main() {
   runApp(
@@ -55,11 +54,12 @@ class HomeState extends State<Home> {
         actions: [
           LogoutButton(),
         ],
-        leading: SvgPicture.asset(
-          "assets/images/simbportal.svg",
-          color: const Color(0xFFffb574),
-        ),
-        leadingWidth: 50,
+        leading: IconButton(
+            onPressed: () {},
+            icon: Icon(
+              Icons.widgets,
+              color: const Color(0xFFfd8900),
+            )),
       ),
 
       backgroundColor: Colors.white, //
