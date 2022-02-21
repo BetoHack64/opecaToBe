@@ -1,3 +1,5 @@
+import 'package:SOP/src/business_logic/models/detalhes.dart';
+
 class CardDetail {
   CardDetail(
       {required this.unidadeOrcamental,
@@ -6,7 +8,8 @@ class CardDetail {
       required this.valor,
       required this.fornecedor,
       required this.id,
-      required this.moeda});
+      required this.moeda,
+      required this.detalhes});
 
   String fornecedor;
   String id;
@@ -15,4 +18,14 @@ class CardDetail {
   String title;
   String valor;
   String unidadeOrcamental;
+  OperationData detalhes = OperationData(
+    applicationId: '',
+    operationCodId: '',
+    operationId: '',
+    header: Header(campo: '', valor: ''),
+    dados: [],
+    grelha: Grelha(
+        header: Header_grelha(coluna1: '', coluna2: '', coluna3: ''), data: []),
+    anexo: [],
+  );
 }

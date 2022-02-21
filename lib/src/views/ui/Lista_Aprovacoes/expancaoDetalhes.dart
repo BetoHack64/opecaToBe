@@ -1,4 +1,4 @@
-import 'package:SOP/src/business_logic/blocs/listaOperacoes/listaOperacoesBloc.dart';
+/*import 'package:SOP/src/business_logic/blocs/listaOperacoes/listaOperacoesBloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -151,3 +151,4 @@ class _ExpancaoDetalhesState extends State<ExpancaoDetalhes> {
     );
   }
 }
+*/

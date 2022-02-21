@@ -3,6 +3,7 @@
 import 'package:SOP/src/business_logic/blocs/listaOperacoes/listaOperacoesBloc.dart';
 import 'package:SOP/src/business_logic/blocs/listaOperacoes/states/listaOperacoesState.dart';
 import 'package:SOP/src/business_logic/models/cardDetail.dart';
+import 'package:SOP/src/views/ui/Lista_Aprovacoes/dismissibleWidget.dart';
 import 'package:SOP/src/views/ui/Lista_Aprovacoes/itemsLista.dart';
 import 'package:SOP/src/views/ui/main/homeIconButton.dart';
 import 'package:flutter/cupertino.dart';
@@ -202,38 +203,15 @@ class _DashboardState extends State<Dashboard> {
                                     .foundUsers
                                     .length,
                             itemBuilder: (context, index) {
-//print(index);
-                              return ItemsLista(
-                              unidadeOrcamental:
+                              final item =
                                   BlocProvider.of<ListaOperacoesBloc>(context)
-                                      .foundUsers[index]
-                                      .unidadeOrcamental,
-                              title:
-                                  BlocProvider.of<ListaOperacoesBloc>(context)
-                                      .foundUsers[index]
-                                      .title,
-                              subtitle:
-                                  BlocProvider.of<ListaOperacoesBloc>(context)
-                                      .foundUsers[index]
-                                      .fornecedor,
-                              sistema: nome,
-                              id: BlocProvider.of<ListaOperacoesBloc>(context)
-                                  .foundUsers[index]
-                                  .id,
-                              data: BlocProvider.of<ListaOperacoesBloc>(context)
-                                  .foundUsers[index]
-                                  .subtitle,
-                              valor:
-                                  BlocProvider.of<ListaOperacoesBloc>(context)
-                                      .foundUsers[index]
-                                      .valor
-                                      .toString(),
-                              moeda:
-                                  BlocProvider.of<ListaOperacoesBloc>(context)
-                                      .foundUsers[index]
-                                      .moeda,
-                              index: index,
-                            );
+                                      .foundUsers[index];
+                              return DismissibleWidget(
+                                item: item,
+                                child: buildListTile(item, index),
+                                onDismissed: (direction) =>
+                                    dismissItem(context, index, direction),
+                              );
                             },
                           )
                         : Container(
@@ -254,6 +232,19 @@ class _DashboardState extends State<Dashboard> {
       ),
     );
   }
+
+  Widget buildListTile(CardDetail item, int index) => ItemsLista(
+        unidadeOrcamental: item.unidadeOrcamental,
+        title: item.title,
+        subtitle: item.fornecedor,
+        sistema: nome,
+        id: item.id,
+        data: item.subtitle,
+        valor: item.valor.toString(),
+        moeda: item.moeda,
+        index: index,
+        detalhes: item.detalhes,
+      );
 
   // This function is called whenever the text field changes
   void runFilter(String enteredKeyword) {
@@ -279,6 +270,22 @@ class _DashboardState extends State<Dashboard> {
     }
     setState(() {
       BlocProvider.of<ListaOperacoesBloc>(context).foundUsers = results;
+    });
+  }
+
+  void dismissItem(
+      BuildContext context, int index, DismissDirection direction) {
+    setState(() {
+      BlocProvider.of<ListaOperacoesBloc>(context).foundUsers.removeAt(index);
+      switch (direction) {
+        case DismissDirection.endToStart:
+          print('Operacao rejeitada');
+          break;
+        case DismissDirection.startToEnd:
+          print('Operacao aprovada');
+          break;
+        default:
+      }
     });
   }
 }

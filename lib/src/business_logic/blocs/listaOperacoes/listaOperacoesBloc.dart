@@ -17,6 +17,7 @@ class ListaOperacoesBloc
     extends Bloc<ListaOperacoesEvent, ListaOperacoesState> {
   bool botaoHomeAparece = true;
   bool caixaDePesquisaEstaVisivel = false;
+  double margemW = 0.0;
   OperationData detalhes = OperationData(
     applicationId: '',
     operationCodId: '',
@@ -34,6 +35,7 @@ class ListaOperacoesBloc
   List<CardDetail> foundUsers = [];
   String idAccount = '';
   bool isDeviceConnected = false;
+  bool estaExpandido = false;
   String nomeSistema = '';
   String sistemaID = '';
   String traco = ' - ';
@@ -109,85 +111,5 @@ class ListaOperacoesBloc
     return ficheiroBase64;
   }
 
-  //Gera o conteudo das celulas
-  List<DataCell> getCelulas(List<dynamic> cells) =>
-      cells.map((data) => DataCell(Text('$data'))).toList();
-
-  //Desenha o cabeçalho das Colunas
-  List<DataColumn> getColunas(List<String> columns) => columns
-      .map((String columns) => DataColumn(
-            label: Text(columns),
-          ))
-      .toList();
-
-  //Desenha as linhas
-  List<DataRow> getLinhas(List<String> columns, List<dynamic> cell) => columns
-      .map((String columns) => DataRow(
-            cells: getCelulas(cell),
-          ))
-      .toList();
-
-  List<DataRow> tabela() {
-    var celulas = [];
-    List<DataRow> lista = [];
-    for (int i = 0; i < detalhes.grelha.data.length; i++) {
-      celulas = [
-        detalhes.grelha.data[i].valor1,
-        detalhes.grelha.data[i].valor2,
-        detalhes.grelha.data[i].valor3
-      ];
-      DataRow rows = DataRow(cells: getCelulas(celulas));
-      lista.add(rows);
-    }
-    return lista;
-  }
-
-  //Construção da Tabela
-  Widget tabelaDados() {
-    return Container(
-      //margin: EdgeInsets.only(right: 10, top: 10), poderia usar o FitdBox para rem o pading
-      child: Center(
-        child: DataTable(
-          horizontalMargin: 1,
-          columnSpacing: 19,
-          columns: getColunas(columns),
-          rows: tabela(),
-        ),
-      ),
-    );
-  }
-
-  //Construção dos campos
-  Widget camposPovoar(int i) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: 1),
-          child: Text(
-            (detalhes.dados[i].campo == 'ok') ? '' : detalhes.dados[i].campo,
-            textAlign: TextAlign.left,
-            style: TextStyle(
-                color: Colors.black.withOpacity(0.6),
-                fontSize: 13,
-                fontFamily: "Open Sans"),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 6),
-          child: Text(
-            (detalhes.dados[i].campo.contains('Data'))
-                ? detalhes.dados[i].valor.split('-').reversed.join('-')
-                : detalhes.dados[i].valor,
-            textAlign: TextAlign.left,
-            style: TextStyle(
-                color: Colors.black.withOpacity(0.7),
-                fontSize: 17,
-                fontFamily: "Open Sans"),
-          ),
-        ),
-      ],
-    );
-  }
+  
 }

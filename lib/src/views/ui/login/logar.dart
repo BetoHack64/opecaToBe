@@ -17,6 +17,7 @@ class LoginScreem extends StatefulWidget {
 class _LoginScreemState extends State<LoginScreem> {
   @override
   Widget build(BuildContext context) {
+    final largura = MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomInset: false, //Desabilitar
       body: BlocBuilder<LoginBloc, LoginState>(
@@ -77,37 +78,24 @@ class _LoginScreemState extends State<LoginScreem> {
                                   FittedBox(
                                     child: Container(
                                       //alignment: Alignment.topCenter,
-                                      width:
-                                          MediaQuery.of(context).size.width * 1,
+                                      width: largura * 1,
                                       // height: MediaQuery.of(context).size.height ,
                                       child: Stack(
                                         children: [
                                           Center(
                                             child: SvgPicture.asset(
                                               "assets/images/login.svg",
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.9,
+                                              width: largura * 0.9,
                                             ),
                                           ),
                                           Center(
                                             child: Container(
                                               // alignment: Alignment.topCenter,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .height /
-                                                  2.3,
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height /
-                                                  6.3,
+                                              width: largura / 1.4,
+                                              height: largura / 4,
 
                                               margin: EdgeInsets.only(
-                                                top: MediaQuery.of(context)
-                                                        .size
-                                                        .height /
-                                                    6.6,
+                                                top: largura / 4,
                                               ),
                                               decoration: BoxDecoration(
                                                 color: Colors.white,
