@@ -39,7 +39,7 @@ BlocProvider.of<AprovarReprovarBloc>(context).idCont = detalhes.anexo[aux].idCon
             builder: (context) {
               return BlocProvider.value(
                 value: BlocProvider.of<AprovarReprovarBloc>(context),
-                  child: PdfVer(),
+                  child: PdfVer(sis: '',),
                 
               );
             },

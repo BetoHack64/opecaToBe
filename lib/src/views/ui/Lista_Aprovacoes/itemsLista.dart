@@ -5,6 +5,7 @@ import 'package:SOP/src/business_logic/models/detalhes.dart';
 import 'package:SOP/src/views/ui/Lista_Aprovacoes/expansaoDetalhe.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ItemsLista extends StatefulWidget {
   final String title;
@@ -39,8 +40,9 @@ class _ItemsListaState extends State<ItemsLista> {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-    duration: Duration(seconds:2),
-    margin: EdgeInsetsDirectional.only(end: BlocProvider.of<ListaOperacoesBloc>(context).margemW),
+      duration: Duration(seconds: 2),
+      margin: EdgeInsetsDirectional.only(
+          end: BlocProvider.of<ListaOperacoesBloc>(context).margemW),
       child: Container(
         child: Card(
           shape: RoundedRectangleBorder(
@@ -69,7 +71,10 @@ class _ItemsListaState extends State<ItemsLista> {
                       fontSize: 17),
                 ),
                 width: 87,
-                margin: EdgeInsetsDirectional.only(start:MediaQuery.of(context).size.width-150)
+                margin: EdgeInsetsDirectional.only(
+                  start: MediaQuery.of(context).size.width - 150,
+                  top: 10,
+                ),
               ),
               Container(
                 alignment: Alignment.topLeft,
@@ -91,18 +96,23 @@ class _ItemsListaState extends State<ItemsLista> {
                     child: Stack(
                       children: [
                         Container(
-                          margin: EdgeInsets.fromLTRB(2, 0, 0, 0),
+                          //height: 50,
+                          padding: EdgeInsets.zero,
+                          margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
                           //width: 70,
                           child: ExpandirDetalhes(
-                              forn: widget.subtitle,
-                              id: widget.id,
-                              context: context,
-                              detalhes: widget.detalhes),
+                            forn: widget.subtitle,
+                            id: widget.id,
+                            context: context,
+                            detalhes: widget.detalhes,
+                            sistemaNome: widget.sistema,
+                          ),
                         ),
                         Container(
                           //color: Colors.blue,
                           margin: EdgeInsetsDirectional.only(
-                            top: 55.0,
+                            bottom: 50,
+                            top: 36.0,
                           ),
                           child: Divider(
                             thickness: 2,
@@ -111,67 +121,66 @@ class _ItemsListaState extends State<ItemsLista> {
                             color: Colors.black26,
                           ),
                         ),
+                        Container(
+                          //margin: EdgeInsetsDirectional.only(bottom: 10),
+                          height: 40,
+                          //color: Colors.green,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 2,
+                                child: Container(
+                                  margin: EdgeInsetsDirectional.only(
+                                    start: 23,
+                                  ),
+                                  child: Text(
+                                    widget.valor + ' ' + widget.moeda,
+                                    style: TextStyle(
+                                        fontSize: 21,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: "SEGOEUI",
+                                        color: Colors.orange),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  margin: EdgeInsetsDirectional.only(
+                                    end: 23,
+                                  ),
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      primary: widget.title == 'Encomenda'
+                                          ? Color(0xfff9dddf)
+                                          : Color(0xffe6f6e9),
+                                      //onSurface: Color(0xfff9dddf),
+                                      elevation: 0,
+                                      fixedSize: Size(70, 20),
+                                    ),
+                                    onPressed: () => {},
+                                    child: Text(
+                                      widget.title,
+                                      style: TextStyle(
+                                          color: widget.title == 'Encomenda'
+                                              ? Color(0xFFfb2436)
+                                              : Color(0xFF59c369),
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: "SEGOEUI"),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          margin: EdgeInsets.only(
+                            top: 55,
+                          ),
+                        ),
                       ],
                     ),
                   ),
                 ],
-              ),
-              
-              Container(
-                //margin: EdgeInsetsDirectional.only(bottom: 10),
-                height: 40,
-                //color: Colors.green,
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: Container(
-                        margin: EdgeInsetsDirectional.only(
-                          start: 23,
-                        ),
-                        child: Text(
-                          widget.valor + ' ' + widget.moeda,
-                          style: TextStyle(
-                              fontSize: 21,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "SEGOEUI",
-                              color: Colors.orange),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        margin: EdgeInsetsDirectional.only(
-                          end: 23,
-                        ),
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: widget.title == 'Encomenda'
-                                ? Color(0xfff9dddf)
-                                : Color(0xffe6f6e9),
-                            //onSurface: Color(0xfff9dddf),
-                            elevation: 0,
-                            fixedSize: Size(70, 20),
-                          ),
-                          onPressed: () => {},
-                          child: Text(
-                            widget.title,
-                            style: TextStyle(
-                                color: widget.title == 'Encomenda'
-                                    ? Color(0xFFfb2436)
-                                    : Color(0xFF59c369),
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "SEGOEUI"),
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                margin: EdgeInsets.only(
-                  bottom: 9,
-                ),
               ),
             ],
           ),

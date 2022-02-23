@@ -19,7 +19,8 @@ class _LoginScreemState extends State<LoginScreem> {
   Widget build(BuildContext context) {
     final largura = MediaQuery.of(context).size.width;
     return Scaffold(
-      resizeToAvoidBottomInset: false, //Desabilitar
+     //resizeToAvoidBottomInset: test, //Desabilitar
+     
       body: BlocBuilder<LoginBloc, LoginState>(
         bloc: BlocProvider.of<LoginBloc>(context),
         builder: (context, state) {
@@ -107,9 +108,12 @@ class _LoginScreemState extends State<LoginScreem> {
                                                 ),
                                                 boxShadow: [
                                                   BoxShadow(
-                                                    color: Colors.black,
-                                                    spreadRadius: -6.0,
-                                                    blurRadius: 13.0,
+                                                    // color: Colors.amberAccent,
+                                                    color: Colors.grey
+                                                        .withOpacity(0.2),
+                                                    spreadRadius: 6,
+                                                    blurRadius: 0.1,
+                                                    offset: Offset(0, 0),
                                                   ),
                                                 ],
                                               ),
@@ -158,9 +162,11 @@ class _LoginScreemState extends State<LoginScreem> {
                 //Container de Autenticação
                 Container(
                   height: double.infinity,
+                  width: double.infinity,
                   child: SingleChildScrollView(
-                    //AlwaysScrollableScrollPhysics() habilitar scrol
-                    physics: NeverScrollableScrollPhysics(),
+                    //AlwaysScrollableScrollPhysics() habilitar scrol  NeverScrollableScrollPhysics()
+                    
+                    physics: AlwaysScrollableScrollPhysics(),
                     padding: EdgeInsets.symmetric(
                       horizontal: MediaQuery.of(context).size.width * 0.006,
                       vertical:
@@ -178,7 +184,7 @@ class _LoginScreemState extends State<LoginScreem> {
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(42.0),
-
+                
                                 /*border: Border.all(
                                   color:  Color(0xFFD50000),
                                 ),*/
@@ -191,15 +197,31 @@ class _LoginScreemState extends State<LoginScreem> {
                                   /*
                                       Conteiner com os dizeres autenticação
                                   */
-
-                                  SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.03),
+                
+                                  SizedBox(height: largura * 0.03),
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
+                                      //Linha Horizontal por cima do login
+                                      Center(
+                                        child: Container(
+                                          height: 7,
+                                          width: largura * 0.2,
+                                          //color: Colors.grey,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Colors.grey.withOpacity(0.3),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  offset: Offset(0, 7),
+                                                  blurRadius: 40,
+                                                  color: Color(0xfEEEEEE)),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
                                       Padding(
                                         padding: const EdgeInsets.only(
                                             left: 21, bottom: 10),
@@ -214,8 +236,10 @@ class _LoginScreemState extends State<LoginScreem> {
                                           ),
                                         ),
                                       ),
-                                      SizedBox(height: 8.0),
-
+                                      SizedBox(
+                                        height: largura * 0.01,
+                                      ),
+                
                                       //
                                       Container(
                                         margin: const EdgeInsets.only(
@@ -259,7 +283,7 @@ class _LoginScreemState extends State<LoginScreem> {
                                               top: 16.0,
                                               //right: 2,
                                             ),
-
+                
                                             prefixIcon: Container(
                                               width: 35,
                                               height: 35,
@@ -274,7 +298,7 @@ class _LoginScreemState extends State<LoginScreem> {
                                                     color: Colors.white),
                                               ),
                                             ),
-
+                
                                             // hintText: 'Senha',
                                             //hintStyle: TextStyle(color: Color(0xFF616161)),
                                           ),
@@ -283,7 +307,9 @@ class _LoginScreemState extends State<LoginScreem> {
                                       //
                                     ],
                                   ),
-                                  SizedBox(height: 20.0),
+                                  SizedBox(
+                                    height: largura * 0.05,
+                                  ),
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -291,12 +317,10 @@ class _LoginScreemState extends State<LoginScreem> {
                                       /*  height
                                           Tinha o texto para Senha
                                       */
-
+                
                                       SizedBox(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.0),
+                                        height: largura * 0.001,
+                                      ),
                                       Container(
                                         margin: const EdgeInsets.only(
                                             right: 20, left: 20),
@@ -340,7 +364,7 @@ class _LoginScreemState extends State<LoginScreem> {
                                             contentPadding: EdgeInsets.only(
                                               top: 16.0,
                                             ),
-
+                
                                             prefixIcon: Container(
                                               width: 35,
                                               height: 35,
@@ -360,7 +384,9 @@ class _LoginScreemState extends State<LoginScreem> {
                                     ],
                                   ),
                                   //Botão
-                                  SizedBox(height: 6.0),
+                                  SizedBox(
+                                    height: largura * 0.01,
+                                  ),
                                   //Botão Entrar
                                   Container(
                                     padding:
@@ -410,11 +436,8 @@ class _LoginScreemState extends State<LoginScreem> {
                                                   BlocProvider.of<LoginBloc>(
                                                           context)
                                                       .add(LoginProcessing());
-                                                  //FuncoesAPI().contaUsuario(
-                                                  //_user, _pass, context);
-                                                  //token(_user, _pass);
                                                 },
-
+                
                                           child: Text("Login",
                                               style: TextStyle(
                                                   fontFamily: "Ubuntu",
@@ -426,7 +449,9 @@ class _LoginScreemState extends State<LoginScreem> {
                                       }),
                                     ),
                                   ),
-                                  SizedBox(height: 6.0),
+                                  SizedBox(
+                                    height: largura * 0.02,
+                                  ),
                                   Container(
                                     child: Text(
                                       "Ao iniciar a sessão concordará com os nossos ",
@@ -453,8 +478,6 @@ class _LoginScreemState extends State<LoginScreem> {
                             ),
                           ),
                         ),
-
-                        //FIMMMMMMMMMMMMMMMMMM
                       ],
                     ),
                   ),

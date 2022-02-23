@@ -17,6 +17,10 @@ class ListaOperacoesBloc
     extends Bloc<ListaOperacoesEvent, ListaOperacoesState> {
   bool botaoHomeAparece = true;
   bool caixaDePesquisaEstaVisivel = false;
+  String ficheiroString = "";
+  String nomeAnexo = "";
+  String opID = "";
+  String idCont = "";
   double margemW = 0.0;
   OperationData detalhes = OperationData(
     applicationId: '',
@@ -110,6 +114,4 @@ class ListaOperacoesBloc
     }
     return ficheiroBase64;
   }
-
-  
 }

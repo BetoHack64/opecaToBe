@@ -15,71 +15,65 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class RetrocederButton extends StatelessWidget {
   final String telaRetroceder;
-  RetrocederButton({required this.telaRetroceder});
+  final String sistema;
+  RetrocederButton({required this.telaRetroceder, this.sistema = ''});
   @override
   Widget build(BuildContext context) {
     return Container(
         child: IconButton(
-            onPressed: () async {
-              if (telaRetroceder == 'listaOperacoes') {
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return BlocProvider<MainBloc>(
-                        create: (_) {
-                          return MainBloc(MainOpeningState())
-                            ..add(MainOpenning());
-                        },
-                        child: Home(),
-                      );
-                    },
+      onPressed: () async {
+        if (telaRetroceder == 'listaOperacoes') {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) {
+                return BlocProvider<MainBloc>(
+                  create: (_) {
+                    return MainBloc(MainOpeningState())..add(MainOpenning());
+                  },
+                  child: Home(),
+                );
+              },
+            ),
+          );
+        } else if (telaRetroceder == 'detalhes') {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) {
+                return BlocProvider<ListaOperacoesBloc>(
+                  create: (_) {
+                    return ListaOperacoesBloc(ListaOperacoesLoadingState())
+                      ..add(ListaOperacoesGetConnection());
+                  },
+                  child: ListaAprovacoes(
+                    nomeSistema: sistema,
                   ),
                 );
-              } else if (telaRetroceder == 'detalhes') {
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return BlocProvider<ListaOperacoesBloc>(
-                        create: (_) {
-                          return ListaOperacoesBloc(
-                              ListaOperacoesLoadingState())
-                            ..add(ListaOperacoesGetConnection());
-                        },
-                        child: ListaAprovacoes(
-                          nomeSistema: sistema,
-                        ),
-                      );
-                    },
-                  ),
+              },
+            ),
+          );
+        } else if (telaRetroceder == 'aprovarReprovar') {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) {
+                // applicationDetailItems = [];
+                return ListaAprovacoes(
+                  nomeSistema: sistema,
                 );
-              } else if (telaRetroceder == 'aprovarReprovar') {
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (context) {
-                      // applicationDetailItems = [];
-                      return ListaAprovacoes(
-                        nomeSistema: sistema,
-                      );
-                    },
-                  ),
+              },
+            ),
+          );
+        } else if (telaRetroceder == 'anexoVer') {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) {
+                return ListaAprovacoes(
+                  nomeSistema: sistema,
                 );
-              } else if (telaRetroceder == 'anexoVer') {
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (context) {
-                      // applicationDetailItems = [];
-                      return AprovarRejeitar(detalhes);
-                    },
-                  ),
-                );
-                showMaterialModalBottomSheet(
-                  context: context,
-                  builder: (context) => BlocProvider.value(
-                    value: BlocProvider.of<AprovarReprovarBloc>(context),
-                    child: HomeModal(),
-                  ),
-                );
-                /*Navigator.of(context).pushReplacement(
+              },
+            ),
+          );
+          
+          /*Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
                     builder: (context) {
                       // applicationDetailItems = [];
@@ -87,8 +81,10 @@ class RetrocederButton extends StatelessWidget {
                     },
                   ),
                 );*/
-              }
-            },
-            icon: Icon(Icons.chevron_left),color: Colors.black,));
+        }
+      },
+      icon: Icon(Icons.chevron_left),
+      color: Colors.black,
+    ));
   }
 }

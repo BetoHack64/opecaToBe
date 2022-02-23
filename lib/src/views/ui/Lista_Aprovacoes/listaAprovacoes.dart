@@ -237,7 +237,7 @@ class _DashboardState extends State<Dashboard> {
         unidadeOrcamental: item.unidadeOrcamental,
         title: item.title,
         subtitle: item.fornecedor,
-        sistema: nome,
+        sistema: sistema,
         id: item.id,
         data: item.subtitle,
         valor: item.valor.toString(),

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:SOP/src/business_logic/blocs/aprovarReprovar/aprovarReprovarBloc.dart';
+import 'package:SOP/src/business_logic/blocs/listaOperacoes/listaOperacoesBloc.dart';
 import 'package:SOP/src/views/ui/main/homeIconButton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,7 +9,13 @@ import 'package:flutter_full_pdf_viewer/full_pdf_viewer_scaffold.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
+late String sistemaNom = '';
+
 class PdfVer extends StatefulWidget {
+  final sis;
+  PdfVer({required this.sis}) {
+    sistemaNom = sis;
+  }
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -20,8 +26,8 @@ class _MyAppState extends State<PdfVer> {
   @override
   void initState() {
     super.initState();
-    createFileOfPdfUrl(BlocProvider.of<AprovarReprovarBloc>(context).nomeAnexo,
-            BlocProvider.of<AprovarReprovarBloc>(context).ficheiroString)
+    createFileOfPdfUrl(BlocProvider.of<ListaOperacoesBloc>(context).nomeAnexo,
+            BlocProvider.of<ListaOperacoesBloc>(context).ficheiroString)
         .then((f) {
       setState(() {
         pathPDF = f.path;
@@ -83,18 +89,25 @@ class _PDFScreenState extends State<PDFScreen> {
   Widget build(BuildContext context) {
     return PDFViewerScaffold(
         appBar: AppBar(
-          backgroundColor: Colors.red[900],
+          backgroundColor: Color(0xfffff9f9),
           title: Center(
-          //margin: EdgeInsets.only(left: 10),
-            child: Text(BlocProvider.of<AprovarReprovarBloc>(context).nomeAnexo.toUpperCase()),
-          ),
-          leading: RetrocederButton(telaRetroceder: 'anexoVer'),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.share),
-              onPressed: () {},
+            //margin: EdgeInsets.only(left: 10),
+            child: Text(
+              BlocProvider.of<ListaOperacoesBloc>(context)
+                  .nomeAnexo
+                  .toUpperCase(),
+              style: TextStyle(
+                fontFamily: 'SEGOEUI',
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ],
+          ),
+          leading: RetrocederButton(
+            telaRetroceder: 'anexoVer',
+            sistema: sistemaNom,
+          ),
+          actions: <Widget>[Text('       ')],
         ),
         path: widget.pathPDF);
   }

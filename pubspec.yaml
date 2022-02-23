@@ -88,7 +88,10 @@ flutter:
     - assets/images/setabaixo.svg
     - assets/images/setacima.svg
     - assets/images/login.svg
-    
+    - assets/images/borda_anexo.svg
+    - assets/images/ficheiro.svg
+    - assets/images/fich.PNG
+    - assets/images/borda.png
     - assets/setabaixo.PNG
     - assets/setacima.PNG
     - assets/PDFs/

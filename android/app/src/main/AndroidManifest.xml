@@ -9,6 +9,7 @@
         android:label="opeca_app"
         android:icon="@mipmap/ic_launcher">
         <activity
+            android:windowSoftInputMode="adjustResize"
             android:name=".MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
