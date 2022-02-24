@@ -79,17 +79,19 @@ class _ExpandirDetalhesState extends State<ExpandirDetalhes> {
                     //mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       IconButton(
+                      splashColor: Colors.white,
+                      splashRadius: 15,
                         padding: EdgeInsets.zero,
                         iconSize: 35,
                         onPressed: () {
                           setState(() {
-                            BlocProvider.of<ListaOperacoesBloc>(context)
-                                .margemW = 20;
+                            
                           });
                         },
                         icon: Icon(
                           Icons.keyboard_arrow_right,
                           color: Colors.black,
+                          
                           //size: 30.0,
                         ),
                       ),

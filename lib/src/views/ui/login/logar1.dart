@@ -142,7 +142,6 @@ class _LoginScreemState extends State<LoginScreem> {
                     ),
                   ),
                 ),
-
                 //Container de Autenticação
                 Container(
                   height: double.infinity,
