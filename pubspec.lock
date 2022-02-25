@@ -7,7 +7,11 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "2.8.2"
+=======
+    version: "2.8.1"
+>>>>>>> 4ec1baa6a072f4d67007e44b54084f85abdc4a29
   auto_size_text:
     dependency: "direct main"
     description:
@@ -42,7 +46,11 @@ packages:
       name: characters
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "1.2.0"
+=======
+    version: "1.1.0"
+>>>>>>> 4ec1baa6a072f4d67007e44b54084f85abdc4a29
   charcode:
     dependency: transitive
     description:
@@ -309,7 +317,11 @@ packages:
       name: matcher
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "0.12.11"
+=======
+    version: "0.12.10"
+>>>>>>> 4ec1baa6a072f4d67007e44b54084f85abdc4a29
   meta:
     dependency: transitive
     description:
@@ -580,7 +592,11 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "0.4.3"
+=======
+    version: "0.4.2"
+>>>>>>> 4ec1baa6a072f4d67007e44b54084f85abdc4a29
   typed_data:
     dependency: transitive
     description:
@@ -594,7 +610,11 @@ packages:
       name: vector_math
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "2.1.1"
+=======
+    version: "2.1.0"
+>>>>>>> 4ec1baa6a072f4d67007e44b54084f85abdc4a29
   vm_service:
     dependency: transitive
     description:
