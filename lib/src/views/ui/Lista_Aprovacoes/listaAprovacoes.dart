@@ -90,109 +90,114 @@ class _DashboardState extends State<Dashboard> {
       ),
       body: Column(
         children: [
-          Stack(
-            children: [
-              Container(
-                color: Color(0xFFfff9f9),
-                child: Center(
-                  child: Container(
-                    height: 40.0,
-                    width: 250.0,
-                    alignment: Alignment(-1.0, 0.0),
+          if (BlocProvider.of<ListaOperacoesBloc>(context).foiClicado == true)
+            Container(
+              child: Stack(
+                children: [
+                  Container(
+                    color: Color(0xFFfff9f9),
+                    child: Center(
+                      child: Container(
+                        height: 40.0,
+                        width: 250.0,
+                        alignment: Alignment(-1.0, 0.0),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              Opacity(
-                opacity: 0.65,
-                child: Container(
-                  child: AnimatedContainer(
-                    duration: Duration(milliseconds: 375),
-                    height: 40.0,
-                    width: (toggle == 0) ? 50.0 : 370.0,
-                    curve: Curves.easeOut,
-                    decoration: BoxDecoration(
-                        color: Color(0xFFeeeae9),
-                        borderRadius: BorderRadius.circular(30.0),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black38,
-                            spreadRadius: -14.0,
-                            blurRadius: 10.0,
-                            offset: Offset(-4.0, 10.0),
-                          ),
-                        ]),
-                    child: Stack(
-                      children: [
-                        AnimatedPositioned(
-                          duration: Duration(milliseconds: 375),
-                          left: (toggle == 0) ? 45.0 : 15.0,
-                          top: 13.0,
-                          curve: Curves.easeOut,
-                          child: AnimatedOpacity(
-                            opacity: (toggle == 0) ? 0.0 : 1.0,
-                            duration: Duration(milliseconds: 200),
-                            child: Container(
-                              height: 20.0,
-                              width: 150.0,
-                              child: TextField(
-                                onChanged: (valor) => runFilter(valor),
-                                cursorRadius: Radius.circular(10.0),
-                                cursorWidth: 2.0,
-                                cursorColor: Colors.black,
-                                decoration: InputDecoration(
-                                  floatingLabelBehavior:
-                                      FloatingLabelBehavior.never,
-                                  //labelText: 'Pesquisar...',
-                                  label: Text('Pesquisa'),
-                                  labelStyle: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 19.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  alignLabelWithHint: true,
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20.0),
-                                    borderSide: BorderSide.none,
+                  Opacity(
+                    opacity: 0.65,
+                    child: Container(
+                      child: AnimatedContainer(
+                        duration: Duration(milliseconds: 375),
+                        height: 40.0,
+                        width: (toggle == 0) ? 50.0 : 370.0,
+                        curve: Curves.easeOut,
+                        decoration: BoxDecoration(
+                            color: Color(0xFFeeeae9),
+                            borderRadius: BorderRadius.circular(30.0),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black38,
+                                spreadRadius: -14.0,
+                                blurRadius: 10.0,
+                                offset: Offset(-4.0, 10.0),
+                              ),
+                            ]),
+                        child: Stack(
+                          children: [
+                            AnimatedPositioned(
+                              duration: Duration(milliseconds: 375),
+                              left: (toggle == 0) ? 45.0 : 15.0,
+                              top: 13.0,
+                              curve: Curves.easeOut,
+                              child: AnimatedOpacity(
+                                opacity: (toggle == 0) ? 0.0 : 1.0,
+                                duration: Duration(milliseconds: 200),
+                                child: Container(
+                                  height: 20.0,
+                                  width: 150.0,
+                                  child: TextField(
+                                    onChanged: (valor) => runFilter(valor),
+                                    cursorRadius: Radius.circular(10.0),
+                                    cursorWidth: 2.0,
+                                    cursorColor: Colors.black,
+                                    decoration: InputDecoration(
+                                      floatingLabelBehavior:
+                                          FloatingLabelBehavior.never,
+                                      //labelText: 'Pesquisar...',
+                                      label: Text('Pesquisa'),
+                                      labelStyle: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 19.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      alignLabelWithHint: true,
+                                      border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                        borderSide: BorderSide.none,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: 318),
-                          child: Material(
-                            color: Color(0xFFeeeae9),
-                            borderRadius: BorderRadius.circular(30.0),
-                            child: IconButton(
-                              splashRadius: 20.0,
-                              splashColor: Colors.grey,
-                              onPressed: () {
-                                setState(() {});
-                              },
-                              icon: Image.asset(
-                                'assets/images/search.png',
-                                height: 18.0,
+                            Container(
+                              margin: EdgeInsets.only(left: 318),
+                              child: Material(
+                                color: Color(0xFFeeeae9),
+                                borderRadius: BorderRadius.circular(30.0),
+                                child: IconButton(
+                                  splashRadius: 20.0,
+                                  splashColor: Colors.grey,
+                                  onPressed: () {
+                                    setState(() {});
+                                  },
+                                  icon: Image.asset(
+                                    'assets/images/search.png',
+                                    height: 18.0,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
+                          ],
                         ),
-                      ],
+                      ),
+                      margin: EdgeInsets.only(
+                          bottom: 15,
+                          left: (MediaQuery.of(context).size.width / 2) - 184,
+                          top: 6),
                     ),
                   ),
-                  margin: EdgeInsets.only(
-                      bottom: 15,
-                      left: (MediaQuery.of(context).size.width / 2) - 184,
-                      top: 6),
-                ),
+                ],
               ),
-            ],
-          ),
+            ),
           BlocBuilder<ListaOperacoesBloc, ListaOperacoesState>(
-              bloc: BlocProvider.of<ListaOperacoesBloc>(context),
-              builder: (context, state) {
-                if (state is ListaOperacoesLoadedSucessState) {
-                  return Expanded(
+            bloc: BlocProvider.of<ListaOperacoesBloc>(context),
+            builder: (context, state) {
+              if (state is ListaOperacoesLoadedSucessState) {
+                return Container(
+                  child: Expanded(
                     flex: 360,
                     child: BlocProvider.of<ListaOperacoesBloc>(context)
                             .foundUsers
@@ -223,27 +228,45 @@ class _DashboardState extends State<Dashboard> {
                               ),
                             ),
                           ),
-                  );
-                }
+                  ),
+                );
+              }
 
-                return Container();
-              }),
+              return Container();
+            },
+          ),
         ],
       ),
     );
   }
 
-  Widget buildListTile(CardDetail item, int index) => ItemsLista(
-        unidadeOrcamental: item.unidadeOrcamental,
-        title: item.title,
-        subtitle: item.fornecedor,
-        sistema: sistema,
-        id: item.id,
-        data: item.subtitle,
-        valor: item.valor.toString(),
-        moeda: item.moeda,
-        index: index,
-        detalhes: item.detalhes,
+  Widget buildListTile(CardDetail item, int index) => Container(
+        child: Stack(
+          children: [
+            if(index == 0)Container(
+              color: Color(0xFFfff9f9),
+              child: Center(
+                child: Container(
+                  height: 40.0,
+                  width: 250.0,
+                  alignment: Alignment(-1.0, 0.0),
+                ),
+              ),
+            ),
+            ItemsLista(
+              unidadeOrcamental: item.unidadeOrcamental,
+              title: item.title,
+              subtitle: item.fornecedor,
+              sistema: sistema,
+              id: item.id,
+              data: item.subtitle,
+              valor: item.valor.toString(),
+              moeda: item.moeda,
+              index: index,
+              detalhes: item.detalhes,
+            ),
+          ],
+        ),
       );
 
   // This function is called whenever the text field changes

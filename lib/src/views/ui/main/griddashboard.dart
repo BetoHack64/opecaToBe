@@ -94,7 +94,9 @@ class _GridDashboardState extends State<GridDashboard> {
                           width: 30,
                           child: Center(
                             child: Text(
-                              data.numOperations,
+                              int.parse(data.numOperations) > 100
+                                  ? '+99'
+                                  : data.numOperations,
                               style: TextStyle(
                                 color: data.numOperations == "0"
                                     ? Colors.white

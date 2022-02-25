@@ -1,11 +1,8 @@
 // ignore_for_file: must_be_immutable, unused_field
 
-import 'package:SOP/src/business_logic/blocs/listaOperacoes/listaOperacoesBloc.dart';
 import 'package:SOP/src/business_logic/models/detalhes.dart';
 import 'package:SOP/src/views/ui/Lista_Aprovacoes/expansaoDetalhe.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class ItemsLista extends StatefulWidget {
   final String title;
@@ -35,14 +32,14 @@ class ItemsLista extends StatefulWidget {
 }
 
 class _ItemsListaState extends State<ItemsLista> {
+  double _animatedMarginRight = 180.0;
   String seta = 'assets/setabaixo.PNG';
   bool estaExpandido = false;
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
       duration: Duration(seconds: 2),
-      margin: EdgeInsetsDirectional.only(
-          end: BlocProvider.of<ListaOperacoesBloc>(context).margemW),
+      //margin: EdgeInsetsDirectional.only(end: _animatedMarginRight),
       child: Container(
         child: Card(
           shape: RoundedRectangleBorder(
@@ -143,7 +140,8 @@ class _ItemsListaState extends State<ItemsLista> {
                                   ),
                                 ),
                               ),
-                              Expanded(
+                              Flexible(
+                              flex:1,
                                 child: Container(
                                   margin: EdgeInsetsDirectional.only(
                                     end: 23,
@@ -155,7 +153,7 @@ class _ItemsListaState extends State<ItemsLista> {
                                           : Color(0xffe6f6e9),
                                       //onSurface: Color(0xfff9dddf),
                                       elevation: 0,
-                                      fixedSize: Size(70, 20),
+                                      fixedSize: Size(105, 20),
                                     ),
                                     onPressed: () => {},
                                     child: Text(
@@ -182,6 +180,7 @@ class _ItemsListaState extends State<ItemsLista> {
                   ),
                 ],
               ),
+              
             ],
           ),
         ),

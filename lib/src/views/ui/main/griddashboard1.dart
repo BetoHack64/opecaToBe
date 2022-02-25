@@ -77,8 +77,8 @@ class _GridDashboardState extends State<GridDashboard> {
                       children: <Widget>[
                         Container(
                           decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(4.0),
+                            color: const Color(0xFFfb2436),
+                            borderRadius: BorderRadius.circular(30.0),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.grey.withOpacity(0.4),
@@ -94,43 +94,46 @@ class _GridDashboardState extends State<GridDashboard> {
                           width: 30,
                           child: Center(
                             child: Text(
-                              data.numOperations,
+                              int.parse(data.numOperations) > 100
+                                  ? '+99'
+                                  : data.numOperations,
                               style: TextStyle(
                                 color: data.numOperations == "0"
-                                    ? Colors.black
-                                    : Colors.red[900],
-                                fontSize: 11,
-                                fontWeight: FontWeight.w600,
+                                    ? Colors.white
+                                    : Colors.white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w900,
                                 fontFamily: "SEGOEUI",
                               ),
                             ),
                           ),
-                          margin: EdgeInsets.only(left: 105, bottom: 8),
+                          margin: EdgeInsets.only(left: 105, bottom: 2),
                         ),
                         Container(
                           child: IconSistema(
                               imageAnalysed: data.iconBase64,
                               nome: data.applicationCod),
-                          margin: EdgeInsets.only(bottom: 16),
+                          margin: EdgeInsets.only(bottom: 0.1),
                         ),
                         Container(
                           child: Text(
                             data.applicationCod,
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
                               fontFamily: "SEGOEUI",
+                              letterSpacing: 1,
                             ),
                           ),
-                          margin: EdgeInsets.only(bottom: 5),
+                          margin: EdgeInsets.only(bottom: 2),
                         ),
                         Text(
                           data.applicationNameShort,
                           style: TextStyle(
                             color: Colors.grey,
                             fontSize: 14,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.bold,
                             fontFamily: "SEGOEUI",
                           ),
                         ),

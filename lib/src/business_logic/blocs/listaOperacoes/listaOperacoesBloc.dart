@@ -8,7 +8,6 @@ import 'package:SOP/src/business_logic/models/cardDetail.dart';
 import 'package:SOP/src/business_logic/models/detalhes.dart';
 import 'package:SOP/src/business_logic/repositories/aprovarReprovar/aprovarReprovarRepository.dart';
 import 'package:SOP/src/business_logic/repositories/listaOperacoes/cardDetailRepository.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,6 +19,7 @@ class ListaOperacoesBloc
   String ficheiroString = "";
   String nomeAnexo = "";
   String opID = "";
+  bool foiClicado = false;
   String idCont = "";
   double margemW = 0.0;
   OperationData detalhes = OperationData(
